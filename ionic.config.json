@@ -1,0 +1,7 @@
+{
+  "name": "tenisfrontendionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

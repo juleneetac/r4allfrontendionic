@@ -1,0 +1,100 @@
+<!-- <ion-app>
+  <ion-menu class="mobile-menu">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle *ngFor="let p of appPages">
+          <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
+            <ion-icon slot="start" [name]="p.icon"></ion-icon>
+            <ion-label>
+              {{p.title}}
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item (click)="logOff()">
+            <ion-icon slot="start" name='power'></ion-icon>
+            <ion-label>
+              Log Off
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app> -->
+
+
+
+
+<!-- <ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content>
+        <ion-list id="inbox-list">
+          <ion-list-header>R4all</ion-list-header>
+          <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
+            <ion-item>
+              <ion-title>Menú</ion-title>
+            </ion-item>
+
+            <ion-item>
+              <div class= "optionText" text-center padding>
+                  <a routerLink='/login' >Login</a>
+               </div>
+            </ion-item>
+
+            <ion-item>
+              <div class= "optionText" text-center padding>
+                  <a routerLink='/register' >Register</a>
+               </div>
+            </ion-item>
+
+            <ion-item>
+              <div class= "optionText" text-center padding>
+                  <a routerLink='/' >Home</a>
+               </div>
+            </ion-item>
+
+            <ion-item>
+              <div class= "optionText" text-center padding>
+                  <a routerLink='/admin'routerLinkActive="active-link">Go to admin</a>
+               </div>
+            </ion-item>
+
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app> -->
+
+
+
+
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content>
+        <ion-list id="inbox-list">
+          <ion-list-header>R4all</ion-list-header>
+          <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+            <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>
