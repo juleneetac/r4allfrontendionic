@@ -39,6 +39,7 @@ import { HomePageModule } from './pages/home/home.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     //MatListModule,
     ReactiveFormsModule,
     HomePageModule

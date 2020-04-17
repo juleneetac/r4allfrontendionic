@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Modelregister } from 'src/app/models/modelRegister/modelregister';
 import { getLocaleMonthNames } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +27,13 @@ export class RegisterPage implements OnInit {
   sexo: string;
   ubicacion: string;
 
-constructor(private usuarioService: UsuarioService, private torneoService: TorneoService, private router: Router,  private formBuilder: FormBuilder) { 
+constructor(
+  private usuarioService: UsuarioService, 
+  private torneoService: TorneoService, 
+  private router: Router,  
+  private formBuilder: FormBuilder,
+  public toastController: ToastController
+  ) { 
  
  
   this.registerForm = this.formBuilder.group({
@@ -127,9 +134,17 @@ registerUser(event){
   console.log(event)
   let credencialr: Modelregister = new Modelregister(this.username, this.mail, this.pass, this.edad, this.sexo, this.ubicacion)
   this.usuarioService.registrar(credencialr).subscribe(
-    res =>{
+    async res =>{
             console.log(res);
-            confirm('Se registro OK')
+            //confirm('Se registro OK')
+            const toast = await this.toastController.create({
+              message: 'Te registraste con éxito',
+              position: 'top',
+              duration: 2000,
+              color: 'success',
+            });
+            await toast.present();
+            //rutas
             this.goMain();
     },
     err => {
@@ -138,19 +153,33 @@ registerUser(event){
     });
 }
 
-private handleError(err: HttpErrorResponse) {
+private async handleError(err: HttpErrorResponse) {
   if (err.status == 500) {
     console.log('entra')
-    confirm('error');
+    const toast = await this.toastController.create({
+      message: 'Error',
+      position: 'bottom',
+      duration: 2000,
+    });
+    await toast.present();
   } 
   else if  (err.status == 409) {
     console.log('nose');
-    confirm('Nombre de usuario ya existe. Pon otro username');
-    //hacer con mail tambien
+    const toast = await this.toastController.create({
+      message: 'Nombre de usuario ya existe. Pon otro username',
+      position: 'bottom',
+      duration: 2000,
+    });
+    await toast.present();
 }
   else if  (err.status == 410) {
     console.log('nose');
-    confirm('Mail ya registrado. Pon otro mail');
+    const toast = await this.toastController.create({
+      message: 'Mail ya registrado. Pon otro mail',
+      position: 'bottom',
+      duration: 2000,
+    });
+    await toast.present();
   }
 }
 

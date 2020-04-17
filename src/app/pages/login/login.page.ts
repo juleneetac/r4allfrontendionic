@@ -7,13 +7,19 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {constructor(private usuarioService: UsuarioService, private torneoService: TorneoService, private router: Router) { }
+export class LoginPage implements OnInit {constructor(
+  private usuarioService: UsuarioService, 
+  private torneoService: TorneoService, 
+  private router: Router,
+  public toastController: ToastController
+  ) { }
 
 //usuarios: Modelusuario[]; en el login no es necesario
 //torneos: Modeltorneo[];
@@ -35,9 +41,16 @@ loginUser(event){
   console.log(event)
   let credencial: Modellogin = new Modellogin(this.username, this.password)
   this.usuarioService.login(credencial).subscribe(
-    res =>{
+    async res =>{
             console.log(res);
-            confirm('login correcto');
+            //confirm('login correcto');
+            const toast = await this.toastController.create({
+              message: 'Login correcto',
+              position: 'top',
+              duration: 2000,
+              color: 'success',
+            });
+            await toast.present();
             //rutas
             this.goMain();
     },
@@ -49,22 +62,43 @@ loginUser(event){
 
 
 //errores
-private handleError(err: HttpErrorResponse) {
+private async handleError(err: HttpErrorResponse) {
   if (err.status == 500) {
     console.log('entra')
-    confirm('Error');
+    const toast = await this.toastController.create({
+      message: 'Error',
+      position: 'bottom',
+      duration: 2000,
+    });
+    await toast.present();
   } 
   else if  (err.status == 404) {
     console.log('nose');
-    confirm('Usuario no existente');
+    const toast = await this.toastController.create({
+      message: 'Usuario no existente',
+      position: 'bottom',
+      duration: 2000,
+    });
+    await toast.present();
   }
   else if  (err.status == 401) {
     console.log('salida');
-    confirm('Unauthorized');
+    const toast = await this.toastController.create({
+      message: 'Unauthorized',
+      position: 'bottom',
+      duration: 2000,
+    });
+    await toast.present();
   }
   else if  (err.status == 402) {
-    console.log('nmal password');
-    confirm('Incorrect password');
+    console.log('mal password');
+    const toast = await this.toastController.create({
+      message: 'Incorrect password',
+      position: 'bottom',
+      duration: 2000,
+    });
+    await toast.present();
+    
   }
   
 }
