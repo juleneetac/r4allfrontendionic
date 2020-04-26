@@ -94,7 +94,14 @@ constructor(
   logout(){
     this.auth.logout();
   }
+  checkButton(index :number){
+    console.log("incorrecto" + index)
+    if (index==4){
+      console.log(index)
+    this.logout();
+    }
 
+  }
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();

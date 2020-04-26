@@ -99,11 +99,12 @@
           <ion-list-header *ngIf="auth.userProfile$ | async as profile">R4all:  {{profile.given_name}} </ion-list-header>
           <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
           <ion-menu-toggle auto-hide="false" *ngFor="let o of appOut; let i = index">
-            <ion-item (click)="selectedIndex = i; auth.logout()" routerDirection="root" [routerLink]="[o.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
-              <!-- <span *ngIf="o.title = Log out">{{logout()}} </span> -->
+            <ion-item (click)="checkButton(i)" routerDirection="root" [routerLink]="[o.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+              <!--<span *ngIf=i=4  >{{logout()}} </span> -->
               <ion-icon slot="start" [ios]="o.icon + '-outline'" [md]="o.icon + '-sharp'"></ion-icon>
               <ion-label>{{ o.title }}</ion-label>
             </ion-item>
+
           </ion-menu-toggle> 
 
         </ion-list>

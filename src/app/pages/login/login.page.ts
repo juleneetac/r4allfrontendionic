@@ -35,6 +35,9 @@ ngOnInit(){
 goMain() {
   this.router.navigateByUrl("main")
 }
+goProfile() {
+  this.router.navigateByUrl("profile")
+}
 
 
 //funciones
@@ -54,7 +57,9 @@ loginUser(event){
             });
             await toast.present();
             //rutas
-            this.goMain();
+            
+            this.goProfile();
+            //this.goMain();
     },
     err => {
       console.log(err);
