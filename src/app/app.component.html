@@ -80,7 +80,7 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
-      <ion-content *ngIf="!auth.loggedIn">
+      <ion-content *ngIf="!auth.loggedIn && !auth.authenticationState">
         <ion-list id="inbox-list">
           <ion-list-header>R4all</ion-list-header>
           <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
@@ -94,7 +94,7 @@
         </ion-list>
       </ion-content>
 
-      <ion-content *ngIf="auth.loggedIn">
+      <ion-content *ngIf="auth.loggedIn || auth.authenticationState">
         <ion-list id="inbox-list">
           <ion-list-header *ngIf="auth.userProfile$ | async as profile">R4all:  {{profile.given_name}} </ion-list-header>
           <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>

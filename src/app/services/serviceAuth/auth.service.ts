@@ -125,10 +125,10 @@ export class AuthService {
     });
   }
  //PARA LOGIN LOCAL
-    authenticationState = new BehaviorSubject(false)
+   authenticationState:boolean = false;
     loginLocal() {//user: CredentialsResponse
    //   return this.storage.set(this.AUTH_DATA, user).then(() => {
-          this.authenticationState.next(true);
+          this.authenticationState= true;
      // });
     }
   

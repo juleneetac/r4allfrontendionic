@@ -55,9 +55,11 @@ loginUser(event){
               duration: 2000,
               color: 'success',
             });
+            this.auth.loginLocal();
+            console.log(String(this.auth.authenticationState));
             await toast.present();
             //rutas
-            
+           localStorage.setItem("Usuario",String(credencial.username));
             this.goProfile();
             //this.goMain();
     },

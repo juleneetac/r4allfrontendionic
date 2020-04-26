@@ -16,16 +16,23 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean|UrlTree> | boolean {
-    return this.auth.isAuthenticated$.pipe(
-      tap(loggedIn => {
-        if (!loggedIn) {
-         // this.auth.login();
-         this.router.navigateByUrl("login")
-        }
-      })
-    );
-  }
-  canActivate2(
+
+    if(!this.auth.authenticationState){
+      console.log(String(this.auth.authenticationState))
+      return this.auth.isAuthenticated$.pipe(
+        tap(loggedIn => {
+         console.log("test")
+          if (!loggedIn) {
+          // this.auth.login();
+          console.log("no puedes entrar")
+          this.router.navigateByUrl("login")
+          }
+        })
+      );
+    }
+    else return true;
+} 
+  /* canActivate2(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean|UrlTree> | boolean {
@@ -33,5 +40,5 @@ export class AuthGuard implements CanActivate {
       return true
       else return false
     
-  }
+  } */
 }

@@ -9,5 +9,8 @@
   <pre *ngIf="auth.userProfile$ | async as profile">
     <code>{{ profile | json }}</code>
     </pre>
-
+  <pre *ngIf="auth.authenticationState">
+  Nombre:<code>{{PerfilLocal}}</code>
+  El resto de cosas saldran mas adelante, esto es una prueba
+    </pre>
 </ion-content>

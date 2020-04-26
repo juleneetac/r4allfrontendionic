@@ -76,7 +76,12 @@ export class AppComponent {
       //action:  this.logout(),
       icon: 'exit'
      },
-
+     {
+      title: 'Perfil',
+      url: '/profile',
+      //action:  this.logout(),
+      icon: 'exit'
+     },
 ];
 constructor(
     private platform: Platform,
