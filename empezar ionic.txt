@@ -1,0 +1,18 @@
+para instalar ionic:
+"npm install -g @ionic/cli"
+
+
+
+Para empezar un proyecto
+"ionic start myApp tabs"
+
+
+Para iniciar servidor:
+"ionic serve"
+
+para crear paginas o componenetes....
+ionic generate component login-form --change-detection=OnPush
+ionic generate directive ripple --skip-import
+ionic generate page (nombre)
+ionic generate component (nombre)
+ionic generate service (nombre)

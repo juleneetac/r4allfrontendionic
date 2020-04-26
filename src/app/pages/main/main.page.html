@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>¡¡ Bienvenido !!</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div>
+  
+  <button (click)="getUsuarios()">Mostrar todos los usuarios del sistema</button>
+  <ion-list *ngFor="let usuario of usuarios">
+    <ion-item>
+      <ion-label>{{usuario.username}}</ion-label>
+    </ion-item>
+
+  </ion-list>
+</div>
+
+</ion-content>
