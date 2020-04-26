@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Profile</ion-title>
+    <ion-button (click)="auth.logout()">Log Out</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <pre *ngIf="auth.userProfile$ | async as profile">
+    <code>{{ profile | json }}</code>
+    </pre>
+
+</ion-content>

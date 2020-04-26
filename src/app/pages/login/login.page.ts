@@ -8,6 +8,7 @@ import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/serviceAuth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginPage implements OnInit {constructor(
   private usuarioService: UsuarioService, 
   private torneoService: TorneoService, 
   private router: Router,
-  public toastController: ToastController
+  public toastController: ToastController,
+  public auth: AuthService,
   ) { }
 
 //usuarios: Modelusuario[]; en el login no es necesario

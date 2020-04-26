@@ -80,7 +80,7 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
+      <ion-content *ngIf="!auth.loggedIn">
         <ion-list id="inbox-list">
           <ion-list-header>R4all</ion-list-header>
           <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
@@ -90,11 +90,29 @@
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
-          </ion-menu-toggle>
+          </ion-menu-toggle>    
         </ion-list>
-
       </ion-content>
+
+      <ion-content *ngIf="auth.loggedIn">
+        <ion-list id="inbox-list">
+          <ion-list-header *ngIf="auth.userProfile$ | async as profile">R4all:  {{profile.given_name}} </ion-list-header>
+          <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
+          <ion-menu-toggle auto-hide="false" *ngFor="let o of appOut; let i = index">
+            <ion-item (click)="selectedIndex = i; auth.logout()" routerDirection="root" [routerLink]="[o.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
+              <!-- <span *ngIf="o.title = Log out">{{logout()}} </span> -->
+              <ion-icon slot="start" [ios]="o.icon + '-outline'" [md]="o.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ o.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle> 
+
+        </ion-list>
+      </ion-content>
+
+
     </ion-menu>
+
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>
+

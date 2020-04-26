@@ -19,6 +19,7 @@ import { RouterModule } from '@angular/router';
 // import { HomeComponent } from './components/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePageModule } from './pages/home/home.module';
+//import { MenubarPage } from './pages/menubar/menubar.page';
 // import { Main } from './components/main/main.component';
 //import {MatListModule} from "@angular/material/list";
 // import { MainPage } from './pages/main/main.page';
@@ -26,7 +27,7 @@ import { HomePageModule } from './pages/home/home.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
     // UsuariosComponent,
     // TorneosComponent,
     // LoginComponent,

@@ -4,6 +4,8 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from "@angular/router";
+import { AuthService } from './services/serviceAuth/auth.service';
+
 
 @Component({
   selector: 'app-root',
@@ -34,18 +36,63 @@ export class AppComponent {
       url: '/admin',
       icon: 'flash-off'
     },
-   
+
+    // {
+    //   title: 'Log out',
+    //   url: '/home',
+    //   icon: 'exit'
+
+    // },
   ];
+  public appOut = [
+
+    {
+      title: 'Map',
+      //url: '/mapa',
+      icon: 'location'
+     },
+
+     {
+      title: 'Chat',
+      //url: '/chat',
+      icon: 'chatbox-ellipses'
+     },
+
+     {
+      title: 'Settings',
+      //url: '/settings',
+      icon: 'settings'
+     },
+
+    {
+      title: 'Main',
+      url: '/main',
+      icon: 'desktop'
+     },
+
+     {
+      title: 'Log out',
+      url: '/home',
+      //action:  this.logout(),
+      icon: 'exit'
+     },
+
+];
 constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private router: Router,
     //public storage: StorageComponent,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    public auth: AuthService,
   ) 
   
   {
     this.initializeApp();
+  }
+
+  logout(){
+    this.auth.logout();
   }
 
   initializeApp() {
@@ -54,10 +101,5 @@ constructor(
       this.splashScreen.hide();
     });
   }
-
-  // logOff(){
-  //   this.storage.clearStorage();
-  //   this.router.navigateByUrl('/login');
-  // }
 }
 
