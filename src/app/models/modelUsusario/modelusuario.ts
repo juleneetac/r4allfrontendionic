@@ -1,7 +1,7 @@
-
 import { Modeltorneo } from '../modelTorneo/modeltorneo';
 
 export class Modelusuario {
+    _id: string;
     username: string;
     mail: string
     password: string;
@@ -9,7 +9,7 @@ export class Modelusuario {
     rutaimagen: string;
     ubicacion: string;
     edad: Number;
-    exp: string;
+    exp: Number;
     valoracion: Number;
     partidas: [string]; // cambiar a Modelpartida
     torneos: [Modeltorneo]; 

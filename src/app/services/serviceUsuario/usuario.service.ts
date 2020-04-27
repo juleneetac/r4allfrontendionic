@@ -25,8 +25,8 @@ export class UsuarioService {
     return this.http.post(this.ambiente.urlUsuario + '/register', register);
   }
 
-  getUsuarios(): Observable<Modelusuario[]>{  //esto es el observable. me da un array de subjects
-    return this.http.get<Modelusuario[]>(this.ambiente.urlUsuario + '/getusrs');  
+  getUsuarios(filtros): Observable<Modelusuario[]>{  //esto es el observable. me da un array de subjects
+    return this.http.post<Modelusuario[]>(this.ambiente.urlUsuario + '/getusrs', filtros);  
   }
 
 }
