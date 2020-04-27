@@ -47,6 +47,12 @@ export class AppComponent {
   public appOut = [
 
     {
+      title: 'Perfil',
+      url: '/profile',
+      icon: 'person'
+     },
+
+    {
       title: 'Map',
       //url: '/mapa',
       icon: 'location'
@@ -73,13 +79,6 @@ export class AppComponent {
      {
       title: 'Log out',
       url: '/home',
-      //action:  this.logout(),
-      icon: 'exit'
-     },
-     {
-      title: 'Perfil',
-      url: '/profile',
-      //action:  this.logout(),
       icon: 'exit'
      },
 ];
@@ -101,7 +100,7 @@ constructor(
   }
   checkButton(index :number){
     console.log("incorrecto" + index)
-    if (index==4){
+    if (index==5){
       console.log(index)
     this.logout();
     }
