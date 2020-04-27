@@ -1,11 +1,14 @@
-import { Modelusuario } from '../modelUsusario/modelusuario';
+import { Usuario } from '../modelUsusario/modelusuario';
 
-export class Modeltorneo {
-    deporte: string;
-    di: string;   // soble o individual
-    ubicacion: string;
-    ganador: Modelusuario;
+export class Torneo {
+    _id: String;
+    //deporte: string;
+    modo: String;           //Individuales o Dobles
+    pistacubierta: Boolean; //Cubierta o no
+    tipopista: String;      //Césped, TierraBatida, etc.
+    ubicacion: String;
+    ganador: Usuario;
     puntos: Number;   //ni idea, creo que mejor borrarla
-    organizador: Modelusuario;
-    participantes: [Modelusuario];
+    organizador: Usuario;
+    participantes: [Usuario];
 }

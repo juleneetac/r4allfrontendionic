@@ -1,7 +1,7 @@
+import { Torneo } from '../modelTorneo/modeltorneo';
 
-import { Modeltorneo } from '../modelTorneo/modeltorneo';
-
-export class Modelusuario {
+export class Usuario {
+    _id: string;
     username: string;
     mail: string
     password: string;
@@ -12,7 +12,7 @@ export class Modelusuario {
     exp: string;
     valoracion: Number;
     partidas: [string]; // cambiar a Modelpartida
-    torneos: [Modeltorneo]; 
+    torneos: [Torneo]; 
     chats: [string];    // cambiar a Modelchat
-    amigos: [Modelusuario]; 
+    amigos: [Usuario]; 
 }
