@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
-import { Usuario } from 'src/app/models/modelUsusario/modelusuario';
-import { Torneo } from 'src/app/models/modelTorneo/modeltorneo';
+import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
+import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl  } from '@angular/forms';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { HttpErrorResponse } from '@angular/common/http';

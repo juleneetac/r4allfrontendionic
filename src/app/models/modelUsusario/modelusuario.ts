@@ -9,7 +9,7 @@ export class Modelusuario {
     rutaimagen: string;
     ubicacion: string;
     edad: Number;
-    exp: string;
+    exp: Number;
     valoracion: Number;
     partidas: [string]; // cambiar a Modelpartida
     torneos: [Modeltorneo]; 
