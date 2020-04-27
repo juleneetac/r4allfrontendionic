@@ -31,10 +31,6 @@ ion-card {
 ion-item{
     --background: rgb(240, 159, 159);
 }
-  ion-label {
-    margin-right: 15px;
-    font-weight:bold;
-  }
   ion-text {
     margin-left: 15px;
   }
@@ -50,4 +46,15 @@ ion-item{
     background-color: rgb(243, 238, 192);
     //margin-top: 17px;
     text-align: center;
+  }
+
+  .facebooklabel{
+    margin-bottom: 15px;
+    margin-left: 10px;
+    text-decoration: underline;
+    color: rgb(3, 3, 3);
+  }
+  .facebooklabel:hover {
+    color:blue;
+    //font-weight:bold;
   }
