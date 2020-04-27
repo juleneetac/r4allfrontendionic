@@ -8,9 +8,9 @@ export class Modelusuario {
     sexo: string;
     rutaimagen: string;
     ubicacion: string;
-    edad: Number;
-    exp: Number;
-    valoracion: Number;
+    edad: number;
+    exp: number;
+    valoracion: number;
     partidas: [string]; // cambiar a Modelpartida
     torneos: [Modeltorneo]; 
     chats: [string];    // cambiar a Modelchat

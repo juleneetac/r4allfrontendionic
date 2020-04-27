@@ -47,9 +47,21 @@ export class AppComponent {
   public appOut = [
 
     {
+      title: 'Main',
+      url: '/main',
+      icon: 'desktop'
+     },
+
+    {
       title: 'Perfil',
       url: '/profile',
       icon: 'person'
+     },
+
+     {
+      title: 'Chat',
+      //url: '/chat',
+      icon: 'chatbox-ellipses'
      },
 
     {
@@ -59,21 +71,9 @@ export class AppComponent {
      },
 
      {
-      title: 'Chat',
-      //url: '/chat',
-      icon: 'chatbox-ellipses'
-     },
-
-     {
-      title: 'Settings',
-      //url: '/settings',
+      title: 'Settings (Editar Perfil provisional)',
+      url: '/perfil',
       icon: 'settings'
-     },
-
-    {
-      title: 'Main',
-      url: '/main',
-      icon: 'desktop'
      },
 
      {
