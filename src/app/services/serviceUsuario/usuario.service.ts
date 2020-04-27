@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import { Ambiente } from '../ambiente';
-import { Usuario } from 'src/app/models/modelUsusario/modelusuario';
+import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Modelregister } from 'src/app/models/modelRegister/modelregister';
 
@@ -25,8 +25,8 @@ export class UsuarioService {
     return this.http.post(this.ambiente.urlUsuario + '/register', register);
   }
 
-  getUsuarios(filtros): Observable<Usuario[]>{  //esto es el observable. me da un array de subjects
-    return this.http.post<Usuario[]>(this.ambiente.urlUsuario + '/getusrs', filtros);  
+  getUsuarios(filtros): Observable<Modelusuario[]>{  //esto es el observable. me da un array de subjects
+    return this.http.post<Modelusuario[]>(this.ambiente.urlUsuario + '/getusrs', filtros);  
   }
 
 }

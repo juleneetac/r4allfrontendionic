@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
-import { Usuario } from 'src/app/models/modelUsusario/modelusuario';
-import { Torneo } from 'src/app/models/modelTorneo/modeltorneo';
+import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
+import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
 
 @Component({
@@ -16,13 +16,13 @@ export class MainPage implements OnInit {
     private torneosService: TorneoService
   ) { }
 
-  listausuarios: Usuario[];       //Lista de Usuarios
-  listatorneos: Torneo[];         //Lista de Torneos
-  usuariologueado: Usuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
+  listausuarios: Modelusuario[];       //Lista de Usuarios
+  listatorneos: Modeltorneo[];         //Lista de Torneos
+  usuariologueado: Modelusuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
 
   ngOnInit() {
     //-------- PRUEBA DE USUARIOLOGUEADO --------//
-    this.usuariologueado = new Usuario();
+    this.usuariologueado = new Modelusuario();
     this.usuariologueado.username = "Lorem Ipsum";
 
     this.getUsuarios();
@@ -45,7 +45,7 @@ export class MainPage implements OnInit {
 
     this.usuariosService.getUsuarios(filtros)
     .subscribe((res) => {
-        this.listausuarios = res as Usuario[];
+        this.listausuarios = res as Modelusuario[];
         console.log(this.listausuarios);
       },
       (err) => {
@@ -67,7 +67,7 @@ export class MainPage implements OnInit {
 
     this.torneosService.getTorneos(filtros)
     .subscribe(res => {
-      this.listatorneos = res as Torneo[];
+      this.listatorneos = res as Modeltorneo[];
       console.log(this.listatorneos);
     },
     (err) => {
