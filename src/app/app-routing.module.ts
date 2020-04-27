@@ -5,6 +5,7 @@ import { RegisterPage } from './pages/register/register.page';
 import { AdminPage } from './pages/admin/admin.page';
 import { MainPage } from './pages/main/main.page';
 import { HomePage } from './pages/home/home.page';
+import { AuthGuard } from './services/serviceGuard/auth.guard';
 
 
 const routes: Routes = [
@@ -29,6 +30,10 @@ const routes: Routes = [
   {
     path: 'main',
     loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
 ];
 
