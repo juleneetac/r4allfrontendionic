@@ -1,0 +1,182 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Hola, bienvenido a editar perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class = "row">
+    <div class="col-sm-5"> 
+      <div class="card">
+        <div class= "card-header">
+          Editar Perfil
+        </div>
+        <div class="card-body">
+          <form (submit)="updatePerfil(contrasena1, contrasena2, mail, sexo, ubicacion, edad, experiencia)">
+            <div class="form-group"> 
+            <input type="password" class="form-control" placeholder="Contraseña antigua"  #contrasena1> 
+            <br>
+            <input type="password" class="form-control" placeholder="Contraseña nueva"  #contrasena2>
+            <br>
+            <input type="text" class="form-control" placeholder="Correo"  #mail>
+            <br>
+            <input type="text" class="form-control" placeholder="Sexo"  #sexo>
+            <br>
+            <input type="text" class="form-control" placeholder="Ubicación"  #ubicacion>
+            <br>
+            <input type="text" class="form-control" placeholder="Edad"  #edad>
+            <br>
+            <input type="text" class="form-control" placeholder="Experiencia"  #experiencia>
+            <br>     
+            <input type = "file" class=d-none (change)="onPhotoSelected($event)" #photoInput> 
+            <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="400px" class="img-fluid" (click)="photoInput.click()">
+            <br>           
+            <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+            </div>
+        </form>
+        </div> 
+      </div>
+    </div>
+
+    <form (submit)="getuserbyid()">
+      <button type="submit" class="btn btn-primary btn-block">Dame el ID</button>
+    </form>
+    </div> 
+    
+</ion-content>
+
+<!-- 
+<form [formGroup]="perfilForm" (ngSubmit)="updatePerfil()">
+    <div class="form-group">
+        <input type="text" class="form-control" formControlName="usuario" placeholder="nombre">
+    </div>
+</form>
+
+
+
+ -->
+
+
+<!-- <div class= "row">
+ -->  <!-- <ion-col class="col-sm-5">
+    <div class="card">
+    <div class= "card-header">
+      Foto de perfil
+    </div>
+    <div class="card-body">
+        <input type = "file" class=d-none (change)="onPhotoSelected($event)" #photoInput>
+          <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="400px" class="img-fluid" (click)="photoInput.click()">              
+    </div>
+    </div>
+  </ion-col>  -->
+
+  
+    <!-- <form (submit)>
+      
+        <div class="card">
+        <div class= "card-header">
+          Foto de perfil
+        </div>
+        <div class="card-body">
+            <input type = "file" class=d-none (change)="onPhotoSelected($event)" #photoInput>
+              <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="400px" class="img-fluid" (click)="photoInput.click()">              
+        </div>
+        </div>
+      </ion-col> 
+
+
+        <input type="text" class="form-control" placeholder="Nombre de usuario" required #fecha>
+
+  
+ -->
+
+
+   <!--  </div> --> 
+ 
+    
+<!-- <ion-col class="col-sm-5">
+  <div class="card">
+      <div class= "card-header">
+          Editar Perfil
+      </div>
+          <div class="card-body">
+            <form (submit)="updatePerfil(contraseña1, contraseña2, mail, sexo, ubicacion, edad, experiencia)">
+              <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Nombre de usuario" required #fecha>
+                  <br>  
+                  <input type="password" class="form-control" placeholder="Contraseña antigua" required #contraseña1> 
+                  <br>
+                  <input type="password" class="form-control" placeholder="Contraseña nueva" required #contraseña2>
+                  <br>
+                  <input type="text" class="form-control" placeholder="Correo" required #mail>
+                  <br>
+                  <input type="text" class="form-control" placeholder="Sexo" required #sexo>
+                  <br>
+                  <input type="text" class="form-control" placeholder="Ubicación" required #ubicacion>
+                  <br>
+                  <input type="text" class="form-control" placeholder="Edad" required #edad>
+                  <br>
+                  <input type="text" class="form-control" placeholder="Experiencia" required #experiencia>
+                  <br>
+                  <button class="btn btn-primary btn-block">Guardar Cambios</button>                    
+              </div>
+            </form> 
+          </div>
+  </div>
+</ion-col> -->
+<!-- </div> 
+</ion-content> -->
+
+
+<!-- 
+
+<form [formGroup] = "updatePerfilForm">
+                
+                  <input type ="password" formControlName = "contraseña1" placeholder="Introduce la Contraseña antigua" >
+                
+               
+                  <input type ="password" formControlName = "contraseña2" placeholder="Introduce la Contraseña nueva" >
+                
+                  
+</form> 
+
+
+
+ 
+
+
+<div class = "row">
+  <div class="col-sm-5"> 
+    <div class="card">
+      <div class= "card-header">
+        Editar Perfil
+      </div>
+      <div class="card-body">
+        <form (submit)="updatePerfil()">
+          <div class="form-group">
+             <input type="text" class="form-control" placeholder="Nombre de usuario" required #fecha>
+          <br>   
+          <ion-input type="password" class="form-control" placeholder="Contraseña antigua" required #contraseña1> </ion-input>
+          <br>
+          <ion-input type="password" class="form-control" placeholder="Contraseña nueva" required #contraseña2></ion-input>
+          <br>
+          <ion-input type="text" class="form-control" placeholder="Correo" required #mail></ion-input>
+          <br>
+          <ion-input type="text" class="form-control" placeholder="Sexo" required #sexo></ion-input>
+          <br>
+          <ion-input type="text" class="form-control" placeholder="Ubicación" required #ubicacion></ion-input>
+          <br>
+          <ion-input type="text" class="form-control" placeholder="Edad" required #edad></ion-input>
+          <br>
+          <ion-input type="text" class="form-control" placeholder="Experiencia" required #experiencia></ion-input>
+          <br>               
+          <ion-input type = "file" class=d-none (change)="onPhotoSelected($event)" #photoInput> </ion-input>
+          <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="400px" class="img-fluid" (click)="photoInput.click()">
+          <br>
+          <button class="btn btn-primary btn-block">Guardar Cambios</button>
+          </div>
+      </form>
+      </div> 
+    </div>
+  </div>
+  </div>  -->

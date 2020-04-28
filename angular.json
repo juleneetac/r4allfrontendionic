@@ -33,6 +33,9 @@
             ],
             "styles": [
               {
+                "input": "node_modules/bootswatch/dist/materia/bootstrap.min.css"
+              },
+              {
                 "input": "src/theme/variables.scss"
               },
               {

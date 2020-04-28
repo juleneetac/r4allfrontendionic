@@ -22,15 +22,17 @@ ion-card {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    --background: rgb(240, 159, 159);
+    //--background: rgb(240, 159, 159);
   }
 .text{
     font-size: 17px;
-
 }
-ion-item{
+.center{
+  text-align: center;
+}
+/* ion-item{
     --background: rgb(240, 159, 159);
-}
+} */
   ion-text {
     margin-left: 15px;
   }

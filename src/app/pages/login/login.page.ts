@@ -28,6 +28,9 @@ export class LoginPage implements OnInit {constructor(
 password: string;
 username: string;
 
+//-----PROVISIONAL-----//
+miStorage = window.localStorage;
+
 ngOnInit(){
 }
 
@@ -45,6 +48,11 @@ loginUser(event){
   event.preventDefault()
   console.log(event)
   let credencial: Modellogin = new Modellogin(this.username, this.password)
+
+  //-----PROVISIONAL-----//
+  localStorage.setItem("username", this.username);
+  localStorage.setItem("password", this.password);
+
   this.usuarioService.login(credencial).subscribe(
     async res =>{
             console.log(res);
@@ -60,8 +68,8 @@ loginUser(event){
             await toast.present();
             //rutas
            localStorage.setItem("Usuario",String(credencial.username));
-            this.goProfile();
-            //this.goMain();
+            //this.goProfile();
+            this.goMain();
     },
     err => {
       console.log(err);
