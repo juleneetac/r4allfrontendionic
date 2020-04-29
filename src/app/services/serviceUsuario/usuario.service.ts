@@ -15,9 +15,8 @@ export class UsuarioService {
 
   //-----PRUEBA DE BERNAT-----//
   id: string;
-  usernombre = localStorage.getItem("username");
+  usernombre = localStorage.getItem("Usuario");
   passold = localStorage.getItem("password");
-
 
   constructor(private http: HttpClient) {
     this.ambiente = new Ambiente();
@@ -45,7 +44,18 @@ export class UsuarioService {
     return this.http.get<string>(`${this.ambiente.urlUsuario}/getidofuser/${username}`);
   }
 
-  updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: string, valoracion: string, photo:File, id: string): Observable<Modelusuario>{
+  getPassOfUser(id): Observable<string>{
+    return this.http.get<string>(`${this.ambiente.urlUsuario}/getpassofuser/${id}`)
+  }
+
+ /*  getAvatarOfUser(id) { `${this.ambiente.urlUsuario}/getusr/${id}`
+    return this.http.get<string>(`${this.ambiente.urlUsuario}/avatar/${id}`)
+  } */
+ /*   getUser(_id:string):Observable<Modelusuario> {
+    return this.http.get<Modelusuario>("http://localhost:7000/usr/getusr/"+`${_id}`)
+  }  */
+
+  updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: string, valoracion: string, photo:File, id: string){
 
     var identificador = id;
     const fd = new FormData();
@@ -58,7 +68,8 @@ export class UsuarioService {
       fd.append('ubicacion',ubicacion);
       fd.append('edad',edad);
       fd.append('valoracion',valoracion);
-      return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/update/${identificador}`,fd)
+
+      return this.http.put(`${this.ambiente.urlUsuario}/update/${identificador}`,fd)
   }
 
 }

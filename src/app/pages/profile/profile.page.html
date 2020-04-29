@@ -13,4 +13,36 @@
   Nombre:<code>{{PerfilLocal}}</code>
   El resto de cosas saldran mas adelante, esto es una prueba
     </pre>
+
+
+    <label>
+      Nombre de usuario: {{ usuario.username }} 
+    </label>
+        
+      <br>
+      <label>
+        id: {{usuario._id}}
+      </label>
+      <br>
+      <label>
+        Correo: {{usuario.mail}}
+      </label>
+      <br>
+      <label>
+        Edad: {{usuario.edad}}
+      </label>
+      <br>
+      <label>
+        Ubicación: {{usuario.ubicacion}}
+      </label>
+      <br>
+      <label>
+        Torneos: {{usuario.torneos}}
+      </label>
+      <br>
+      <label>
+        Foto de perfil: 
+        <img [src]="'http://localhost:7000/'+ usuario.rutaimagen">
+      </label>
+      
 </ion-content>

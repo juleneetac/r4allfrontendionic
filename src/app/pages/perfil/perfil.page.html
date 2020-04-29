@@ -14,21 +14,21 @@
         <div class="card-body">
           <form (submit)="updatePerfil(contrasena1, contrasena2, mail, sexo, ubicacion, edad, experiencia)">
             <div class="form-group"> 
-            <input type="password" class="form-control" placeholder="Contraseña antigua"  #contrasena1> 
+            <input type="password" class="form-control" placeholder="Contraseña antigua" required #contrasena1> 
             <br>
-            <input type="password" class="form-control" placeholder="Contraseña nueva"  #contrasena2>
+            <input type="password" class="form-control" placeholder="Contraseña nueva" required  #contrasena2>
             <br>
-            <input type="text" class="form-control" placeholder="Correo"  #mail>
+            <input type="email" class="form-control" placeholder="Correo" required  #mail>
             <br>
-            <input type="text" class="form-control" placeholder="Sexo"  #sexo>
+            <input type="text" class="form-control" placeholder="Sexo" required #sexo>
             <br>
-            <input type="text" class="form-control" placeholder="Ubicación"  #ubicacion>
+            <input type="text" class="form-control" placeholder="Ubicación" required #ubicacion>
             <br>
-            <input type="text" class="form-control" placeholder="Edad"  #edad>
+            <input type="text" class="form-control" placeholder="Edad" required #edad>
             <br>
-            <input type="text" class="form-control" placeholder="Experiencia"  #experiencia>
+            <input type="text" class="form-control" placeholder="Experiencia" required #experiencia>
             <br>     
-            <input type = "file" class=d-none (change)="onPhotoSelected($event)" #photoInput> 
+            <input type = "file" class=d-none (change)="onPhotoSelected($event)" required #photoInput> 
             <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="400px" class="img-fluid" (click)="photoInput.click()">
             <br>           
             <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
@@ -38,9 +38,9 @@
       </div>
     </div>
 
-    <form (submit)="getuserbyid()">
+    <!-- <form (submit)="getuserbyid()">
       <button type="submit" class="btn btn-primary btn-block">Dame el ID</button>
-    </form>
+    </form> -->
     </div> 
     
 </ion-content>

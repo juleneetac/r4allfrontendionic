@@ -32,22 +32,36 @@ export class PerfilPage implements OnInit {
   sexo: string;
   ubicacion: string;
 
+  usernombre = localStorage.getItem("Usuario");
+  user: Modelusuario;
 
-  usernombre = localStorage.getItem("username");
-  passold = localStorage.getItem("password");
-
+ /*  usernombre = localStorage.getItem("username"); */
+/* passold = localStorage.getItem("password"); */
+passold: string;
   id: string;
  
+avatar
 
 file: File;
 photoSelected: string | ArrayBuffer
 
   constructor(private usuariosSevice: UsuarioService) { }
   ngOnInit() {
+/* 
+    this.getuser(); */
+    console.log("init");
+    console.log(this.usernombre);
+    console.log("init");
 
-    this.getuser();
-
-  }
+    this.getIdOfUser(this.usernombre);
+    
+    
+    console.log(this.id);
+    this.getPassOfUser(this.id);
+/*     this.getAvatarOfUser();
+ */
+/*     this.getUser(this.id);
+ */  }
 
   onPhotoSelected(event: HtmlInputEvent): void{
     if (event.target.files && event.target.files[0]) {
@@ -60,23 +74,57 @@ photoSelected: string | ArrayBuffer
 
 /*   contraseña1, contraseña2, mail, sexo, ubicacion, edad, experiencia
  */
-getIdOfUser(){
+getIdOfUser(usernombre){
     console.log(this.usernombre);
     this.usuariosSevice.getIdOfUser(this.usernombre)
     .subscribe(
       (res) => {
         this.id = res as string;
         console.log(res);
+        console.log("pppoa pppoe")
         console.log(this.id);
       },
       (err) => {
         console.log(err);
       });
-
   }
+
+
+getPassOfUser(id){
+  console.log("getpass")
+console.log(this.id)
+console.log(id);
+this.usuariosSevice.getPassOfUser(this.id)
+.subscribe(
+  (res) => {
+    this.passold = res as string;
+    console.log(res);
+    console.log("eeeeeeeee")
+    console.log(this.passold);
+  },
+  (err) => {
+    console.log(err);
+  });
+}
+
+/* getAvatarOfUser(){
+  console.log(this.id);
+  this.usuariosSevice.getAvatarOfUser(this.id)
+  .subscribe(
+    (res) => {
+      this.avatar = res;
+      console.log(res);
+      console.log("uiuiui")   
+    },
+    (err) => {
+      console.log(err);
+    });
+} */
+
 
   updatePerfil (contrasena1: HTMLInputElement, contrasena2: HTMLInputElement, mail: HTMLInputElement, sexo: HTMLInputElement, ubicacion:HTMLInputElement, edad: HTMLInputElement, experiencia: HTMLInputElement){
  
+  console.log(this.usernombre)
   console.log(contrasena1.value);
   console.log(contrasena2.value);
   console.log(mail.value);
@@ -85,8 +133,19 @@ getIdOfUser(){
   console.log(edad.value);
   console.log(experiencia.value);
   console.log(this.id);
-  
- 
+
+   /* if(this.file == undefined)
+  {
+    console.log("aaaaaa");
+
+    console.log("ratatatata");
+    console.log(this.file);
+    console.log("el artículo 34");
+    console.log(this.avatar);
+    this.file = this.avatar;
+    console.log("uuuuu");
+    console.log(this.file)
+  }  */
    if(contrasena1.value == this.passold) //la que está al iniciar sesión
     {
        this.usuariosSevice.updateUsuario(contrasena2.value, mail.value, sexo.value, ubicacion.value, edad.value, experiencia.value, this.file, this.id)
@@ -100,20 +159,21 @@ getIdOfUser(){
        
     }
   else{
-    alert("Error");
+    alert("Error, la contraseña antigua no coincide");
   } 
 
   }
 
-  getuser(){
-    this.usuariosSevice.getUsuario(this.id)
+   /* getUser(id){
+    this.usuariosSevice.getUser(id)
     .subscribe(
       (res) => {
-        this.username = res.username;
+        this.user = res;
         console.log(res);
+        console.log (this.user);
       },
       (err) => {
         console.log(err);
       });
-  }
+  }  */
 }

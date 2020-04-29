@@ -27,9 +27,13 @@ export class LoginPage implements OnInit {constructor(
 //torneos: Modeltorneo[];
 password: string;
 username: string;
+usuario: string;
+
+user
 
 //-----PROVISIONAL-----//
 miStorage = window.localStorage;
+
 
 ngOnInit(){
 }
@@ -48,14 +52,31 @@ loginUser(event){
   event.preventDefault()
   console.log(event)
   let credencial: Modellogin = new Modellogin(this.username, this.password)
-
   //-----PROVISIONAL-----//
-  localStorage.setItem("username", this.username);
-  localStorage.setItem("password", this.password);
+/*   localStorage.setItem("username", this.username);
+  this.usuario = localStorage.getItem("userneme");
+  console.log('eeeeeeee')
+  console.log(this.usuario);
+  console.log('oooooooo')
+  localStorage.setItem("password", this.password); */
 
   this.usuarioService.login(credencial).subscribe(
     async res =>{
+            console.log("Eeeeyyyyy")
             console.log(res);
+            console.log("Eeeeyyyyy")
+
+
+            this.user = res;
+            console.log(this.user);
+            let a = JSON.stringify(this.user);
+            console.log("tonightttt");
+            console.log(a);
+            window.localStorage.setItem('user',a);
+            console.log("la credence");
+            console.log(window.localStorage.getItem('user'));
+            
+
             //confirm('login correcto');
             const toast = await this.toastController.create({
               message: 'Login correcto',
@@ -67,7 +88,7 @@ loginUser(event){
             console.log(String(this.auth.authenticationState));
             await toast.present();
             //rutas
-           localStorage.setItem("Usuario",String(credencial.username));
+            localStorage.setItem("Usuario",String(credencial.username));
             //this.goProfile();
             this.goMain();
     },
