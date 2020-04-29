@@ -7,10 +7,11 @@ import { Injectable } from '@angular/core';
 export class Ambiente{
 
     constructor() { }
-    urlUsuario = 'http://localhost:7000/usr';  //deben ser las mismas rutas creadas
-    urlTorneo = 'http://localhost:7000/trn';  //en el backend
-    urlPartida = 'http://localhost:7000/prd';
-    urlParticipantest = 'http://localhost:7000/prantes';
-    urlMensaje = 'http://localhost:7000/msg';
-    urlChat = 'http://localhost:7000/cht';
+    path =process.env.BACKEND ||  'http://localhost:7000'
+    urlUsuario = this.path +'/usr';  //deben ser las mismas rutas creadas
+    urlTorneo = this.path + '/trn';  //en el backend
+    urlPartida =  this.path +'/prd';
+    urlParticipantest =  this.path +'/prantes';
+    urlMensaje =  this.path +'/msg';
+    urlChat = this.path + 'cht';
 }
