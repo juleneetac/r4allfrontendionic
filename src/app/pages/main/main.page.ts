@@ -33,14 +33,15 @@ export class MainPage implements OnInit {
     let filtros = {
       //Recoger valores de los inputs
 
-      //-----PRUEBA-----//
-      "flags": [false, false, 0, 0, 0],
-      "ubicacion": "Castelldefels",
+      //-----PRUEBA: Con esto se muestran todos los Usuarios-----//
+      "flags": [false, false, 0, 0, 0]
+      
+/*       "ubicacion": "Castelldefels",
       "radio": 50,
       "sexo": "hombre",
       "edad": [20,50],
       "exp": [0,1200],
-      "valoracion": [0,5]
+      "valoracion": [0,5] */
     }
 
     this.usuariosService.getUsuarios(filtros)
@@ -57,12 +58,13 @@ export class MainPage implements OnInit {
     let filtros = {
       //Recoger valores de los inputs
 
-      //-----PRUEBA-----//
-      "flags": [true, true, true, true, true, true, 3],
-      "pistacubierta": false,
+      //-----PRUEBA: Con esto se muestran todos los Torneos-----//
+      "flags": [false, false, false, false, 0]
+      
+/*       "pistacubierta": false,
       "tipopista": "TierraBatida",
       "modo": "individual",
-      "organizador": "5ea577f92b8b46027ccae61b"
+      "organizador": "5ea577f92b8b46027ccae61b" */
     }
 
     this.torneosService.getTorneos(filtros)
