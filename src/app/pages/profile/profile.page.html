@@ -10,39 +10,40 @@
     <code>{{ profile | json }}</code>
     </pre>
   <pre *ngIf="auth.authenticationState">
-  Nombre:<code>{{PerfilLocal}}</code>
+  Nombre:<code>{{localperfil.username}}</code>
   El resto de cosas saldran mas adelante, esto es una prueba
-    </pre>
+    
 
 
     <label>
-      Nombre de usuario: {{ usuario.username }} 
+      Nombre de usuario: {{ localperfil.username }} 
     </label>
         
       <br>
       <label>
-        id: {{usuario._id}}
+        id: {{localperfil._id}}
       </label>
       <br>
       <label>
-        Correo: {{usuario.mail}}
+        Correo: {{localperfil.mail}}
       </label>
       <br>
       <label>
-        Edad: {{usuario.edad}}
+        Edad: {{localperfil.edad}}
       </label>
       <br>
       <label>
-        Ubicación: {{usuario.ubicacion}}
+        Ubicación: {{localperfil.ubicacion}}
       </label>
       <br>
       <label>
-        Torneos: {{usuario.torneos}}
+        Torneos: {{localperfil.torneos}}
       </label>
       <br>
       <label>
         Foto de perfil: 
-        <img [src]="'http://localhost:7000/'+ usuario.rutaimagen">
+        <img [src]="'http://localhost:7000/'+ localperfil.rutaimagen">
       </label>
+    </pre>
       
 </ion-content>

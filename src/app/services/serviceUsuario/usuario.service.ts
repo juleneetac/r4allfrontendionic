@@ -33,6 +33,9 @@ export class UsuarioService {
   getUsuarios(filtros): Observable<Modelusuario[]>{
     return this.http.post<Modelusuario[]>(this.ambiente.urlUsuario + '/getusrs', filtros);  
   }
+  getAllUsuarios(): Observable<Modelusuario[]>{  //esto es el observable. me da un array de usuarios
+    return this.http.get<Modelusuario[]>(this.ambiente.urlUsuario + '/getallusrs');  //me da todos los usuarios del sistema
+  }
 
   getUsuario(usuarioid): Observable<Modelusuario>{
     return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getusr/${usuarioid}`);  
@@ -55,7 +58,7 @@ export class UsuarioService {
     return this.http.get<Modelusuario>("http://localhost:7000/usr/getusr/"+`${_id}`)
   }  */
 
-  updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: string, valoracion: string, photo:File, id: string){
+  updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: string, photo:File, id: string){
 
     var identificador = id;
     const fd = new FormData();
@@ -67,7 +70,7 @@ export class UsuarioService {
       fd.append('rutaimagen', photo);
       fd.append('ubicacion',ubicacion);
       fd.append('edad',edad);
-      fd.append('valoracion',valoracion);
+      //fd.append('vexp',exp);
 
       return this.http.put(`${this.ambiente.urlUsuario}/update/${identificador}`,fd)
   }

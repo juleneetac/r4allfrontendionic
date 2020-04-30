@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/serviceAuth/auth.service';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { UsuarioService } from "../../services/serviceUsuario/usuario.service";
+import { StorageComponent } from 'src/app/storage/storage.component';
 
 
 @Component({
@@ -11,43 +12,46 @@ import { UsuarioService } from "../../services/serviceUsuario/usuario.service";
 })
 export class ProfilePage implements OnInit {
 
-  PerfilLocal: String //ESTO NO SERA UN STRING EN EL FUTURO, SERA UN USER
+  //PerfilLocal: String //ESTO NO SERA UN STRING EN EL FUTURO, SERA UN USER
   
-  identificador:string;
+  identificador:string;  //ESTO NO SERA UN STRING EN EL FUTURO, SERA UN USER
 
-  usuario
+  localperfil: string;
 
 
   constructor(
-    public auth: AuthService, private usuariosSevice: UsuarioService
+    public auth: AuthService, 
+    private usuariosSevice: UsuarioService,
+    private storage: StorageComponent
     ) { }
 
     
   ngOnInit() {
-    this.PerfilLocal = localStorage.getItem("Usuario");
-    console.log(this.PerfilLocal);
+    this.localperfil =  JSON.parse(this.storage.getUser());
+    //this.PerfilLocal = localStorage.getItem("Usuario");
+    console.log(this.localperfil);
 
 
-    this.getIdOfUser(this.PerfilLocal);
+    this.getIdOfUser(this.localperfil);
     console.log(this.identificador);
     console.log("aquí estamos")
 /*     this.getUser(this.identificador);
  */    
-    console.log("brrrrrr")
-    console.log("objeto login")
-    console.log(localStorage.getItem('user'));
-    console.log("objeto login")
+    //console.log("brrrrrr")
+    //console.log("objeto login")
+    //console.log(this.storage.getUser());
+    //console.log("objeto login")
 
 
-    this.usuario = JSON.parse(localStorage.getItem('user'));
-    console.log(this.usuario);
+   // this.localperfil =  JSON.parse(this.storage.getUser());
+    //console.log(this.localperfil);
 
   }
 
 
-  getIdOfUser(PerfilLocal){
-    console.log(this.PerfilLocal);
-    this.usuariosSevice.getIdOfUser(this.PerfilLocal)
+  getIdOfUser(localperfil){
+    console.log(this.localperfil);
+    this.usuariosSevice.getIdOfUser(this.localperfil)
     .subscribe(
       (res) => {
         this.identificador = res as string;

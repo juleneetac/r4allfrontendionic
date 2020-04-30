@@ -12,22 +12,22 @@
           Editar Perfil
         </div>
         <div class="card-body">
-          <form (submit)="updatePerfil(contrasena1, contrasena2, mail, sexo, ubicacion, edad, experiencia)">
+          <form (submit)="updatePerfil(contrasena1, contrasena2, mail, sexo, ubicacion, edad)">
             <div class="form-group"> 
-            <input type="password" class="form-control" placeholder="Contraseña antigua" required #contrasena1> 
+            <input type="password" class="form-control" placeholder="Contraseña antigua"value="" required #contrasena1> 
             <br>
             <input type="password" class="form-control" placeholder="Contraseña nueva" required  #contrasena2>
             <br>
-            <input type="email" class="form-control" placeholder="Correo" required  #mail>
+            <input type="mail" class="form-control" placeholder="Correo" value={{user.mail}} required  #mail>
             <br>
-            <input type="text" class="form-control" placeholder="Sexo" required #sexo>
+            <input type="text" class="form-control" placeholder="Sexo" value={{user.sexo}} required #sexo>
             <br>
-            <input type="text" class="form-control" placeholder="Ubicación" required #ubicacion>
+            <input type="text" class="form-control" placeholder="Ubicación" value={{user.ubicacion}} required #ubicacion>
             <br>
-            <input type="text" class="form-control" placeholder="Edad" required #edad>
-            <br>
+            <input type="text" class="form-control" placeholder="Edad" value={{user.edad}} required #edad>
+            <!-- <br>
             <input type="text" class="form-control" placeholder="Experiencia" required #experiencia>
-            <br>     
+            <br>      -->
             <input type = "file" class=d-none (change)="onPhotoSelected($event)" required #photoInput> 
             <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="400px" class="img-fluid" (click)="photoInput.click()">
             <br>           

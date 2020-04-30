@@ -9,30 +9,34 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/serviceAuth/auth.service';
+import { StorageComponent } from 'src/app/storage/storage.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {constructor(
+export class LoginPage implements OnInit {
+  usuario: Modelusuario;
+  constructor(
   private usuarioService: UsuarioService, 
   private torneoService: TorneoService, 
   private router: Router,
   public toastController: ToastController,
   public auth: AuthService,
+  public storage: StorageComponent,
+
   ) { }
 
 //usuarios: Modelusuario[]; en el login no es necesario
 //torneos: Modeltorneo[];
 password: string;
 username: string;
-usuario: string;
 
-user
+//user
 
 //-----PROVISIONAL-----//
-miStorage = window.localStorage;
+//miStorage = window.localStorage;
 
 
 ngOnInit(){
@@ -46,7 +50,7 @@ goProfile() {
   this.router.navigateByUrl("profile")
 }
 
-
+//localStorage.setItem("Usuario",String(credencial.username));
 //funciones
 loginUser(event){
   event.preventDefault()
@@ -62,21 +66,7 @@ loginUser(event){
 
   this.usuarioService.login(credencial).subscribe(
     async res =>{
-            console.log("Eeeeyyyyy")
-            console.log(res);
-            console.log("Eeeeyyyyy")
-
-
-            this.user = res;
-            console.log(this.user);
-            let a = JSON.stringify(this.user);
-            console.log("tonightttt");
-            console.log(a);
-            window.localStorage.setItem('user',a);
-            console.log("la credence");
-            console.log(window.localStorage.getItem('user'));
-            
-
+            //console.log(res);
             //confirm('login correcto');
             const toast = await this.toastController.create({
               message: 'Login correcto',
@@ -84,13 +74,21 @@ loginUser(event){
               duration: 2000,
               color: 'success',
             });
+            const response: any = res;
+            this.usuario = response.usuario;
+            this.usuario.jwt = response.jwt;
+            console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+            //Save info locally
+            await this.storage.saveToken(this.usuario.jwt);
+            await this.storage.saveUser(JSON.stringify(this.usuario));
             this.auth.loginLocal();
-            console.log(String(this.auth.authenticationState));
+            await this.goProfile();
+            
+            //console.log(String(this.auth.authenticationState));
             await toast.present();
             //rutas
-            localStorage.setItem("Usuario",String(credencial.username));
-            //this.goProfile();
-            this.goMain();
+            //localStorage.setItem("Usuario",String(credencial.username));
+            //this.goMain();
     },
     err => {
       console.log(err);

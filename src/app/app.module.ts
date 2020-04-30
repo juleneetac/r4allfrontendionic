@@ -13,12 +13,15 @@ import { AppRoutingModule } from './app-routing.module';
 // import { LoginComponent } from './components/login/login.component';
 // import { RegisterComponent } from './components/register/register.component';
 // import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 // import { AdminComponent } from './components/admin/admin.component';
 // import { HomeComponent } from './components/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePageModule } from './pages/home/home.module';
+import { StorageComponent } from './storage/storage.component';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { AuthinterceptorService } from './services/serviceInterceptor/authinterceptor.service';
 //import { MenubarPage } from './pages/menubar/menubar.page';
 // import { Main } from './components/main/main.component';
 //import {MatListModule} from "@angular/material/list";
@@ -28,6 +31,7 @@ import { HomePageModule } from './pages/home/home.module';
 @NgModule({
   declarations: [
     AppComponent,
+    StorageComponent
     // UsuariosComponent,
     // TorneosComponent,
     // LoginComponent,
@@ -50,10 +54,17 @@ import { HomePageModule } from './pages/home/home.module';
     SplashScreen,
     ToastController,
     HttpClientModule,
+    NativeStorage,
+    StorageComponent,
     { 
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy 
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthinterceptorService,
+      multi: true
+  }
   ],
   bootstrap: [AppComponent]
 })

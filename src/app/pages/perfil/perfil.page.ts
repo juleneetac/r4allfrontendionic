@@ -11,6 +11,7 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Observable } from "rxjs";
 import { strictEqual } from 'assert';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
+import { StorageComponent } from 'src/app/storage/storage.component';
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -32,36 +33,30 @@ export class PerfilPage implements OnInit {
   sexo: string;
   ubicacion: string;
 
-  usernombre = localStorage.getItem("Usuario");
-  user: Modelusuario;
+  //usernombre = localStorage.getItem("Usuario");
+  user = JSON.parse(this.storage.getUser());
+  usernombre = this.user.username;
+  //user: Modelusuario;
 
  /*  usernombre = localStorage.getItem("username"); */
 /* passold = localStorage.getItem("password"); */
-passold: string;
+  passold: string;
   id: string;
  
-avatar
+  avatar
 
-file: File;
-photoSelected: string | ArrayBuffer
+  file: File;
+  photoSelected: string | ArrayBuffer
 
-  constructor(private usuariosSevice: UsuarioService) { }
+  constructor(private usuariosSevice: UsuarioService,private storage: StorageComponent) { }
   ngOnInit() {
-/* 
-    this.getuser(); */
-    console.log("init");
-    console.log(this.usernombre);
-    console.log("init");
 
+    //this.getuser(); 
+    console.log(this.usernombre);
     this.getIdOfUser(this.usernombre);
-    
-    
     console.log(this.id);
     this.getPassOfUser(this.id);
-/*     this.getAvatarOfUser();
- */
-/*     this.getUser(this.id);
- */  }
+ }
 
   onPhotoSelected(event: HtmlInputEvent): void{
     if (event.target.files && event.target.files[0]) {
@@ -122,7 +117,7 @@ this.usuariosSevice.getPassOfUser(this.id)
 } */
 
 
-  updatePerfil (contrasena1: HTMLInputElement, contrasena2: HTMLInputElement, mail: HTMLInputElement, sexo: HTMLInputElement, ubicacion:HTMLInputElement, edad: HTMLInputElement, experiencia: HTMLInputElement){
+  updatePerfil (contrasena1: HTMLInputElement, contrasena2: HTMLInputElement, mail: HTMLInputElement, sexo: HTMLInputElement, ubicacion:HTMLInputElement, edad: HTMLInputElement){//, experiencia: HTMLInputElement){
  
   console.log(this.usernombre)
   console.log(contrasena1.value);
@@ -131,7 +126,7 @@ this.usuariosSevice.getPassOfUser(this.id)
   console.log(sexo.value);
   console.log(ubicacion.value);
   console.log(edad.value);
-  console.log(experiencia.value);
+  //console.log(experiencia.value);
   console.log(this.id);
 
    /* if(this.file == undefined)
@@ -146,9 +141,9 @@ this.usuariosSevice.getPassOfUser(this.id)
     console.log("uuuuu");
     console.log(this.file)
   }  */
-   if(contrasena1.value == this.passold) //la que está al iniciar sesión
+   if(contrasena1.value == this.user.password) //la que está al iniciar sesión
     {
-       this.usuariosSevice.updateUsuario(contrasena2.value, mail.value, sexo.value, ubicacion.value, edad.value, experiencia.value, this.file, this.id)
+       this.usuariosSevice.updateUsuario(contrasena2.value, mail.value, sexo.value, ubicacion.value, edad.value, this.file, this.id)
         .subscribe(
         (res) => {
           console.log(res);

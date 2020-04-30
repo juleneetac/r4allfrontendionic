@@ -4,6 +4,7 @@ import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
 import { from, of, Observable, BehaviorSubject, combineLatest, throwError } from 'rxjs';
 import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { StorageComponent } from 'src/app/storage/storage.component';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class AuthService {
   // Create a local property for login status
   loggedIn: boolean = null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private storage: StorageComponent) {
     // On initial load, check authentication state with authorization server
     // Set up local auth streams if user is already authenticated
     this.localAuthSetup();
@@ -122,6 +123,7 @@ export class AuthService {
         client_id: "mvYo5Rfz9tQa6Ld1RM1Eo4VoC7UoQKj3",
         returnTo: `${window.location.origin}`
       });
+      this.storage.clearStorage();
     });
   }
  //PARA LOGIN LOCAL
