@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class Ambiente{
 
     constructor() { }
-    path =process.env.BACKEND ||  'http://localhost:7000'
+    path ='http://localhost:7000'
     urlUsuario = this.path +'/usr';  //deben ser las mismas rutas creadas
     urlTorneo = this.path + '/trn';  //en el backend
     urlPartida =  this.path +'/prd';
