@@ -58,18 +58,18 @@ export class UsuarioService {
     return this.http.get<Modelusuario>("http://localhost:7000/usr/getusr/"+`${_id}`)
   }  */
 
-  updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: string, photo:File, id: string){
+  updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, photo:File, id: string){
 
     var identificador = id;
     const fd = new FormData();
   
-      fd.append('username',this.usernombre);
+      //fd.append('username',this.usernombre);
       fd.append('mail',mail);
       fd.append('password',contraseña2);
       fd.append('sexo', sexo);
       fd.append('rutaimagen', photo);
       fd.append('ubicacion',ubicacion);
-      fd.append('edad',edad);
+      fd.append('edad',edad.toString());
       //fd.append('vexp',exp);
 
       return this.http.put(`${this.ambiente.urlUsuario}/update/${identificador}`,fd)

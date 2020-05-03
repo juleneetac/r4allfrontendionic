@@ -32,9 +32,9 @@ export class ProfilePage implements OnInit {
     console.log(this.localperfil);
 
 
-    this.getIdOfUser(this.localperfil);
-    console.log(this.identificador);
-    console.log("aquí estamos")
+    // this.getIdOfUser(this.localperfil);
+    // console.log(this.identificador);
+    // console.log("aquí estamos profile")
 /*     this.getUser(this.identificador);
  */    
     //console.log("brrrrrr")

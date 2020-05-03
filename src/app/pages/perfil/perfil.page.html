@@ -5,44 +5,174 @@
 </ion-header>
 
 <ion-content>
-  <div class = "row">
-    <div class="col-sm-5"> 
-      <div class="card">
-        <div class= "card-header">
-          Editar Perfil
-        </div>
-        <div class="card-body">
-          <form (submit)="updatePerfil(contrasena1, contrasena2, mail, sexo, ubicacion, edad)">
-            <div class="form-group"> 
-            <input type="password" class="form-control" placeholder="Contraseña antigua"value="" required #contrasena1> 
+  <ion-card>
+    <form [formGroup]="editperfilForm" (ngSubmit)="updatePerfil($event2)">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col class="ion-align-self-center" size-lg="11" size-xs="12">
+          <div>
+            <h3>Edita tu perfil</h3>
+          </div>
+
+            <ion-list>
+              <div class="formGroup">
+                <ion-item>
+                  <ion-input  formControlName="pass1" type="password" name="pass1" placeholder="Your active password" [(ngModel)]="pass1"></ion-input>
+                  <div *ngIf="editperfilForm.controls['pass1'].valid">
+                    <a class="success">&#9989;</a>
+                  </div>
+                </ion-item>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.pass1" >
+                    <div *ngIf="editperfilForm.get('pass1').hasError(validation.type) && (editperfilForm.get('pass1').dirty || editperfilForm.get('pass1').touched)">
+                      <div class="danger">
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+
+                <div class="formGroup">
+                  <ion-item>
+                    <ion-input  formControlName="difpass" type="password" name="difpass" placeholder="Your NEW password or if you dont want to change put the old password" [(ngModel)]="difpass"></ion-input>
+                    <div *ngIf="editperfilForm.controls['difpass'].valid">
+                      <a class="success">&#9989;</a>
+                    </div>
+                  </ion-item>
+                  <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.difpass" >
+                      <div *ngIf="editperfilForm.get('difpass').hasError(validation.type) && (editperfilForm.get('difpass').dirty || editperfilForm.get('difpass').touched)">
+                        <div class="danger">
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+  
+              <!-- <div class="formGroup">  // si queremos obligar a que las contraseñas sean iguales
+                <ion-item>
+                  <ion-input formControlName="difpass" type="password" name="difpass" placeholder="Your NEW password" [(ngModel)]="difpass"></ion-input>
+                  <div *ngIf="editperfilForm.controls['difpass'].valid && !editperfilForm.hasError('passwordNotMatch')">
+                    <a color="success">&#9989;</a>
+                  </div>
+                </ion-item>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.difpass" >
+                    <div *ngIf="editperfilForm.get('difpass').hasError(validation.type) && (editperfilForm.get('difpass').dirty || editperfilForm.get('difpass').touched)">
+                      <div class="danger">
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </ng-container>
+                  <div class="error-message" *ngIf="!editperfilForm.get('difpass').errors && editperfilForm.hasError('passwordNotMatch') && (editperfilForm.get('difpass').dirty || editperfilForm.get('difpass').touched)">
+                    <div class="danger">Las contraseñas coinciden, cambialas</div>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="formGroup">
+                <ion-item>
+                  <ion-input  formControlName="mail" type="text" name="mail" placeholder="Mail" value={{mail}} [(ngModel)]="mail"></ion-input>
+                  <div *ngIf="editperfilForm.controls['mail'].valid">
+                    <a class="success">&#9989;</a>
+                  </div>
+                </ion-item>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.mail" >
+                    <div *ngIf="editperfilForm.get('mail').hasError(validation.type) && (editperfilForm.get('mail').dirty || editperfilForm.get('mail').touched)">
+                      <div class="danger">
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+  
+              <div class="formGroup">
+                <ion-item>
+                  <ion-input  formControlName="sexo" type="text" name="sexo" placeholder="Sexo" value={{user.sexo}} [(ngModel)]="sexo" ></ion-input>
+                  <div *ngIf="editperfilForm.controls['sexo'].valid">
+                    <a class="success">&#9989;</a>
+                  </div>
+                </ion-item>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.sexo" >
+                    <div *ngIf="editperfilForm.get('sexo').hasError(validation.type) && (editperfilForm.get('sexo').dirty || editperfilForm.get('sexo').touched)">
+                      <div class="danger">
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+  
+              <div class="formGroup">
+                <ion-item>              
+                  <ion-input  formControlName="ubicacion" type="text" name="ubicacion" placeholder="Ubicacion" value={{user.ubicacion}} [(ngModel)]="ubicacion" ></ion-input>
+                  <div *ngIf="editperfilForm.controls['ubicacion'].valid">
+                    <a class="success">&#9989;</a>
+                  </div>
+                </ion-item>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.ubicacion" >
+                    <div *ngIf="editperfilForm.get('ubicacion').hasError(validation.type) && (editperfilForm.get('ubicacion').dirty || editperfilForm.get('ubicacion').touched)">
+                      <div class="danger">
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+  
+              <div class="formGroup">
+                <ion-item>
+                  <ion-input  formControlName="edad" type="text" name="edad" placeholder="Edad" value={{user.edad}} [(ngModel)]="edad"></ion-input>
+                  <div *ngIf="editperfilForm.controls['edad'].valid">
+                    <a class="success">&#9989;</a>
+                  </div>
+                </ion-item>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.edad" >
+                    <div *ngIf="editperfilForm.get('edad').hasError(validation.type) && (editperfilForm.get('edad').dirty || editperfilForm.get('edad').touched)">
+                      <div class="danger">
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            <input type = "file" class=d-none (change)="onPhotoSelected($event)" required #photoInput>
+            <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="400px" class="img-fluid" (click)="photoInput.click()">
+            <br>   
+            </ion-list>
+            <div>
+            <ion-button color="tertiary" size="large" type="submit" [disabled]="editperfilForm.invalid">Guardar Cambios</ion-button>
+          </div>
+
+
+            <!-- <div class="form-group"> 
+            <input type="password" class="form-control" placeholder="Contraseña antigua" required #pass1> 
             <br>
-            <input type="password" class="form-control" placeholder="Contraseña nueva" required  #contrasena2>
+            <input type="password" class="form-control" placeholder="Contraseña nueva" required  #difpass>
             <br>
-            <input type="mail" class="form-control" placeholder="Correo" value={{user.mail}} required  #mail>
+            <input type="text" class="form-control" placeholder="Correo" value={{user.mail}} required  #mail>
             <br>
             <input type="text" class="form-control" placeholder="Sexo" value={{user.sexo}} required #sexo>
             <br>
             <input type="text" class="form-control" placeholder="Ubicación" value={{user.ubicacion}} required #ubicacion>
             <br>
-            <input type="text" class="form-control" placeholder="Edad" value={{user.edad}} required #edad>
-            <!-- <br>
-            <input type="text" class="form-control" placeholder="Experiencia" required #experiencia>
-            <br>      -->
-            <input type = "file" class=d-none (change)="onPhotoSelected($event)" required #photoInput> 
-            <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="400px" class="img-fluid" (click)="photoInput.click()">
-            <br>           
-            <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
-            </div>
-        </form>
-        </div> 
-      </div>
-    </div>
+            <input type="text" class="form-control" placeholder="Edad" value={{user.edad}} required #edad> -->       
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-card>
 
     <!-- <form (submit)="getuserbyid()">
       <button type="submit" class="btn btn-primary btn-block">Dame el ID</button>
-    </form> -->
-    </div> 
-    
+    </form> -->  
 </ion-content>
 
 <!-- 
