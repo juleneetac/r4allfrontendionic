@@ -218,6 +218,27 @@ goProfile() {
                 duration: 2000,
                 color: 'success',
               });
+              if(this.file == undefined){
+                this.usuariosSevice.updateUsuarionofoto(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.user._id)
+                .subscribe(  //para actualizar el usuario con lo que quiero editar
+                          async res => {
+                          console.log(res);
+                          const response: any = res;
+                         // this.usuario = response.usuario;
+                          //this.usuario.jwt = response.jwt;
+                          //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+                          //Save info locally
+                          //await this.storage.saveToken(this.usuario.jwt);
+                          //await this.storage.saveUser(JSON.stringify(this.usuario));
+                          await this.goProfile();
+                          await toast.present();
+                        },
+                        (err) => {
+                          console.log(err);
+                        });
+              }
+
+              else{
               this.usuariosSevice.updateUsuario(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.file, this.user._id)
               .subscribe(  //para actualizar el usuario con lo que quiero editar
                         async res => {
@@ -236,11 +257,13 @@ goProfile() {
                         console.log(err);
                       });  
               
+                  }
             },
             err => {
               console.log(err);
               this.handleError(err);
             });
+          
         }
         //errores
 private async handleError(err: HttpErrorResponse) {

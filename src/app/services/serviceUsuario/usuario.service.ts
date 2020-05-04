@@ -74,5 +74,27 @@ export class UsuarioService {
 
       return this.http.put(`${this.ambiente.urlUsuario}/update/${identificador}`,fd)
   }
+  
+  updateUsuarionofoto(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, id: string){
+    var identificador = id;
+    var password = contraseña2;
+    var mail = mail;
+    var sexo = sexo;
+    var ubicacion = ubicacion;
+    var edad = edad;
+    var valoracion = valoracion;
+    
+    const user = {
+      password: password,
+      mail: mail,
+      sexo: sexo,
+      ubicacion: ubicacion,
+      edad: edad,
+    }
+    console.log(user);
+  
+    return this.http.put(`${this.ambiente.urlUsuario}/updatenofoto/${identificador}`,user)
+  }
+
 
 }

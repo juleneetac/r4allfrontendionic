@@ -13,16 +13,33 @@
   Nombre:<code>{{localperfil.username}}</code>
   El resto de cosas saldran mas adelante, esto es una prueba
     
+  <ion-col size="12">
+    <div class="row">
+    <ion-card>
+        <ion-card-header>
+          <ion-card-title>Perfil</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <ion-item>
+              <ion-avatar>
+                  <ion-img [src]="'http://localhost:7000/'+ localperfil.rutaimagen"></ion-img>
+              </ion-avatar>
+            </ion-item>
 
+      <ion-item>
+        <label>
+          Nombre de usuario: {{ localperfil.username }} 
+        </label>
+      </ion-item>
 
-    <label>
-      Nombre de usuario: {{ localperfil.username }} 
-    </label>
-        
       <br>
+    <ion-item>
       <label>
         id: {{localperfil._id}}
       </label>
+    </ion-item>
+
       <br>
       <label>
         Correo: {{localperfil.mail}}
@@ -48,6 +65,10 @@
         Foto de perfil: 
         <img [src]="'http://localhost:7000/'+ localperfil.rutaimagen">
       </label>
-    </pre>
       
+      </ion-card-content>
+    </ion-card>
+  </div>
+  </ion-col>
+</pre>
 </ion-content>
