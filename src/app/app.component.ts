@@ -60,7 +60,7 @@ export class AppComponent {
 
      {
       title: 'Chat',
-      //url: '/chat',
+      url: '/chat',
       icon: 'chatbox-ellipses'
      },
 

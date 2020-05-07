@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 // import { LoginComponent } from './components/login/login.component';
 // import { RegisterComponent } from './components/register/register.component';
 // import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient  } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 // import { AdminComponent } from './components/admin/admin.component';
 // import { HomeComponent } from './components/home/home.component';
@@ -27,6 +27,9 @@ import { AuthinterceptorService } from './services/serviceInterceptor/authinterc
 //import {MatListModule} from "@angular/material/list";
 // import { MainPage } from './pages/main/main.page';
 
+//import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';  // tema sockets
+
+ 
 
 @NgModule({
   declarations: [
@@ -47,7 +50,8 @@ import { AuthinterceptorService } from './services/serviceInterceptor/authinterc
     HttpClientModule,
     //MatListModule,
     ReactiveFormsModule,
-    HomePageModule
+    HomePageModule,
+    //SocketIoModule.forRoot(config)
   ],
   providers: [
     StatusBar,
@@ -68,4 +72,7 @@ import { AuthinterceptorService } from './services/serviceInterceptor/authinterc
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+
+}
+
