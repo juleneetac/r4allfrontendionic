@@ -14,6 +14,7 @@ export class ChatService {
   ambiente: Ambiente;
   //private urlpath = this.ambiente.path;   
   private socket; 
+  private username;
   // socket: SocketIOClient.Socket;
   // userdestino: string;
   // myusername: string;
@@ -21,18 +22,36 @@ export class ChatService {
   constructor(private http: HttpClient) {
     this.ambiente = new Ambiente();
     console.log(this.ambiente.path) 
-    this.socket = io(this.ambiente.path);  //el path es el 'http://localhost:7000'
+    //this.socket = io(this.ambiente.path);  //el path es el 'http://localhost:7000'
    }
 
-   //para enviar un mensaje al backend con socket
-   public sendMessage(message) {
-    this.socket.emit('new-message', message);
+
+   public connectSocket(username: string) {  //para conectar socket
+    if (!this.socket) {
+      this.username = username;
+      this.socket = io(this.ambiente.path); //, {query: 'usuario=' + username});
+      this.socket.emit('set-username', this.username);
+      console.log('connection socket');
+    }
   }
-  
+
+  public getList = () => {
+    return new Observable((observer) => {
+      this.socket.on('listaUsuarios', (data) => {
+        observer.next(data);
+      });
+    });
+  }
+
+   //para enviar un mensaje al backend con socket
+   public sendMessage(message, destination) {
+    this.socket.emit('message', { message, destination});
+  }
+
     public getMessages = () => {
       return Observable.create((observer) => {
-          this.socket.on('new-message', (message) => {
-              observer.next(message);
+          this.socket.on('message', (data) => {
+              observer.next(data);
           });
       });
   }

@@ -27,6 +27,7 @@ export class ChatPage {
   // usuario: Modelusuario;
   // usernamedestid: String;
 
+  //destusername: string;
   //message: string;
   //messages: string[] = [];
 
@@ -43,15 +44,15 @@ export class ChatPage {
     //private socket,
     
   ) { 
-    this.ambiente = new Ambiente();
+    this.ambiente = new Ambiente();      //meter en el servicio y hacer una funcion connect
     console.log(this.ambiente.path) 
     this.socket = io(this.ambiente.path);
     //this.usuario= new Modelusuario();
   }
 
   joinChat() {
-    this.socket.connect();
-    this.socket.emit('set-username', this.username);
+    this.chatService.connectSocket(this.username);
+    //this.socket.emit('set-username', this.username);
     this.goRoom();
   }
 
