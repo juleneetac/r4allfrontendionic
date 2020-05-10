@@ -34,7 +34,8 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
-  },  {
+  },
+  {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
@@ -43,7 +44,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
   },
   {
-    path: 'chatroom',
+    path: 'chatroom/:username',
     loadChildren: () => import('./pages/chatroom/chatroom.module').then( m => m.ChatroomPageModule)
   },
   {

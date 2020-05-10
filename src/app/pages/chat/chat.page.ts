@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { ChatService } from 'src/app/services/serviceChat/chat.service';
 import { Ambiente } from 'src/app/services/ambiente';
+import { NavController } from '@ionic/angular';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class ChatPage {
   //message: string;
   //messages: string[] = [];
 
+  listaUsuarios: string[];
   ambiente: Ambiente;
   private socket;
   user = JSON.parse(this.storage.getUser());
@@ -41,24 +43,31 @@ export class ChatPage {
     private storage: StorageComponent,
     private router: Router,
     private chatService: ChatService,
+    public navCtrl: NavController, 
     //private socket,
     
   ) { 
-    this.ambiente = new Ambiente();      //meter en el servicio y hacer una funcion connect
-    console.log(this.ambiente.path) 
-    this.socket = io(this.ambiente.path);
+    // this.ambiente = new Ambiente();      //meter en el servicio y hacer una funcion connect
+    // console.log(this.ambiente.path) 
+    // this.socket = io(this.ambiente.path);
     //this.usuario= new Modelusuario();
   }
+  async ngOnInit() {
+    
+    this.chatService.connectSocket(this.username) //lo hemos puesto en main para crear el socekt una vez abrimos aplicacion
+    this.chatService.getList().subscribe((list: string[]) => {
+    this.listaUsuarios = list.filter(item => item[0] !== this.username);  //aqui lo que hace es que no coge el propio nombre
+                                                                            //que es el que esta en localstorage
+  });
+  this.chatService.forceGetList();
 
-  joinChat() {
-    this.chatService.connectSocket(this.username);
-    //this.socket.emit('set-username', this.username);
-    this.goRoom();
   }
 
-  goRoom() {
-    this.router.navigateByUrl("chatroom")
+  goRoom(username: string) {
+    this.navCtrl.navigateForward('/chatroom/' + `${username}`);
+    //this.storedMessages.filter((item) => item.author === name).forEach((msg) => msg.read = true);
   }
+
 
 
 

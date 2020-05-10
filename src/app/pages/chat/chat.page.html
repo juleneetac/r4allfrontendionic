@@ -5,12 +5,27 @@
 </ion-header>
 
 <ion-content>
-    <ion-item>
-    <ion-label stacked>Set Nickname: </ion-label>
-    <ion-input type="text" [(ngModel)]="username" placeholder="Username"></ion-input>
-  </ion-item>
-  <ion-button full (click)="joinChat()" [disabled]="username === ''">Join Chat as {{ username }}</ion-button>
-
+  <ion-list>
+    <ion-list-header>
+      Global Chat
+    </ion-list-header>
+    <ion-list-header>
+      Online
+    </ion-list-header>
+    <ion-item *ngFor="let userItem of listaUsuarios" (click)="goRoom(userItem[0])">
+        
+        <ion-label>
+          <h2>{{ userItem[0] }}</h2>
+          <!-- <h3 *ngIf="filterLast(userItem[0]) !== undefined">
+            <span *ngIf="filterLast(userItem[0]).author === user.name">
+              <b>You: </b>
+            </span>
+            {{filterLast(userItem[0]).text}}
+          </h3> -->
+        </ion-label>
+    </ion-item>
+  </ion-list>
+ 
 </ion-content>
 
   <!-- <ion-item color="medium">

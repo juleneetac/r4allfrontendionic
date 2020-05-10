@@ -19,6 +19,7 @@ import { ChatService } from 'src/app/services/serviceChat/chat.service';
   styleUrls: ['./chatroom.page.scss'],
 })
 export class ChatroomPage implements OnInit {
+  
   // message = '';
   user = JSON.parse(this.storage.getUser());
   username = this.user.username;
@@ -35,70 +36,72 @@ export class ChatroomPage implements OnInit {
     private chatService: ChatService,
     private storage: StorageComponent,
     private router: Router,
-    public navCtrl: NavController, 
     //private socket: Socket,
     private toastCtrl: ToastController,
     private route: ActivatedRoute
   ) { 
 
-    this.namedestino = this.route.snapshot.paramMap.get('name');
+    this.namedestino = this.route.snapshot.paramMap.get('username');
     //setTimeout(() => this.scrollToBottom(), 500);
-
 
 
     // this.getMessages().subscribe(message => {
     //   this.messages.push(message);
     // });
  
-    this.getUsers().subscribe(data => {
-      let user = data['user'];
-      if (data['event'] === 'left') {
-        this.showToast('User left: ' + user);
-      } else {
-        this.showToast('User joined: ' + user);
-      }
-    });
+    // this.getUsers().subscribe(data => {
+    //   let user = data['user'];
+    //   if (data['event'] === 'left') {
+    //     this.showToast('User left: ' + user);
+    //   } else {
+    //     this.showToast('User joined: ' + user);
+    //   }
+    // });
   }
 
   async ngOnInit() {
 
-    this.chatService.getMessages().subscribe((data: {message, username}) => {
-        if (data.username === this.namedestino) {
-          this.messages.push(new Modelmessage(data.username, this.namedestino, data.message, new Date()));
+    this.chatService.getMessages().subscribe((data: {message, username2}) => {
+        if (data.username2 === this.namedestino) {
+          this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, new Date()));
+          setTimeout(() => 50);
         }
       
     });
   }
 
-  getUsers() {
-    let observable = new Observable(observer => {
-      this.socket.on('users-changed', (data) => {
-        observer.next(data);
-      });
-    });
-    return observable;
-  }
 
-  sendMessage() {
+  sendMessage(text: string) {
+    this.message = text;
     if (this.message.replace(/\s/g, '').length) {
      
-        this.messages.push(new Modelmessage(this.user.username, this.namedestino,this.message, new Date()));
+        this.messages.push(new Modelmessage(this.username, this.namedestino,this.message, new Date()));
         this.chatService.sendMessage(this.message, this.namedestino);
         //setTimeout(() => this.scrollToBottom(), 50);
-      
       }
     }
 
 
-  ionViewWillLeave() {
-    this.socket.disconnect();
-  }
+  // ionViewWillLeave() {
+  //   this.socket.disconnect();
+  // }
 
-  async showToast(msg) {
-    let toast = await this.toastCtrl.create({
-      message: msg,
-      duration: 2000
-    });
-    toast.present();
-  }
 }
+
+// getUsers() {
+  //   let observable = new Observable(observer => {
+  //     this.socket.on('users-changed', (data) => {
+  //       observer.next(data);
+  //     });
+  //   });
+  //   return observable;
+  // }
+
+
+  // async showToast(msg) {
+  //   let toast = await this.toastCtrl.create({
+  //     message: msg,
+  //     duration: 2000
+  //   });
+  //   toast.present();
+  // }

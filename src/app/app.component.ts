@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from "@angular/router";
 import { AuthService } from './services/serviceAuth/auth.service';
+import { ChatService } from './services/serviceChat/chat.service';
 
 
 @Component({
@@ -89,6 +90,7 @@ constructor(
     //public storage: StorageComponent,
     private statusBar: StatusBar,
     public auth: AuthService,
+    public chatService: ChatService,
   ) 
   
   {
@@ -97,9 +99,10 @@ constructor(
 
   logout(){
     this.auth.logout();
+    this.chatService.disconnectSocket();
+
   }
   checkButton(index :number){
-    console.log("incorrecto" + index)
     if (index==5){
       console.log(index)
     this.logout();

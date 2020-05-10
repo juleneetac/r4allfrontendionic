@@ -3,6 +3,8 @@ import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service'
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
+import { ChatService } from 'src/app/services/serviceChat/chat.service';
+import { StorageComponent } from 'src/app/storage/storage.component';
 
 @Component({
   selector: 'app-main',
@@ -13,14 +15,21 @@ export class MainPage implements OnInit {
 
   constructor(
     private usuariosService: UsuarioService,
-    private torneosService: TorneoService
+    private torneosService: TorneoService,
+    private chatService: ChatService,
+    private storage: StorageComponent,
   ) { }
 
   listausuarios: Modelusuario[];       //Lista de Usuarios
   listatorneos: Modeltorneo[];         //Lista de Torneos
   usuariologueado: Modelusuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
 
+  user = JSON.parse(this.storage.getUser());
+  username = this.user.username;
+
   ngOnInit() {
+    
+
     //-------- PRUEBA DE USUARIOLOGUEADO --------//
     this.usuariologueado = new Modelusuario();
     this.usuariologueado.username = "Lorem Ipsum";

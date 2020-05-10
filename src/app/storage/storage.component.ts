@@ -32,6 +32,14 @@ export class StorageComponent implements OnInit {
         return localStorage.getItem('user');
     }
 
+    saveSocket(socket){
+        localStorage.setItem('socket', socket);
+    }
+
+    getSocket(){
+        return localStorage.getItem('socket');
+    }
+
     clearStorage(){
         return localStorage.clear();
     }
