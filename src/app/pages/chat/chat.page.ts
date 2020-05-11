@@ -64,7 +64,8 @@ export class ChatPage {
   }
 
   goRoom(username: string) {
-    this.navCtrl.navigateForward('/chatroom/' + `${username}`);
+    //this.navCtrl.navigateForward('/chatroom/' + `${username}`);  //con navigate
+    this.router.navigateByUrl('/chatroom/' + `${username}`);   //con router
     //this.storedMessages.filter((item) => item.author === name).forEach((msg) => msg.read = true);
   }
 
