@@ -82,8 +82,10 @@ loginUser(event){
             await this.storage.saveToken(this.usuario.jwt);
             await this.storage.saveUser(JSON.stringify(this.usuario));
             this.auth.loginLocal();
-            await this.goProfile();
             
+            //await this.goProfile();
+            await this.goMain();    //Que al loguearte vayas al Main, ya en el register vas al Perfil para ver el que acabas de crear
+
             //console.log(String(this.auth.authenticationState));
             await toast.present();
             //rutas

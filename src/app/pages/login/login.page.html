@@ -14,17 +14,19 @@
               <h3 class="no-margin">Inicia sesión con tu cuenta de Rackets4All</h3>
               <h5 class="no-margin">O autentícate con Facebook</h5>
             </div>
-                <ion-item class="ion-padding-top">
+                <ion-item class="ion-padding-top" lines="none">
                   <!-- <ion-label class= "text" >Username:  </ion-label> -->
                   <ion-input class= "inp"type="text" name="username" placeholder="Username" [(ngModel)]="username"></ion-input>
                 </ion-item>
               
-              <ion-item class="ion-padding-top">
+              <ion-item class="ion-padding-top" lines="none">
                 <!-- <ion-label class= "text">Contraseña:  </ion-label> -->
                 <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="password"></ion-input>
               </ion-item>
               <div>
-                <ion-button size="large" color="tertiary" type="submit" >LOGIN</ion-button>
+                <ion-row class="ion-justify-content-center">
+                    <ion-button size="large" color="tertiary" type="submit" fill="outline">LOGIN</ion-button>
+                </ion-row>
               </div>
             
           </ion-col>
