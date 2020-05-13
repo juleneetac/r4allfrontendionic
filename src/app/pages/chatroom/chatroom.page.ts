@@ -29,7 +29,7 @@ export class ChatroomPage implements OnInit {
   message: string;
   messages = [];
   namedestino: string;
-  //messages: Message[];
+  //messages: SchemaM[];
 
   constructor(
     private usuariosSevice: UsuarioService,
@@ -64,6 +64,12 @@ export class ChatroomPage implements OnInit {
 
   async ngOnInit() {
 
+    await this.chatService.getMessagesAlmacenados().toPromise().then((data) => {  //coger los mensajes de la colecions mensajes
+      // tslint:disable-next-line:max-line-length
+      console.log(data);
+      this.messages =  data.filter((item) => (item.author === this.namedestino || item.destination === this.namedestino));
+    });
+     
     this.chatService.getMessages().subscribe((data: {message, username2}) => {
         if (data.username2 === this.namedestino) {
           this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, new Date()));

@@ -16,6 +16,8 @@ import { StorageComponent } from './storage/storage.component';
 })
 export class AppComponent{
 
+  localperfil: string;
+
   public appPages = [
     {
       title: 'Home',
@@ -104,9 +106,12 @@ constructor(
   logout(){
     this.auth.logout();
     this.chatService.disconnectSocket();
-
   }
+
   checkButton(index :number){
+
+    //this.localperfil =  JSON.parse(this.storage.getUser());
+    console.log()
     if (index==5){
       console.log(index)
       this.logout();
@@ -115,8 +120,8 @@ constructor(
   }
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+    this.statusBar.styleDefault();
+    this.splashScreen.hide();
     });
   }
 }

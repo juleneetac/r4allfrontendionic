@@ -60,11 +60,11 @@ export class ChatService {
   }
 
    //para enviar un mensaje al backend con socket
-   public sendMessage(message, destination) {
+   public sendMessage(mensaje, destination) {
     console.log(this.socket)
-    console.log(message, destination);
-    this.socket.emit('message', { message, destination});
-    let body = {author: this.username, destination, message};
+    console.log(mensaje, destination);
+    this.socket.emit('message', { mensaje, destination});
+    let body = {author: this.username, destination, mensaje};
     this.http.post(this.ambiente.urlMensaje + `/addmsg`, body).toPromise().catch((err) => console.log(err));
   }
 

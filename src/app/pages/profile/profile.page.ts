@@ -22,7 +22,7 @@ export class ProfilePage implements OnInit {
   constructor(
     public auth: AuthService, 
     private usuariosSevice: UsuarioService,
-    private storage: StorageComponent
+    private storage: StorageComponent,
     ) { }
 
     
