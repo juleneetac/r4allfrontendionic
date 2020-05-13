@@ -10,6 +10,7 @@ import { Modelregister } from 'src/app/models/modelRegister/modelregister';
 import { getLocaleMonthNames } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { ChatService } from 'src/app/services/serviceChat/chat.service';
 
 @Component({
   selector: 'app-register',
@@ -32,10 +33,11 @@ constructor(
   private torneoService: TorneoService, 
   private router: Router,  
   private formBuilder: FormBuilder,
-  public toastController: ToastController
+  public toastController: ToastController,
+  private chatService: ChatService,
   ) { 
  
- 
+  this.chatService.connectSocket(this.username)
   this.registerForm = this.formBuilder.group({
 
     username: new FormControl('', Validators.compose([

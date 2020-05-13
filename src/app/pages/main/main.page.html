@@ -6,268 +6,40 @@
       <ion-buttons slot="start">
         <ion-menu-button auto-hide="false"></ion-menu-button>
       </ion-buttons>
-  
-      <ion-title>Bienvenido a Rackets4All, {{usuariologueado.username}}</ion-title>
+
+      <ion-title class="ion-text-center">Página Principal</ion-title>
     </ion-toolbar>
-  
+
   </ion-header>
   
+  <ion-content>
+    <ion-tabs>
+
+      <ion-tab-bar slot="bottom" color="dark">
   
-  <ion-content padding="true">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-
-          <ion-card>
-            <ion-card-header>
-              <ion-grid>
-
-                <ion-row>
-                  <ion-col size="10">
-                    <ion-card-title>Usuarios</ion-card-title>
-                  </ion-col>
-                  <ion-col size="2">
-                    <ion-button color="dark" fill="clear" (click)="getUsuarios()">
-                      <ion-icon slot="icon-only" name="refresh"></ion-icon>
-                    </ion-button>
-                  </ion-col>
-                </ion-row>
-
-                <ion-row>
-                  <ion-item>
-                    <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-                    <ion-col>
-                      <ion-label>Sexo</ion-label>
-                    </ion-col>
-                    <ion-col>
-                      <ion-segment value="Sexo">
-                        <ion-segment-button value="hombre">
-                          <ion-label>M (masculino)</ion-label>
-                        </ion-segment-button>
-                        <ion-segment-button value="mujer">
-                          <ion-label>F (femenino)</ion-label>
-                        </ion-segment-button>
-                      </ion-segment>
-                    </ion-col>
-                  </ion-item>
-                </ion-row>
-
-                <ion-row>
-                  <ion-item>
-                    <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-                    <ion-col>
-                        <ion-label>Edad</ion-label>
-                    </ion-col>
-                    <ion-col>
-                      <ion-input type="number" placeholder="Max"></ion-input>
-                    </ion-col>
-                    <ion-col>
-                      <ion-input type="number" placeholder="Min"></ion-input>
-                    </ion-col>
-                  </ion-item>
-                </ion-row>
-                
-                <ion-row>
-                  <ion-item>
-                    <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-                    <ion-col>
-                        <ion-label>Experiencia</ion-label>
-                    </ion-col>
-                    <ion-col>
-                      <ion-input type="number" placeholder="Max"></ion-input>
-                    </ion-col>
-                    <ion-col>
-                      <ion-input type="number" placeholder="Min"></ion-input>
-                    </ion-col>
-                  </ion-item>
-                </ion-row>
-
-                <ion-row>
-                  <ion-item>
-                    <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-                    <ion-col>
-                        <ion-label>Valoración</ion-label>
-                    </ion-col>
-                    <ion-col>
-                      <ion-input type="number" placeholder="Max"></ion-input>
-                    </ion-col>
-                    <ion-col>
-                      <ion-input type="number" placeholder="Min"></ion-input>
-                    </ion-col>
-                  </ion-item>
-                </ion-row>
-
-
-              </ion-grid>
-            </ion-card-header>
-          
-            <ion-card-content>
-              <ion-list>
-                <ion-list-header>Lista de Usuarios</ion-list-header>
-                  <ion-item *ngFor = "let usuario of listausuarios">
-                    <ion-avatar slot="start">
-                      <img src="../../../assets/icon/favicon.png">
-                    </ion-avatar>
-                    <ion-label> 
-                      {{usuario.username}}
-                      <h3>{{usuario.ubicacion}}</h3>
-                      <p>{{usuario.sexo}} | Edad: {{usuario.edad}} | {{usuario.exp}} XP | Valoracion: {{usuario.valoracion}}</p>
-                    </ion-label>
-                    <ion-button fill="clear" color="success">
-                      <ion-icon slot="icon-only" name="add"></ion-icon>
-                    </ion-button>
-                  </ion-item>
-              </ion-list>
-            </ion-card-content>
-
-          </ion-card>
-        </ion-col>
-        
-        
-
-        <ion-col>
-          <ion-card>
-            <ion-card-header>
-              <ion-grid>
-
-                <ion-row>
-                  <ion-col size="10">
-                    <ion-card-title>Torneos</ion-card-title>
-                  </ion-col>
-                  <ion-col size="2">
-                    <ion-button color="dark" fill="clear" (click)="getTorneos()">
-                      <ion-icon slot="icon-only" name="refresh"></ion-icon>
-                    </ion-button>
-                  </ion-col>
-                </ion-row>
-
-                <ion-row>
-                  <ion-item>
-                    <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-                    <ion-col>
-                        <ion-label>Organizador</ion-label>
-                    </ion-col>
-                    <ion-col>
-                      <ion-input type="text" placeholder="ID del Organizador"></ion-input>
-                    </ion-col>
-                  </ion-item>
-                </ion-row>
-
-                <ion-row>
-                  <ion-item>
-                    <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-                    <ion-label>Pista Cubierta</ion-label>
-                    <ion-toggle slot="start" name="pistacubierta" color="tertiary" checked></ion-toggle>
-                  </ion-item>
-                </ion-row>
-
-                <ion-row>
-                  <ion-item>
-                    <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-                    <ion-col>
-                        <ion-label>Tipo de Pista</ion-label>
-                    </ion-col>
-                    <ion-col size="15">
-                      <ion-select value="tipopista" placeholder="Seleccionar">
-                        <ion-select-option value="TierraBatida">Tierra Batida</ion-select-option>
-                        <ion-select-option value="Cesped">Césped</ion-select-option>
-                      </ion-select>
-                    </ion-col>
-                  </ion-item>
-                </ion-row>
-                
-                <ion-row>
-                  <ion-item>
-                    <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-                    <ion-col>
-                      <ion-label>Modo</ion-label>
-                    </ion-col>
-                    <ion-col>
-                      <ion-segment value="modo">
-                        <ion-segment-button value="individuales">
-                          <ion-label>Individuales</ion-label>
-                        </ion-segment-button>
-                        <ion-segment-button value="dobles">
-                          <ion-label>Dobles</ion-label>
-                        </ion-segment-button>
-                      </ion-segment>
-                    </ion-col>
-                  </ion-item>
-                </ion-row>
-
-
-                <ion-row>
-                  <ion-item>
-                    <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-                    <ion-col>
-                        <ion-label>Número de Participantes</ion-label>
-                    </ion-col>
-                    <ion-col>
-                      <ion-input type="number" placeholder="Max"></ion-input>
-                    </ion-col>
-                    <ion-col>
-                      <ion-input type="number" placeholder="Min"></ion-input>
-                    </ion-col>
-                  </ion-item>
-                </ion-row>
-
-
-              </ion-grid>
-            </ion-card-header>
-          
-            <ion-card-content>
-              <ion-list>
-                <ion-list-header>Lista de Torneos</ion-list-header>
-                  <ion-item *ngFor = "let torneo of listatorneos">
-                    <ion-label> 
-                      {{torneo.ubicacion}}
-                      <h3>Organizado por: {{torneo.organizador}}</h3>
-                      <p> {{torneo.modo}} | {{torneo.tipopista}} | Pista cubierta: {{torneo.pistacubierta}} | Participantes: {{torneo.participantes.length}} </p>
-                    </ion-label>
-                    <ion-button fill="clear" color="success">
-                      <ion-icon slot="icon-only" name="add"></ion-icon>
-                    </ion-button>
-                  </ion-item>
-              </ion-list>
-            </ion-card-content>
-
-          </ion-card>  
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-
-  </ion-content>
-
-  
-  <ion-footer>
-    <ion-toolbar>
-      <ion-tabs>
-
-        <ion-tab-bar slot="bottom" color="dark">
+        <ion-tab-button tab="dashboard">
+          <ion-icon name="grid"></ion-icon>
+          <ion-label>Dashboard</ion-label>
+        </ion-tab-button>
     
-          <ion-tab-button tab="dashboard">
-            <ion-icon name="home"></ion-icon>
-            <ion-label>Dashboard</ion-label>
-          </ion-tab-button>
-      
-          <ion-tab-button tab="usuarios">
-            <ion-icon name="people"></ion-icon>
-            <ion-label>Usuarios</ion-label>
-          </ion-tab-button>
-      
-          <ion-tab-button tab="torneos">
-            <ion-icon name="trophy"></ion-icon>
-            <ion-label>Torneos</ion-label>
-          </ion-tab-button>
-      
-          <ion-tab-button tab="mapa">
-            <ion-icon name="map"></ion-icon>
-            <ion-label>Mapa</ion-label>
-          </ion-tab-button>
-        </ion-tab-bar>
-      </ion-tabs>
-    </ion-toolbar> 
-  </ion-footer> 
+        <ion-tab-button tab="usuarios">
+          <ion-icon name="people"></ion-icon>
+          <ion-label>Usuarios</ion-label>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="torneos">
+          <ion-icon name="trophy"></ion-icon>
+          <ion-label>Torneos</ion-label>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="mapas">
+          <ion-icon name="map"></ion-icon>
+          <ion-label>Mapas</ion-label>
+        </ion-tab-button>
+
+      </ion-tab-bar>
+
+    </ion-tabs>
+  </ion-content>
 
 </ion-app>

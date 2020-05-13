@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from "@angular/router";
 import { AuthService } from './services/serviceAuth/auth.service';
+import { ChatService } from './services/serviceChat/chat.service';
+import { StorageComponent } from './storage/storage.component';
 
 
 @Component({
@@ -12,7 +14,10 @@ import { AuthService } from './services/serviceAuth/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent{
+
+  localperfil: string;
+
   public appPages = [
     {
       title: 'Home',
@@ -60,7 +65,7 @@ export class AppComponent {
 
      {
       title: 'Chat',
-      //url: '/chat',
+      url: '/chat',
       icon: 'chatbox-ellipses'
      },
 
@@ -89,27 +94,34 @@ constructor(
     //public storage: StorageComponent,
     private statusBar: StatusBar,
     public auth: AuthService,
+    public chatService: ChatService,
+    public storage: StorageComponent
   ) 
   
   {
     this.initializeApp();
   }
 
+
   logout(){
     this.auth.logout();
+    this.chatService.disconnectSocket();
   }
+
   checkButton(index :number){
-    console.log("incorrecto" + index)
+
+    //this.localperfil =  JSON.parse(this.storage.getUser());
+    console.log()
     if (index==5){
       console.log(index)
-    this.logout();
+      this.logout();
     }
 
   }
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+    this.statusBar.styleDefault();
+    this.splashScreen.hide();
     });
   }
 }

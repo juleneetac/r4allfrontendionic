@@ -6,12 +6,13 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Modelregister } from 'src/app/models/modelRegister/modelregister';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService { 
   loginn: Modellogin;
-  ambiente: Ambiente;           //no se lo que hace pero se tiene que poner
+  ambiente: Ambiente;       
 
   //-----PRUEBA DE BERNAT-----//
   id: string;
@@ -33,6 +34,7 @@ export class UsuarioService {
   getUsuarios(filtros): Observable<Modelusuario[]>{
     return this.http.post<Modelusuario[]>(this.ambiente.urlUsuario + '/getusrs', filtros);  
   }
+  
   getAllUsuarios(): Observable<Modelusuario[]>{  //esto es el observable. me da un array de usuarios
     return this.http.get<Modelusuario[]>(this.ambiente.urlUsuario + '/getallusrs');  //me da todos los usuarios del sistema
   }
@@ -40,23 +42,10 @@ export class UsuarioService {
   getUsuario(usuarioid): Observable<Modelusuario>{
     return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getusr/${usuarioid}`);  
   }
-
-
-  //-----ELIMINARLA CUANDO TENGAMOS EL LOCAL STORAGE-----//
-  getIdOfUser(username): Observable<string>{
-    return this.http.get<string>(`${this.ambiente.urlUsuario}/getidofuser/${username}`);
+  
+  getUsuariobyusername(username: string): Observable<Modelusuario> {
+    return this.http.get<Modelusuario>(this.ambiente.urlUsuario + `/getusrbyname/${username}`);
   }
-
-  getPassOfUser(id): Observable<string>{
-    return this.http.get<string>(`${this.ambiente.urlUsuario}/getpassofuser/${id}`)
-  }
-
- /*  getAvatarOfUser(id) { `${this.ambiente.urlUsuario}/getusr/${id}`
-    return this.http.get<string>(`${this.ambiente.urlUsuario}/avatar/${id}`)
-  } */
- /*   getUser(_id:string):Observable<Modelusuario> {
-    return this.http.get<Modelusuario>("http://localhost:7000/usr/getusr/"+`${_id}`)
-  }  */
 
   updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, photo:File, id: string){
 

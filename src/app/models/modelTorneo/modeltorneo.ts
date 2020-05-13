@@ -9,6 +9,6 @@ export class Modeltorneo {
     ubicacion: string;
     ganador: Modelusuario;
     //puntos: Number;   //ni idea, creo que mejor borrarla
-    organizador: Modelusuario;
+    organizador: string;
     participantes: [Modelusuario];
 }

@@ -34,9 +34,26 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
-  },  {
+  },
+  {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'chatroom/:username',
+    loadChildren: () => import('./pages/chatroom/chatroom.module').then( m => m.ChatroomPageModule)
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () => import('./pages/main-tabs/usuarios/usuarios.module').then( m => m.UsuariosPageModule)
+  },
+  {
+    path: 'torneos',
+    loadChildren: () => import('./pages/main-tabs/torneos/torneos.module').then( m => m.TorneosPageModule)
   },
 
 ];

@@ -10,6 +10,8 @@ import { StorageComponent } from 'src/app/storage/storage.component';
   providedIn: 'root'
 })
 export class AuthService {
+  public localperfil;// = JSON.parse(this.storage.getUser());
+
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
     createAuth0Client({
@@ -131,8 +133,15 @@ export class AuthService {
     loginLocal() {//user: CredentialsResponse
    //   return this.storage.set(this.AUTH_DATA, user).then(() => {
           this.authenticationState= true;
+          
      // });
     }
+    putUsername(){
+      this.localperfil =  JSON.parse(this.storage.getUser());
+      return this.localperfil.username;
+
+    }
+
   
 
 }

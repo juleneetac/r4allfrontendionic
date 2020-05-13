@@ -97,6 +97,7 @@
       <ion-content *ngIf="auth.loggedIn || auth.authenticationState">
         <ion-list id="inbox-list">
           <ion-list-header *ngIf="auth.userProfile$ | async as profile">R4all:  {{profile.given_name}} </ion-list-header>
+          <ion-list-header *ngIf="auth.authenticationState">R4all:  {{auth.putUsername()}} </ion-list-header>
           <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
           <ion-menu-toggle auto-hide="false" *ngFor="let o of appOut; let i = index">
             <ion-item (click)="checkButton(i)" routerDirection="root" [routerLink]="[o.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
