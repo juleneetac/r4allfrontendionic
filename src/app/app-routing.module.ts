@@ -38,7 +38,8 @@ const routes: Routes = [
   {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
-  },  {
+  },
+  {
     path: 'usuarios',
     loadChildren: () => import('./pages/main-tabs/usuarios/usuarios.module').then( m => m.UsuariosPageModule)
   },

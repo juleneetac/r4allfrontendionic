@@ -28,16 +28,8 @@ export class LoginPage implements OnInit {
 
   ) { }
 
-//usuarios: Modelusuario[]; en el login no es necesario
-//torneos: Modeltorneo[];
 password: string;
 username: string;
-
-//user
-
-//-----PROVISIONAL-----//
-//miStorage = window.localStorage;
-
 
 ngOnInit(){
 }
@@ -56,13 +48,6 @@ loginUser(event){
   event.preventDefault()
   console.log(event)
   let credencial: Modellogin = new Modellogin(this.username, this.password)
-  //-----PROVISIONAL-----//
-/*   localStorage.setItem("username", this.username);
-  this.usuario = localStorage.getItem("userneme");
-  console.log('eeeeeeee')
-  console.log(this.usuario);
-  console.log('oooooooo')
-  localStorage.setItem("password", this.password); */
 
   this.usuarioService.login(credencial).subscribe(
     async res =>{
@@ -84,7 +69,7 @@ loginUser(event){
             this.auth.loginLocal();
             
             //await this.goProfile();
-            await this.goMain();    //Que al loguearte vayas al Main, ya en el register vas al Perfil para ver el que acabas de crear
+            await this.goMain();    //Que al loguearte vayas al Main
 
             //console.log(String(this.auth.authenticationState));
             await toast.present();

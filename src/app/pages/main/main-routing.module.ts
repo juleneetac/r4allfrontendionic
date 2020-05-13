@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainPage } from './main.page';
 import { UsuariosPageModule } from '../main-tabs/usuarios/usuarios.module';
 import { TorneosPageModule } from '../main-tabs/torneos/torneos.module';
+import { MapasPageModule } from '../main-tabs/mapas/mapas.module';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'torneos',
         loadChildren: () => import('../main-tabs/torneos/torneos.module').then(m => TorneosPageModule)
+      },
+      {
+        path:'mapas',
+        loadChildren: () => import('../main-tabs/mapas/mapas.module').then(m => MapasPageModule)
       },
       {
         path: '',

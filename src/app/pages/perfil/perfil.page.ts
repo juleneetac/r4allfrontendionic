@@ -141,54 +141,6 @@ export class PerfilPage implements OnInit {
     }
   }
 
-/*   contraseña1, contraseña2, mail, sexo, ubicacion, edad, experiencia
- */
-getIdOfUser(usernombre){
-    console.log(this.usernombre);
-    this.usuariosSevice.getIdOfUser(this.usernombre)
-    .subscribe(
-      (res) => {
-        this.user._id = res as string;
-        console.log(res);
-        console.log("pppoa pppoe")
-        console.log(this.user._id);
-      },
-      (err) => {
-        console.log(err);
-      });
-  }
-
-
-getPassOfUser(id){
-  console.log("getpass")
-console.log(this.user._id)
-console.log(id);
-this.usuariosSevice.getPassOfUser(this.user._id)
-.subscribe(
-  (res) => {
-    this.passold = res as string;
-    console.log(res);
-    console.log("eeeeeeeee")
-    console.log(this.passold);
-  },
-  (err) => {
-    console.log(err);
-  });
-}
-
-/* getAvatarOfUser(){
-  console.log(this.id);
-  this.usuariosSevice.getAvatarOfUser(this.id)
-  .subscribe(
-    (res) => {
-      this.avatar = res;
-      console.log(res);
-      console.log("uiuiui")   
-    },
-    (err) => {
-      console.log(err);
-    });
-} */
 
 goProfile() {
   this.router.navigateByUrl("profile")
@@ -240,24 +192,25 @@ goProfile() {
 
               else{
               this.usuariosSevice.updateUsuario(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.file, this.user._id)
-              .subscribe(  //para actualizar el usuario con lo que quiero editar
-                        async res => {
-                        console.log(res);
-                        const response: any = res;
-                       // this.usuario = response.usuario;
-                        //this.usuario.jwt = response.jwt;
-                        //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
-                        //Save info locally
-                        //await this.storage.saveToken(this.usuario.jwt);
-                        //await this.storage.saveUser(JSON.stringify(this.usuario));
-                        await this.goProfile();
-                        await toast.present();
-                      },
-                      (err) => {
-                        console.log(err);
-                      });  
+                .subscribe(  //para actualizar el usuario con lo que quiero editar
+                  async res => {
+                  console.log(res);
+                  const response: any = res;
+                  // this.usuario = response.usuario;
+                  //this.usuario.jwt = response.jwt;
+                  //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+                  //Save info locally
+                  //await this.storage.saveToken(this.usuario.jwt);
+                  //await this.storage.saveUser(JSON.stringify(this.usuario));
+
+                  await this.goProfile();
+                  await toast.present();
+                },
+                (err) => {
+                  console.log(err);
+                });  
               
-                  }
+              }
             },
             err => {
               console.log(err);
@@ -313,21 +266,6 @@ private async handleError(err: HttpErrorResponse) {
     // } 
 
     // }
-
-
-   /* getUser(id){
-    this.usuariosSevice.getUser(id)
-    .subscribe(
-      (res) => {
-        this.user = res;
-        console.log(res);
-        console.log (this.user);
-      },
-      (err) => {
-        console.log(err);
-      });
-  }  */
-
 
   //validar password
 // difpassword(formGroup: FormGroup) {

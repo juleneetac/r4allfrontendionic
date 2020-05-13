@@ -8,67 +8,73 @@
 <ion-content>
   <pre *ngIf="auth.userProfile$ | async as profile">
     <code>{{ profile | json }}</code>
-    </pre>
+  </pre>
   <pre *ngIf="auth.authenticationState">
-  Nombre:<code>{{localperfil.username}}</code>
-  El resto de cosas saldran mas adelante, esto es una prueba
-    
-  <ion-col size="12">
-    <div class="row">
-    <ion-card>
-        <ion-card-header>
-          <ion-card-title>Perfil</ion-card-title>
-        </ion-card-header>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Perfil</ion-card-title>
+          </ion-card-header>
       
-        <ion-card-content>
-          <ion-item>
+          <ion-card-content>
+            <ion-item>
               <ion-avatar>
                   <ion-img [src]="'http://localhost:7000/'+ localperfil.rutaimagen"></ion-img>
               </ion-avatar>
             </ion-item>
 
-      <ion-item>
-        <label>
-          Nombre de usuario: {{ localperfil.username }} 
-        </label>
-      </ion-item>
-
-      <br>
-    <ion-item>
-      <label>
-        id: {{localperfil._id}}
-      </label>
-    </ion-item>
-
-      <br>
-      <label>
-        Correo: {{localperfil.mail}}
-      </label>
-      <br>
-      <label>
-        Edad: {{localperfil.edad}}
-      </label>
-      <br>
-      <label>
-        Sexo: {{localperfil.sexo}}
-      </label>
-      <br>
-      <label>
-        Ubicación: {{localperfil.ubicacion}}
-      </label>
-      <br>
-      <label>
-        Torneos: {{localperfil.torneos}}
-      </label>
-      <br>
-      <label>
-        Foto de perfil: 
-        <img [src]="'http://localhost:7000/'+ localperfil.rutaimagen">
-      </label>
+            <ion-item>
+              <label>
+                Nombre de usuario: {{ localperfil.username }} 
+              </label>
+            </ion-item>
       
-      </ion-card-content>
-    </ion-card>
-  </div>
-  </ion-col>
-</pre>
+            <ion-item>
+              <label>
+                id: {{localperfil._id}}
+              </label>
+            </ion-item>
+
+            <ion-item>
+              <label>
+                Correo: {{localperfil.mail}}
+              </label>
+            </ion-item>
+              
+            <ion-item>
+              <label>
+                Edad: {{localperfil.edad}}
+              </label>
+            </ion-item>
+
+            <ion-item>
+              <label>
+                Sexo: {{localperfil.sexo}}
+              </label>
+            </ion-item>
+              
+            <ion-item>
+              <label>
+                Ubicación: {{localperfil.ubicacion}}
+              </label>
+            </ion-item>
+
+            <!-- <ion-item>
+              <label>
+                Torneos: {{localperfil.torneos}}
+              </label>
+            </ion-item> -->
+
+            <!-- <label>
+              Foto de perfil: 
+              <img [src]="'http://localhost:7000/'+ localperfil.rutaimagen">
+            </label> -->
+            
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </pre>
 </ion-content>

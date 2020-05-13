@@ -26,6 +26,8 @@ import { AuthinterceptorService } from './services/serviceInterceptor/authinterc
 // import { Main } from './components/main/main.component';
 //import {MatListModule} from "@angular/material/list";
 // import { MainPage } from './pages/main/main.page';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 
 @NgModule({
@@ -50,6 +52,8 @@ import { AuthinterceptorService } from './services/serviceInterceptor/authinterc
     HomePageModule
   ],
   providers: [
+    Geolocation,
+    NativeGeocoder,
     StatusBar,
     SplashScreen,
     ToastController,
