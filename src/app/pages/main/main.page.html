@@ -6,376 +6,40 @@
       <ion-buttons slot="start">
         <ion-menu-button auto-hide="false"></ion-menu-button>
       </ion-buttons>
-  
-      <ion-title>Página Principal</ion-title>
-      
+
+      <ion-title class="ion-text-center">Página Principal</ion-title>
     </ion-toolbar>
-  
+
   </ion-header>
   
+  <ion-content>
+    <ion-tabs>
+
+      <ion-tab-bar slot="bottom" color="dark">
   
-  <ion-content padding="true">
-    <ion-grid item-content>
-      <ion-row>
-        <ion-col>
-
-          <ion-card>
-            <ion-card-header>
-              <ion-grid>
-              
-                <form [formGroup]="listaUsuariosForm" (ngSubmit)="getUsuarios()">
-                  <ion-row>
-                    <ion-col size="11">
-                      <ion-card-title>Usuarios</ion-card-title>
-                    </ion-col>
-                    <ion-col size="1">
-                      <ion-button color="dark" fill="clear" type="submit" size="large">
-                        <ion-icon name="refresh"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                  </ion-row>
-
-                  <ion-row>
-                    <ion-item lines="none">
-                      <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[0]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-col>
-                          <ion-label>Nombre de Usuario:</ion-label>
-                      </ion-col>
-                      <ion-col>
-                        <ion-input type="text" placeholder="Nombre del Usuario" formControlName="usernameInput"></ion-input>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row>
-
-                  <ion-row>
-                    <ion-item lines="none">
-                      <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[1]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-col>
-                        <ion-label>Ubicación:</ion-label>
-                      </ion-col>
-
-                    </ion-item>
-                  </ion-row>
-
-                  <ion-row>
-                    <ion-item lines="none">
-                      <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[2]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-col>
-                        <ion-label>Sexo:</ion-label>
-                      </ion-col>
-                      <ion-col>
-                        <ion-segment value="m" (ionChange)="generoUsuarioSegmentChanged($event)">
-                          <ion-segment-button value="m">
-                            <ion-label>(M)asculino</ion-label>
-                          </ion-segment-button>
-                          <ion-segment-button value="f">
-                            <ion-label>(F)emenino</ion-label>
-                          </ion-segment-button>
-                        </ion-segment>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row>
-
-                  <ion-row>
-                    <ion-item lines="none">
-                      <ion-col size="3">
-                          <ion-label>Edad:</ion-label>
-                      </ion-col>
-
-                      <ion-col size="1">
-                        <ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[3]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      </ion-col>
-                      <ion-col size="2">
-                        <ion-input type="number" placeholder="Min" min="0" formControlName="minEdadInput"></ion-input>
-                      </ion-col>
-
-                      <ion-col size="1">
-                        <ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[4]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      </ion-col>
-                      <ion-col size="2">
-                        <ion-input type="number" placeholder="Max" min="0" formControlName="maxEdadInput"></ion-input>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row>
-                  
-                  <ion-row>
-                    <ion-item lines="none">
-
-                      <ion-col size="3">
-                          <ion-label>Experiencia:</ion-label>
-                      </ion-col>
-
-                      <ion-col size="1">
-                        <ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[5]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      </ion-col>
-                      <ion-col size="2">
-                        <ion-input type="number" placeholder="Min" min="0" formControlName="minExpInput"></ion-input>
-                      </ion-col>
-
-                      <ion-col size="1">
-                        <ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[6]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      </ion-col>
-                      <ion-col size="2">
-                        <ion-input type="number" placeholder="Max" min="0" formControlName="maxExpInput"></ion-input>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row>
-
-                  <ion-row>
-                    <ion-item lines="none">
-                      <ion-col size="3">
-                          <ion-label>Valoración</ion-label>
-                      </ion-col>
-                      
-                      <ion-col size="1">
-                        <ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[7]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      </ion-col>
-                      <ion-col size="2">
-                        <ion-input type="number" placeholder="Min" min="0" formControlName="minValoracionInput"></ion-input>
-                      </ion-col>
-                      
-                      <ion-col size="1">
-                        <ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[8]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      </ion-col>
-                      <ion-col size="2">
-                        <ion-input type="number" placeholder="Max" min="0" formControlName="maxValoracionInput"></ion-input>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row>
-                </form>
-
-              </ion-grid>
-            </ion-card-header>
-          
-
-            <ion-card-content>
-              <ion-list>
-                <ion-list-header>Lista de Usuarios</ion-list-header>
-                  <ion-item *ngFor = "let usuario of listaUsuarios">
-                    <ion-avatar slot="start">
-                      <img [src]="'http://localhost:7000/'+usuario.rutaimagen">
-                    </ion-avatar>
-                    <ion-label> 
-                      {{usuario.username}}
-                      <h1><ion-badge color="secondary">{{usuario.ubicacion}}</ion-badge></h1>
-                      <ion-chip outline color="tertiary">
-                        <ion-label *ngIf="usuario.sexo == 'm'">Hombre</ion-label>
-                        <ion-label *ngIf="usuario.sexo == 'f'">Mujer</ion-label>
-                      </ion-chip>
-                      <ion-chip outline color="secondary">
-                        <ion-label>{{usuario.edad}} Años</ion-label>
-                      </ion-chip>
-                      <ion-chip outline color="danger">
-                        <ion-label>{{usuario.exp}} XP</ion-label>
-                      </ion-chip>
-                      <ion-chip outline color="success">
-                        <ion-label>Valoración {{usuario.valoracion}}</ion-label>
-                      </ion-chip>
-                    </ion-label>
-                    <ion-button fill="clear" color="success" size="large">
-                      <ion-icon name="add"></ion-icon>
-                    </ion-button>
-                  </ion-item>
-              </ion-list>
-            </ion-card-content>
-
-          </ion-card>
-        </ion-col>
-
-        
-
-        <ion-col>
-          <ion-card>
-            <ion-card-header>
-              <ion-grid>
-
-                <form [formGroup]="listaTorneosForm" (ngSubmit)="getTorneos()">
-                  <ion-row>
-                    <ion-col size="11">
-                      <ion-card-title>Torneos</ion-card-title>
-                    </ion-col>
-                    <ion-col size="1">
-                      <ion-button color="dark" fill="clear" type="submit" size="large">
-                        <ion-icon name="refresh"></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                  </ion-row>
-                  
-                  <!--ion-row>
-                    <ion-item lines="none">
-                      <ion-checkbox color="primary" slot="start" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-col>
-                          <ion-label>Nombre del Torneo:</ion-label>
-                      </ion-col>
-                      <ion-col>
-                        <ion-input type="text" placeholder="Nombre del Torneo" formControlName="nameTorneoInput"></ion-input>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row-->
-
-                  <ion-row>
-                    <ion-item lines="none">
-                      <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[0]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-col>
-                          <ion-label>Ubicación:</ion-label>
-                      </ion-col>
-
-                    </ion-item>
-                  </ion-row>
-  
-                  <!--ion-row>
-                    <ion-item lines="none">
-                      <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[0]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-col>
-                          <ion-label>Organizador</ion-label>
-                      </ion-col>
-                      <ion-col>
-                        <ion-input type="text" placeholder="ID del Organizador"></ion-input>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row-->
-  
-                  <ion-row>
-                    <ion-item lines="none">
-                      <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[1]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-label>Pista Cubierta:</ion-label>
-                      <ion-toggle name="pistacubierta" color="tertiary" (ionChange)="pistacubiertaToggleChanged()"></ion-toggle>
-                    </ion-item>
-                  </ion-row>
-  
-                  <ion-row>
-                    <ion-item lines="none">
-                      <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[2]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-col>
-                          <ion-label>Tipo de Pista</ion-label>
-                      </ion-col>
-                      <ion-col size="15">
-                        <ion-select [(ngModel)]="tipopistaTorneoValue" placeholder="Seleccionar" [ngModelOptions]="{standalone: true}">
-                          <ion-select-option value="TierraBatida">Tierra Batida</ion-select-option>
-                          <ion-select-option value="Cesped">Césped</ion-select-option>
-                          <ion-select-option value="Greenset">Greenset</ion-select-option>
-                          <ion-select-option value="Detourf">Detourf</ion-select-option>
-                          <ion-select-option value="Plexicushion">Plexicushion</ion-select-option>
-                          <ion-select-option value="Rapida">Rápida</ion-select-option>
-                        </ion-select>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row>
-                  
-                  <ion-row>
-                    <ion-item lines="none">
-                      <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[3]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      <ion-col>
-                        <ion-label>Modo</ion-label>
-                      </ion-col>
-                      <ion-col>
-                        <ion-segment value="i" (ionChange)="modoTorneoSegmentChanged($event)">
-                          <ion-segment-button value="i">
-                            <ion-label>(I)ndividuales</ion-label>
-                          </ion-segment-button>
-                          <ion-segment-button value="d">
-                            <ion-label>(D)obles</ion-label>
-                          </ion-segment-button>
-                        </ion-segment>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row>
-  
-  
-                  <ion-row>
-                    <ion-item lines="none">
-                      
-                      <ion-col size="4">
-                          <ion-label>Número de Participantes</ion-label>
-                      </ion-col>
-
-                      <ion-col size="1">
-                        <ion-checkbox color="primary" [(ngModel)]="listaTorneosFlags[4]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      </ion-col>
-                      <ion-col size="2">
-                        <ion-input type="number" placeholder="Mix" min="0" formControlName="minParticipantesInput"></ion-input>
-                      </ion-col>
-
-                      <ion-col size="1">
-                        <ion-checkbox color="primary" [(ngModel)]="listaTorneosFlags[5]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-                      </ion-col>
-                      <ion-col size="2">
-                        <ion-input type="number" placeholder="Max" min="0" formControlName="maxParticipantesInput"></ion-input>
-                      </ion-col>
-                    </ion-item>
-                  </ion-row>
-                </form>
-                
-              </ion-grid>
-
-            </ion-card-header>
-          
-            <ion-card-content>
-              <ion-list>
-                <ion-list-header>Lista de Torneos</ion-list-header>
-                  <ion-item *ngFor = "let torneo of listaTorneos">
-                    <ion-label> 
-                      {{torneo.ubicacion}}
-                      <h1><ion-badge color="secondary">{{torneo.organizador}}</ion-badge></h1>
-                      <ion-chip outline color="secondary">
-                        <ion-label *ngIf="torneo.modo == 'i'">Individuales</ion-label>
-                        <ion-label *ngIf="torneo.modo == 'd'">Dobles</ion-label>
-                      </ion-chip>
-                      <ion-chip outline color="primary">
-                        <ion-label *ngIf="torneo.pistacubierta == true">Pista Cubierta</ion-label>
-                        <ion-label *ngIf="torneo.pistacubierta == false">Pista Descubierta</ion-label>
-                      </ion-chip>
-                      <ion-chip outline color="success">
-                        <ion-label *ngIf="torneo.tipopista == 'TierraBatida'">Tierra Batida</ion-label>
-                        <ion-label *ngIf="torneo.tipopista != 'TierraBatida'">{{torneo.tipopista}}</ion-label>
-                      </ion-chip>
-                      <ion-chip outline color="danger">
-                        <ion-label>{{torneo.participantes.length}} Participantes</ion-label>
-                      </ion-chip>
-                    </ion-label>
-                    <ion-button fill="clear" color="success" size="large">
-                      <ion-icon name="add"></ion-icon>
-                    </ion-button>
-                  </ion-item>
-              </ion-list>
-            </ion-card-content>
-
-          </ion-card>  
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-  </ion-content>
-
-  
-  <ion-footer>
-    <ion-toolbar>
-      <ion-tabs>
-
-        <ion-tab-bar slot="bottom" color="dark">
+        <ion-tab-button tab="dashboard">
+          <ion-icon name="grid"></ion-icon>
+          <ion-label>Dashboard</ion-label>
+        </ion-tab-button>
     
-          <ion-tab-button tab="dashboard">
-            <ion-icon name="home"></ion-icon>
-            <ion-label>Dashboard</ion-label>
-          </ion-tab-button>
-      
-          <ion-tab-button tab="usuarios">
-            <ion-icon name="people"></ion-icon>
-            <ion-label>Usuarios</ion-label>
-          </ion-tab-button>
-      
-          <ion-tab-button tab="torneos">
-            <ion-icon name="trophy"></ion-icon>
-            <ion-label>Torneos</ion-label>
-          </ion-tab-button>
-      
-          <ion-tab-button tab="mapa">
-            <ion-icon name="map"></ion-icon>
-            <ion-label>Mapa</ion-label>
-          </ion-tab-button>
-        </ion-tab-bar>
-      </ion-tabs>
-    </ion-toolbar> 
-  </ion-footer> 
+        <ion-tab-button tab="usuarios">
+          <ion-icon name="people"></ion-icon>
+          <ion-label>Usuarios</ion-label>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="torneos">
+          <ion-icon name="trophy"></ion-icon>
+          <ion-label>Torneos</ion-label>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="mapa">
+          <ion-icon name="map"></ion-icon>
+          <ion-label>Mapa</ion-label>
+        </ion-tab-button>
+
+      </ion-tab-bar>
+
+    </ion-tabs>
+  </ion-content>
 
 </ion-app>

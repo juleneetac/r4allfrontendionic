@@ -1,0 +1,68 @@
+<ion-app>
+  <ion-content>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          <ion-chip color="primary">
+            <ion-avatar>
+              <img [src]="'http://localhost:7000/'+usuarioLogueado.rutaimagen">
+            </ion-avatar>
+            <ion-label>{{usuarioLogueado.username}}</ion-label>
+          </ion-chip>
+          <ion-label>Bienvenido a Rackets4All</ion-label>
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>
+                    Notificaciones y Chats
+                  </ion-card-title>
+                </ion-card-header>
+              </ion-card>
+            </ion-col>
+
+            <ion-col>
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>
+                    Tus Amigos
+                  </ion-card-title>
+                </ion-card-header>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>
+                    Tus Torneos Activos
+                  </ion-card-title>
+                </ion-card-header>
+              </ion-card>
+            </ion-col>
+
+            <ion-col>
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>
+                    Tus Partidos Activos
+                  </ion-card-title>
+                </ion-card-header>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        
+      </ion-card-content>
+    </ion-card>
+
+  </ion-content>
+</ion-app>
