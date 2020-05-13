@@ -13,5 +13,5 @@ export class Ambiente{
     urlPartida =  this.path +'/prd';
     urlParticipantest =  this.path +'/prantes';
     urlMensaje =  this.path +'/msg';
-    urlChat = this.path + 'cht';
+    urlChat = this.path + '/cht';
 }

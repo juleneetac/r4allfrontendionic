@@ -60,7 +60,7 @@ export class PerfilPage implements OnInit {
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
     private router: Router,
-  public toastController: ToastController,
+    public toastController: ToastController,
     ) {
       this.editperfilForm = this.formBuilder.group({
     

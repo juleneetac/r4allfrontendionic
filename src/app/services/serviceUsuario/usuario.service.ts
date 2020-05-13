@@ -6,12 +6,13 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Modelregister } from 'src/app/models/modelRegister/modelregister';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService { 
   loginn: Modellogin;
-  ambiente: Ambiente;           //no se lo que hace pero se tiene que poner
+  ambiente: Ambiente;       
 
   //-----PRUEBA DE BERNAT-----//
   id: string;
@@ -40,6 +41,10 @@ export class UsuarioService {
 
   getUsuario(usuarioid): Observable<Modelusuario>{
     return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getusr/${usuarioid}`);  
+  }
+  
+  getUsuariobyusername(username: string): Observable<Modelusuario> {
+    return this.http.get<Modelusuario>(this.ambiente.urlUsuario + `/getusrbyname/${username}`);
   }
 
   updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, photo:File, id: string){

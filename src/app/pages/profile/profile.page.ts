@@ -18,8 +18,9 @@ export class ProfilePage implements OnInit {
 
 
   constructor(
-    public auth: AuthService, 
-    private storage: StorageComponent
+    public auth: AuthService,  //se puede quitar creo
+    private storage: StorageComponent,
+
     ) { }
 
     

@@ -1,4 +1,5 @@
 import { Modeltorneo } from '../modelTorneo/modeltorneo';
+import * as io from 'socket.io-client' ;
 
 export class Modelusuario {
     _id: string;
@@ -16,6 +17,7 @@ export class Modelusuario {
     chats: [string];    // cambiar a Modelchat
     amigos: [Modelusuario]; 
     jwt: string;  //para el json web token
+    socket: SocketIOClient.Socket; 
 
     constructor( jwt = '', username = '', mail = '', passw = '', sexo = '', ubicacion = '', edad = 0, exp = 0, valoracion = 0, rutaimagen = '', partidas = null, torneos = null, chats = null, amigos = null) {
         this.jwt=jwt;

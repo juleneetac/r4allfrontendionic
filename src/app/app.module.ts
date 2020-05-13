@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 // import { LoginComponent } from './components/login/login.component';
 // import { RegisterComponent } from './components/register/register.component';
 // import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient  } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 // import { AdminComponent } from './components/admin/admin.component';
 // import { HomeComponent } from './components/home/home.component';
@@ -22,6 +22,7 @@ import { HomePageModule } from './pages/home/home.module';
 import { StorageComponent } from './storage/storage.component';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AuthinterceptorService } from './services/serviceInterceptor/authinterceptor.service';
+import { ChatService } from './services/serviceChat/chat.service';
 //import { MenubarPage } from './pages/menubar/menubar.page';
 // import { Main } from './components/main/main.component';
 //import {MatListModule} from "@angular/material/list";
@@ -29,6 +30,12 @@ import { AuthinterceptorService } from './services/serviceInterceptor/authinterc
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
+//import * as io from 'socket.io-client' ;  //sockets
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';  // tema sockets
+import { Ambiente } from './services/ambiente';
+const config: SocketIoConfig = { url: new Ambiente().path, options: {}};
+
+ 
 
 @NgModule({
   declarations: [
@@ -49,7 +56,9 @@ import { NativeGeocoder, NativeGeocoderOptions } from '@ionic-native/native-geoc
     HttpClientModule,
     //MatListModule,
     ReactiveFormsModule,
-    HomePageModule
+    HomePageModule,
+    SocketIoModule.forRoot(config)
+    
   ],
   providers: [
     Geolocation,
@@ -60,6 +69,7 @@ import { NativeGeocoder, NativeGeocoderOptions } from '@ionic-native/native-geoc
     HttpClientModule,
     NativeStorage,
     StorageComponent,
+    ChatService,
     { 
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy 
@@ -72,4 +82,7 @@ import { NativeGeocoder, NativeGeocoderOptions } from '@ionic-native/native-geoc
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+
+}
+

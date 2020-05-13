@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/serviceAuth/auth.service';
 import { StorageComponent } from 'src/app/storage/storage.component';
+import { ChatService } from 'src/app/services/serviceChat/chat.service';
+import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'app-login',
@@ -25,8 +27,12 @@ export class LoginPage implements OnInit {
   public toastController: ToastController,
   public auth: AuthService,
   public storage: StorageComponent,
+  private chatService: ChatService, 
+  private socket: Socket
 
-  ) { }
+  ) { 
+    this.chatService.setSocket(socket);
+  }
 
 password: string;
 username: string;
@@ -67,9 +73,9 @@ loginUser(event){
             await this.storage.saveToken(this.usuario.jwt);
             await this.storage.saveUser(JSON.stringify(this.usuario));
             this.auth.loginLocal();
-            
             //await this.goProfile();
             await this.goMain();    //Que al loguearte vayas al Main
+            this.chatService.connectSocket(this.username)  //se le pasa el usuario  del socket
 
             //console.log(String(this.auth.authenticationState));
             await toast.present();
