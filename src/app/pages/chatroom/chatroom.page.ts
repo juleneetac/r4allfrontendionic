@@ -12,6 +12,7 @@ import { Ambiente } from 'src/app/services/ambiente';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modelmessage } from 'src/app/models/modelMessage/modelmessage';
 import { ChatService } from 'src/app/services/serviceChat/chat.service';
+import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'app-chatroom',
@@ -25,7 +26,6 @@ export class ChatroomPage implements OnInit {
   username = this.user.username;
   ambiente: Ambiente;
   usuario: Modelusuario; 
-  private socket;
   message: string;
   messages = [];
   namedestino: string;
@@ -36,13 +36,16 @@ export class ChatroomPage implements OnInit {
     private chatService: ChatService,
     private storage: StorageComponent,
     private router: Router,
-    //private socket: Socket,
     private toastCtrl: ToastController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private socket: Socket,
   ) { 
 
     this.namedestino = this.route.snapshot.paramMap.get('username');
     //setTimeout(() => this.scrollToBottom(), 500);
+
+    console.log(socket);
+    this.chatService.setSocket(socket); //para pasar el socket en las diferentes paginas
 
 
     // this.getMessages().subscribe(message => {

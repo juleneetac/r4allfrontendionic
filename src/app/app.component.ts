@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from "@angular/router";
 import { AuthService } from './services/serviceAuth/auth.service';
 import { ChatService } from './services/serviceChat/chat.service';
+import { StorageComponent } from './storage/storage.component';
 
 
 @Component({
@@ -13,7 +14,8 @@ import { ChatService } from './services/serviceChat/chat.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent{
+
   public appPages = [
     {
       title: 'Home',
@@ -91,11 +93,13 @@ constructor(
     private statusBar: StatusBar,
     public auth: AuthService,
     public chatService: ChatService,
+    public storage: StorageComponent
   ) 
   
   {
     this.initializeApp();
   }
+
 
   logout(){
     this.auth.logout();
@@ -105,7 +109,7 @@ constructor(
   checkButton(index :number){
     if (index==5){
       console.log(index)
-    this.logout();
+      this.logout();
     }
 
   }

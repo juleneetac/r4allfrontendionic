@@ -22,12 +22,16 @@ import { HomePageModule } from './pages/home/home.module';
 import { StorageComponent } from './storage/storage.component';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AuthinterceptorService } from './services/serviceInterceptor/authinterceptor.service';
+import { ChatService } from './services/serviceChat/chat.service';
 //import { MenubarPage } from './pages/menubar/menubar.page';
 // import { Main } from './components/main/main.component';
 //import {MatListModule} from "@angular/material/list";
 // import { MainPage } from './pages/main/main.page';
 
-//import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';  // tema sockets
+//import * as io from 'socket.io-client' ;  //sockets
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';  // tema sockets
+import { Ambiente } from './services/ambiente';
+const config: SocketIoConfig = { url: new Ambiente().path, options: {}};
 
  
 
@@ -51,7 +55,8 @@ import { AuthinterceptorService } from './services/serviceInterceptor/authinterc
     //MatListModule,
     ReactiveFormsModule,
     HomePageModule,
-    //SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config)
+    
   ],
   providers: [
     StatusBar,
@@ -60,6 +65,7 @@ import { AuthinterceptorService } from './services/serviceInterceptor/authinterc
     HttpClientModule,
     NativeStorage,
     StorageComponent,
+    ChatService,
     { 
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy 

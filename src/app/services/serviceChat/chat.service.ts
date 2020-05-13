@@ -5,6 +5,8 @@ import {Observable, Subject} from 'rxjs/Rx';
 import { Ambiente } from '../ambiente';
 import { HttpClient } from '@angular/common/http';
 import { StorageComponent } from 'src/app/storage/storage.component';
+import { Socket, SocketIoConfig, SocketIoModule } from 'ng-socket-io';
+import { Modelmessage } from 'src/app/models/modelMessage/modelmessage';
 
 
 @Injectable({
@@ -25,14 +27,23 @@ export class ChatService {
 
 
    public connectSocket(username: string) {  //para conectar socket
-    if (!this.socket) {
+      //if (!this.socket) {
       this.username = username;
-      this.socket = io(this.ambiente.path); //, {query: 'usuario=' + username});
+      //this.socket = io(this.ambiente.path); //, {query: 'usuario=' + username});
       //this.storage.saveSocket(JSON.stringify(this.socket));   // probamos a guardar el socket en localstorage
+      //console.log(this.socket)
       this.socket.emit('set-username', this.username);
+      console.log('se conecto el usuario ' + this.username );
+     // console.log(this.socket)
+    //}
+  }
+
+  public setSocket(socketparam: Socket) {  //para conectar socket
+   // if (!socketparam) {
+      this.socket = socketparam;
       console.log('connection socket');
-      console.log(this.socket)
-    }
+      //console.log(this.socket)
+  
   }
 
   public getList = () => {
@@ -53,6 +64,8 @@ export class ChatService {
     console.log(this.socket)
     console.log(message, destination);
     this.socket.emit('message', { message, destination});
+    let body = {author: this.username, destination, message};
+    this.http.post(this.ambiente.urlMensaje + `/addmsg`, body).toPromise().catch((err) => console.log(err));
   }
 
   public getMessages = () => {
@@ -64,6 +77,10 @@ export class ChatService {
               observer.next(data);
           });
       });
+  }
+
+  public getMessagesAlmacenados() {
+    return this.http.get<Modelmessage[]>(this.ambiente.urlMensaje + `/getmsg/${this.username}`);
   }
 
   public disconnectSocket() {  //para desconectar el socket, lo usamos en logout en el appcomponent

@@ -8,6 +8,7 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { ChatService } from 'src/app/services/serviceChat/chat.service';
 import { Ambiente } from 'src/app/services/ambiente';
 import { NavController } from '@ionic/angular';
+import { Socket } from 'ng-socket-io';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class ChatPage {
 
   listaUsuarios: string[];
   ambiente: Ambiente;
-  private socket;
+  //private socket;
   user = JSON.parse(this.storage.getUser());
   username = this.user.username;
 
@@ -44,9 +45,11 @@ export class ChatPage {
     private router: Router,
     private chatService: ChatService,
     public navCtrl: NavController, 
-    //private socket,
+    private socket: Socket,
     
   ) { 
+    console.log(socket);
+    this.chatService.setSocket(socket); //para pasar el socket en las diferentes paginas
     // this.ambiente = new Ambiente();      //meter en el servicio y hacer una funcion connect
     // console.log(this.ambiente.path) 
     // this.socket = io(this.ambiente.path);
@@ -54,7 +57,7 @@ export class ChatPage {
   }
   async ngOnInit() {
     
-    this.chatService.connectSocket(this.username) //lo hemos puesto en main para crear el socekt una vez abrimos aplicacion
+    //this.chatService.connectSocket(this.username) //lo hemos puesto en main para crear el socekt una vez abrimos aplicacion
     this.chatService.getList().subscribe((list: string[]) => {
     this.listaUsuarios = list.filter(item => item[0] !== this.username);  //aqui lo que hace es que no coge el propio nombre
                                                                             //que es el que esta en localstorage
