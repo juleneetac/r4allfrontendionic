@@ -142,14 +142,14 @@ export class PerfilPage implements OnInit {
   }
 
 
-goProfile() {
-  this.router.navigateByUrl("profile")
-}
+    goProfile() {
+    this.router.navigateByUrl("profile")
+    }
 
-  updatePerfil (event2){//, experiencia: HTMLInputElement){
+    updatePerfil (event2){//, experiencia: HTMLInputElement){
     event.preventDefault()
     console.log(event2)
- 
+
     console.log(this.usernombre)
     console.log(this.pass1);
     console.log(this.difpass);
@@ -162,86 +162,86 @@ goProfile() {
     let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
     this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
       async res =>{
-              //console.log(res);
-              //confirm('login correcto');
-              const toast = await this.toastController.create({
-                message: 'Updated usuario',
-                position: 'top',
-                duration: 2000,
-                color: 'success',
-              });
-              if(this.file == undefined){
-                this.usuariosSevice.updateUsuarionofoto(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.user._id)
-                .subscribe(  //para actualizar el usuario con lo que quiero editar
-                          async res => {
-                          console.log(res);
-                          const response: any = res;
-                         // this.usuario = response.usuario;
-                          //this.usuario.jwt = response.jwt;
-                          //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
-                          //Save info locally
-                          //await this.storage.saveToken(this.usuario.jwt);
-                          //await this.storage.saveUser(JSON.stringify(this.usuario));
-                          await this.goProfile();
-                          await toast.present();
-                        },
-                        (err) => {
-                          console.log(err);
-                        });
-              }
-
-              else{
-              this.usuariosSevice.updateUsuario(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.file, this.user._id)
-                .subscribe(  //para actualizar el usuario con lo que quiero editar
-                  async res => {
-                  console.log(res);
-                  const response: any = res;
-                  // this.usuario = response.usuario;
-                  //this.usuario.jwt = response.jwt;
-                  //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
-                  //Save info locally
-                  //await this.storage.saveToken(this.usuario.jwt);
-                  //await this.storage.saveUser(JSON.stringify(this.usuario));
-
-                  await this.goProfile();
-                  await toast.present();
-                },
-                (err) => {
-                  console.log(err);
-                });  
-              
-              }
-            },
-            err => {
-              console.log(err);
-              this.handleError(err);
-            });
-          
-        }
-        //errores
-private async handleError(err: HttpErrorResponse) {
-  if (err.status == 500) {
-    console.log('entra')
-    const toast = await this.toastController.create({
-      message: 'Error',
-      position: 'bottom',
-      duration: 2000,
-    });
-    await toast.present();
-  } 
-  else if  (err.status == 402) {
-    console.log('La contraseña antogua no coincide, vuelve a probar');
-    const toast = await this.toastController.create({
-      message: 'La contraseña antogua no coincide, vuelve a probar',
-      position: 'bottom',
-      duration: 2000,
-    });
-    await toast.present();
-    
-  }
-  
-}
+      //console.log(res);
+      //confirm('login correcto');
+      const toast = await this.toastController.create({
+        message: 'Updated usuario',
+        position: 'top',
+        duration: 2000,
+        color: 'success',
+      });
+      if(this.file == undefined){
+        this.usuariosSevice.updateUsuarionofoto(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.user._id)
+        .subscribe(  //para actualizar el usuario con lo que quiero editar
+          async res => {
+          let usuariomodificado = res as Modelusuario;
+          // this.usuario = response.usuario;
+          //this.usuario.jwt = response.jwt;
+          //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+          //Save info locally
+          //await this.storage.saveToken(this.usuario.jwt);
+          console.log(usuariomodificado);
+          await this.storage.saveUser(JSON.stringify(usuariomodificado));
+          await this.goProfile();
+          await toast.present();
+        },
+        (err) => {
+          console.log(err);
+        });
       }
+
+      else{
+      this.usuariosSevice.updateUsuario(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.file, this.user._id)
+        .subscribe(  //para actualizar el usuario con lo que quiero editar
+          async res => {
+          let usuariomodificado = res as Modelusuario;
+          // this.usuario = response.usuario;
+          //this.usuario.jwt = response.jwt;
+          //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+          //Save info locally
+          //await this.storage.saveToken(this.usuario.jwt);
+          console.log(usuariomodificado);
+          await this.storage.saveUser(JSON.stringify(usuariomodificado));
+
+          await this.goProfile();
+          await toast.present();
+        },
+        (err) => {
+          console.log(err);
+        });  
+      
+      }
+    },
+    err => {
+      console.log(err);
+      this.handleError(err);
+    });
+
+  }
+  //errores
+  private async handleError(err: HttpErrorResponse) {
+    if (err.status == 500) {
+      console.log('entra')
+      const toast = await this.toastController.create({
+        message: 'Error',
+        position: 'bottom',
+        duration: 2000,
+      });
+      await toast.present();
+    } 
+    else if  (err.status == 402) {
+      console.log('La contraseña antogua no coincide, vuelve a probar');
+      const toast = await this.toastController.create({
+        message: 'La contraseña antogua no coincide, vuelve a probar',
+        position: 'bottom',
+        duration: 2000,
+      });
+      await toast.present();
+      
+    }
+
+  }
+}
         
 
 

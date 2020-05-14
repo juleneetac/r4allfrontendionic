@@ -11,7 +11,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class UsuariosPage implements OnInit {
 
   constructor(
-    private usuariosService: UsuarioService,
+    private usuariosService: UsuarioService
   ) { }
 
   listaUsuarios: Modelusuario[];  //Lista de Usuarios

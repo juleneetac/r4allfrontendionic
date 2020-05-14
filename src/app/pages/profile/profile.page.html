@@ -1,80 +1,82 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Profile</ion-title>
-    <ion-button (click)="auth.logout()">Log Out</ion-button>
-  </ion-toolbar>
-</ion-header>
+<ion-app>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Profile</ion-title>
+      <ion-button (click)="auth.logout()">Log Out</ion-button>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content>
-  <pre *ngIf="auth.userProfile$ | async as profile">
-    <code>{{ profile | json }}</code>
-  </pre>
-  <pre *ngIf="auth.authenticationState">
-    <ion-row>
-      <ion-col size="12">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>Perfil</ion-card-title>
-          </ion-card-header>
-      
-          <ion-card-content>
-            <ion-item>
-              <ion-avatar>
-                  <ion-img [src]="'http://localhost:7000/'+ localperfil.rutaimagen"></ion-img>
-              </ion-avatar>
-            </ion-item>
+  <ion-content>
+    <pre *ngIf="auth.userProfile$ | async as profile">
+      <code>{{ profile | json }}</code>
+    </pre>
+    <pre *ngIf="auth.authenticationState">
+      <ion-row>
+        <ion-col size="12">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Perfil</ion-card-title>
+            </ion-card-header>
+        
+            <ion-card-content>
+              <ion-item>
+                <ion-avatar>
+                    <ion-img [src]="'http://localhost:7000/'+ localperfil.rutaimagen"></ion-img>
+                </ion-avatar>
+              </ion-item>
 
-            <ion-item>
-              <label>
-                Nombre de usuario: {{ localperfil.username }} 
-              </label>
-            </ion-item>
-      
-            <ion-item>
-              <label>
-                id: {{localperfil._id}}
-              </label>
-            </ion-item>
+              <ion-item>
+                <label>
+                  Nombre de usuario: {{ localperfil.username }} 
+                </label>
+              </ion-item>
+        
+              <ion-item>
+                <label>
+                  id: {{localperfil._id}}
+                </label>
+              </ion-item>
 
-            <ion-item>
-              <label>
-                Correo: {{localperfil.mail}}
-              </label>
-            </ion-item>
+              <ion-item>
+                <label>
+                  Correo: {{localperfil.mail}}
+                </label>
+              </ion-item>
+                
+              <ion-item>
+                <label>
+                  Edad: {{localperfil.edad}}
+                </label>
+              </ion-item>
+
+              <ion-item>
+                <label>
+                  Sexo: {{localperfil.sexo}}
+                </label>
+              </ion-item>
+                
+              <ion-item>
+                <label>
+                  Ubicación: {{localperfil.ubicacion}}
+                </label>
+              </ion-item>
+
+              <!-- <ion-item>
+                <label>
+                  Torneos: {{localperfil.torneos}}
+                </label>
+              </ion-item> -->
+
+              <!-- <label>
+                Foto de perfil: 
+                <img [src]="'http://localhost:7000/'+ localperfil.rutaimagen">
+              </label> -->
               
-            <ion-item>
-              <label>
-                Edad: {{localperfil.edad}}
-              </label>
-            </ion-item>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
 
-            <ion-item>
-              <label>
-                Sexo: {{localperfil.sexo}}
-              </label>
-            </ion-item>
-              
-            <ion-item>
-              <label>
-                Ubicación: {{localperfil.ubicacion}}
-              </label>
-            </ion-item>
-
-            <!-- <ion-item>
-              <label>
-                Torneos: {{localperfil.torneos}}
-              </label>
-            </ion-item> -->
-
-            <!-- <label>
-              Foto de perfil: 
-              <img [src]="'http://localhost:7000/'+ localperfil.rutaimagen">
-            </label> -->
-            
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-  </pre>
-</ion-content>
+    </pre>
+  </ion-content>
+</ion-app>

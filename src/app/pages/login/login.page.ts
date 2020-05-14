@@ -57,31 +57,31 @@ loginUser(event){
 
   this.usuarioService.login(credencial).subscribe(
     async res =>{
-            //console.log(res);
-            //confirm('login correcto');
-            const toast = await this.toastController.create({
-              message: 'Login correcto',
-              position: 'top',
-              duration: 2000,
-              color: 'success',
-            });
-            const response: any = res;
-            this.usuario = response.usuario;
-            this.usuario.jwt = response.jwt;
-            console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
-            //Save info locally
-            await this.storage.saveToken(this.usuario.jwt);
-            await this.storage.saveUser(JSON.stringify(this.usuario));
-            this.auth.loginLocal();
-            //await this.goProfile();
-            await this.goMain();    //Que al loguearte vayas al Main
-            this.chatService.connectSocket(this.username)  //se le pasa el usuario  del socket
+      //console.log(res);
+      //confirm('login correcto');
+      const toast = await this.toastController.create({
+        message: 'Login correcto',
+        position: 'top',
+        duration: 2000,
+        color: 'success',
+      });
+      const response: any = res;
+      this.usuario = response.usuario;
+      this.usuario.jwt = response.jwt;
+      console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+      //Save info locally
+      await this.storage.saveToken(this.usuario.jwt);
+      await this.storage.saveUser(JSON.stringify(this.usuario));
+      this.auth.loginLocal();
+      //await this.goProfile();
+      await this.goMain();    //Que al loguearte vayas al Main
+      this.chatService.connectSocket(this.username)  //se le pasa el usuario  del socket
 
-            //console.log(String(this.auth.authenticationState));
-            await toast.present();
-            //rutas
-            //localStorage.setItem("Usuario",String(credencial.username));
-            //this.goMain();
+      //console.log(String(this.auth.authenticationState));
+      await toast.present();
+      //rutas
+      //localStorage.setItem("Usuario",String(credencial.username));
+      //this.goMain();
     },
     err => {
       console.log(err);
