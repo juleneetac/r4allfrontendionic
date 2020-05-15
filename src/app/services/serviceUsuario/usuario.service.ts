@@ -24,11 +24,11 @@ export class UsuarioService {
   }
 
   login(loginn: Modellogin): Observable<Modelusuario>{
-    return this.http.post<Modelusuario>(this.ambiente.urlUsuario + '/login', loginn);
+    return this.http.post<Modelusuario>(this.ambiente.urlUsuario + '/login', loginn);       //REVISAR !!!! DEVUELVE UN MODELUSUARIO + SU TOKEN !!!
   }
 
   registrar(register: Modelregister): Observable<Modelusuario>{ 
-    return this.http.post<Modelusuario>(this.ambiente.urlUsuario + '/register', register);
+    return this.http.post<Modelusuario>(this.ambiente.urlUsuario + '/register', register);  //REVISAR !!!! DEVUELVE UN MODELUSUARIO + SU TOKEN !!!
   }
 
   getUsuarios(filtros): Observable<Modelusuario[]>{
@@ -47,7 +47,7 @@ export class UsuarioService {
     return this.http.get<Modelusuario>(this.ambiente.urlUsuario + `/getusrbyname/${username}`);
   }
 
-  updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, photo:File, id: string){
+  updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, photo:File, id: string, punto): Observable<Modelusuario>{
 
     var identificador = id;
     const fd = new FormData();
@@ -59,12 +59,13 @@ export class UsuarioService {
       fd.append('rutaimagen', photo);
       fd.append('ubicacion',ubicacion);
       fd.append('edad',edad.toString());
+      fd.append('punto', punto);
       //fd.append('vexp',exp);
 
-      return this.http.put(`${this.ambiente.urlUsuario}/update/${identificador}`,fd)
+      return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/update/${identificador}`,fd)
   }
   
-  updateUsuarionofoto(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, id: string){
+  updateUsuarionofoto(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, id: string, punto): Observable<Modelusuario>{
     var identificador = id;
     var password = contraseña2;
     var mail = mail;
@@ -79,10 +80,11 @@ export class UsuarioService {
       sexo: sexo,
       ubicacion: ubicacion,
       edad: edad,
+      punto: punto
     }
     console.log(user);
   
-    return this.http.put(`${this.ambiente.urlUsuario}/updatenofoto/${identificador}`,user)
+    return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/updatenofoto/${identificador}`,user)
   }
 
 

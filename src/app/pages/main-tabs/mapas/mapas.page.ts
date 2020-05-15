@@ -55,10 +55,14 @@ export class MapasPage implements OnInit {
 }).addTo(mymap); */
 
   ngOnInit() {
-    this.geolocalizacion();
+    //this.geolocalizacion();
+
+    this.milat = JSON.parse(localStorage.getItem("milatitud"));
+    this.milon = JSON.parse(localStorage.getItem("milongitud"));
+    
   }
 
-  geolocalizacion(){
+  /* geolocalizacion(){
     this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
       console.log(geoposition);
   
@@ -73,9 +77,9 @@ export class MapasPage implements OnInit {
   
   /* 
       console.log(this.milat);
-      console.log(this.milon); */
+      console.log(this.milon);
     });
-  }
+  } */
 
   /* getGeolocation (){
   this.geolocation.getCurrentPosition().then((geoposition:Geoposition)=>{
@@ -97,8 +101,8 @@ export class MapasPage implements OnInit {
   ionViewDidEnter(){
     /*   this.geolocalizacion();
     */
-      this.milat = JSON.parse(localStorage.getItem("milatitud"));
-      this.milon = JSON.parse(localStorage.getItem("milongitud"));
+      /* this.milat = JSON.parse(localStorage.getItem("milatitud"));
+      this.milon = JSON.parse(localStorage.getItem("milongitud")); */
     
       console.log(this.milat);
       console.log(this.milon);

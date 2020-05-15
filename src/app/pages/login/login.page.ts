@@ -65,10 +65,17 @@ loginUser(event){
         duration: 2000,
         color: 'success',
       });
+
+
+      //ESTO HAY QUE REVISARLO: EN EL SERVICE DE USUARIO PONE QUE LAS FUNCIONES LOGIN Y REGISTER
+      //RECIBEN UN MODELOUSUARIO COMO RESPONSE DEL POST, PERO EN EL BACKEND DEVUELVE USUARIO + JWT 
+
+      
       const response: any = res;
       this.usuario = response.usuario;
       this.usuario.jwt = response.jwt;
       console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+      
       //Save info locally
       await this.storage.saveToken(this.usuario.jwt);
       await this.storage.saveUser(JSON.stringify(this.usuario));

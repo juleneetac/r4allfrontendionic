@@ -40,6 +40,7 @@ export class PerfilPage implements OnInit {
   edad: number = this.user.edad;
   sexo: string = this.user.sexo;
   ubicacion: string = this.user.ubicacion;
+  punto = this.user.punto;
   //salt: string;
   //hash: string;
   //user: Modelusuario
@@ -143,74 +144,76 @@ export class PerfilPage implements OnInit {
 
 
     goProfile() {
-    this.router.navigateByUrl("profile")
+      this.router.navigateByUrl("profile")
     }
 
     updatePerfil (event2){//, experiencia: HTMLInputElement){
-    event.preventDefault()
-    console.log(event2)
+      event.preventDefault()
+      console.log(event2)
 
-    console.log(this.usernombre)
-    console.log(this.pass1);
-    console.log(this.difpass);
-    console.log(this.mail);
-    console.log(this.sexo);
-    console.log(this.ubicacion);
-    console.log(this.edad);
-    //console.log(experiencia.value);
-    console.log(this.user._id);
-    let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
-    this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
-      async res =>{
-      //console.log(res);
-      //confirm('login correcto');
-      const toast = await this.toastController.create({
-        message: 'Updated usuario',
-        position: 'top',
-        duration: 2000,
-        color: 'success',
-      });
-      if(this.file == undefined){
-        this.usuariosSevice.updateUsuarionofoto(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.user._id)
-        .subscribe(  //para actualizar el usuario con lo que quiero editar
-          async res => {
-          let usuariomodificado = res as Modelusuario;
-          // this.usuario = response.usuario;
-          //this.usuario.jwt = response.jwt;
-          //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
-          //Save info locally
-          //await this.storage.saveToken(this.usuario.jwt);
-          console.log(usuariomodificado);
-          await this.storage.saveUser(JSON.stringify(usuariomodificado));
-          await this.goProfile();
-          await toast.present();
-        },
-        (err) => {
-          console.log(err);
+      console.log(this.usernombre)
+      console.log(this.pass1);
+      console.log(this.difpass);
+      console.log(this.mail);
+      console.log(this.sexo);
+      console.log(this.ubicacion);
+      console.log(this.edad);
+      //console.log(experiencia.value);
+      console.log(this.user._id);
+      console.log(this.user.punto);
+      console.log(this.punto);
+
+      let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
+      this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
+        async res =>{
+        //console.log(res);
+        //confirm('login correcto');
+        const toast = await this.toastController.create({
+          message: 'Updated usuario',
+          position: 'top',
+          duration: 2000,
+          color: 'success',
         });
-      }
+        if(this.file == undefined){
+          this.usuariosSevice.updateUsuarionofoto(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.user._id, this.punto)
+          .subscribe(  //para actualizar el usuario con lo que quiero editar
+            async res => {
+            let usuariomodificado = res as Modelusuario;
+            // this.usuario = response.usuario;
+            //this.usuario.jwt = response.jwt;
+            //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+            //Save info locally
+            //await this.storage.saveToken(this.usuario.jwt);
+            console.log(usuariomodificado);
+            await this.storage.saveUser(JSON.stringify(usuariomodificado));
+            await this.goProfile();
+            await toast.present();
+          },
+          (err) => {
+            console.log(err);
+          });
+        }
 
-      else{
-      this.usuariosSevice.updateUsuario(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.file, this.user._id)
-        .subscribe(  //para actualizar el usuario con lo que quiero editar
-          async res => {
-          let usuariomodificado = res as Modelusuario;
-          // this.usuario = response.usuario;
-          //this.usuario.jwt = response.jwt;
-          //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
-          //Save info locally
-          //await this.storage.saveToken(this.usuario.jwt);
-          console.log(usuariomodificado);
-          await this.storage.saveUser(JSON.stringify(usuariomodificado));
+        else{
+          this.usuariosSevice.updateUsuario(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.file, this.user._id, this.punto)
+            .subscribe(  //para actualizar el usuario con lo que quiero editar
+              async res => {
+              let usuariomodificado = res as Modelusuario;
+              // this.usuario = response.usuario;
+              //this.usuario.jwt = response.jwt;
+              //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+              //Save info locally
+              //await this.storage.saveToken(this.usuario.jwt);
+              console.log(usuariomodificado);
+              await this.storage.saveUser(JSON.stringify(usuariomodificado));
 
-          await this.goProfile();
-          await toast.present();
-        },
-        (err) => {
-          console.log(err);
-        });  
-      
-      }
+              await this.goProfile();
+              await toast.present();
+            },
+            (err) => {
+              console.log(err);
+            });  
+        }
     },
     err => {
       console.log(err);
@@ -230,9 +233,9 @@ export class PerfilPage implements OnInit {
       await toast.present();
     } 
     else if  (err.status == 402) {
-      console.log('La contraseña antogua no coincide, vuelve a probar');
+      console.log('La contraseña antigua no coincide, vuelve a probar');
       const toast = await this.toastController.create({
-        message: 'La contraseña antogua no coincide, vuelve a probar',
+        message: 'La contraseña antigua no coincide, vuelve a probar',
         position: 'bottom',
         duration: 2000,
       });

@@ -58,7 +58,7 @@
               <ion-col>
                 <ion-select [(ngModel)]="tipopistaValue" placeholder="Seleccionar" [ngModelOptions]="{standalone: true}">
                   <ion-select-option value="TierraBatida">Tierra Batida</ion-select-option>
-                  <ion-select-option value="Cesped">Césped</ion-select-option>
+                  <ion-select-option value="Hierba">Hierba</ion-select-option>
                   <ion-select-option value="Greenset">Greenset</ion-select-option>
                   <ion-select-option value="Detourf">Detourf</ion-select-option>
                   <ion-select-option value="Plexicushion">Plexicushion</ion-select-option>
@@ -106,8 +106,8 @@
           <!--ion-list-header>Lista de Torneos</ion-list-header-->
             <ion-item *ngFor = "let torneo of listaTorneos">
               <ion-label> 
-                {{torneo.ubicacion}}
-                <h1><ion-badge color="secondary">{{torneo.organizador}}</ion-badge></h1>
+                {{torneo.nombre}}
+                <h1><ion-badge color="secondary">{{torneo.ubicacion}}</ion-badge></h1>
                 <ion-chip outline color="secondary">
                   <ion-label *ngIf="torneo.modo == 'i'">Individuales</ion-label>
                   <ion-label *ngIf="torneo.modo == 'd'">Dobles</ion-label>

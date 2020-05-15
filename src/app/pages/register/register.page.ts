@@ -11,6 +11,8 @@ import { getLocaleMonthNames } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { ChatService } from 'src/app/services/serviceChat/chat.service';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
+import { StorageComponent } from 'src/app/storage/storage.component';
 
 @Component({
   selector: 'app-register',
@@ -27,6 +29,7 @@ export class RegisterPage implements OnInit {
   edad: number;
   sexo: string;
   ubicacion: string;
+  punto;
 
 constructor(
   private usuarioService: UsuarioService, 
@@ -35,9 +38,13 @@ constructor(
   private formBuilder: FormBuilder,
   public toastController: ToastController,
   private chatService: ChatService,
+  private geolocation: Geolocation,
+  private storage: StorageComponent
   ) { 
- 
-  this.chatService.connectSocket(this.username)
+  
+  //ESTO AQUÍ PETA PORQUE ESTÁ INTENTANDO CONECTAR EL SOCKET CON UN NOMBRE QUE NO TIENE AÚN
+  //this.chatService.connectSocket(this.username)
+
   this.registerForm = this.formBuilder.group({
 
     username: new FormControl('', Validators.compose([
@@ -116,7 +123,25 @@ ngOnInit() {
     'ubicacion': [
       { type: 'required', message: 'Especifique ubicación'}
     ],
-}
+  },
+
+  //Registrar ubicación del usuario cuando se registra
+  this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
+    console.log(geoposition);
+
+    this.punto = {
+      "type": "Point",
+      "coordinates": [geoposition.coords.longitude, geoposition.coords.latitude]    //SEGÚN RFC DEL GEOJSON, PARA QUE NO DE ERRORES EN EL MONGO
+    }
+
+    //ESTO ES PROVISIONAL, EN TEORÍA EL REGISTER DEBERÍA GUARDAR EL USUARIO REGISTRADO EN EL LOCALSTORAGE Y DE AHI COGER SU UBICACIÓN (QUE DE MOMENTO ES LA DE REGISTRO)
+    localStorage.setItem("milatitud", JSON.stringify(this.punto.coordinates[0]));
+    localStorage.setItem("milongitud", JSON.stringify(this.punto.coordinates[1]));
+
+    console.log(this.punto.coordinates[0]);
+    console.log(this.punto.coordinates[1]);
+
+  });
 }
 
  //rutas
@@ -134,20 +159,30 @@ password(formGroup: FormGroup) {
 registerUser(event){
   event.preventDefault()
   console.log(event)
-  let credencialr: Modelregister = new Modelregister(this.username, this.mail, this.pass, this.edad, this.sexo, this.ubicacion)
+  let credencialr: Modelregister = new Modelregister(this.username, this.mail, this.pass, this.edad, this.sexo, this.ubicacion, this.punto)
   this.usuarioService.registrar(credencialr).subscribe(
     async res =>{
-            console.log(res);
-            //confirm('Se registro OK')
-            const toast = await this.toastController.create({
-              message: 'Te registraste con éxito',
-              position: 'top',
-              duration: 2000,
-              color: 'success',
-            });
-            await toast.present();
-            //rutas
-            this.goMain();
+      console.log(res);
+      //confirm('Se registro OK')
+
+      //let { usuario, jwt } = res.body;
+      //this.storage.saveUser(JSON.stringify(res.usuario));
+      //this.storage.saveToken(res.jwt);
+
+      //ESTO HAY QUE REVISARLO: EN EL SERVICE DE USUARIO PONE QUE LAS FUNCIONES LOGIN Y REGISTER
+      //RECIBEN UN MODELOUSUARIO COMO RESPONSE DEL POST, PERO EN EL BACKEND DEVUELVE USUARIO + JWT 
+      
+      this.chatService.connectSocket(this.username)
+      const toast = await this.toastController.create({
+        message: 'Te registraste con éxito',
+        position: 'top',
+        duration: 2000,
+        color: 'success',
+      });
+
+      await toast.present();
+      //rutas
+      this.goMain();
     },
     err => {
       console.log(err);
