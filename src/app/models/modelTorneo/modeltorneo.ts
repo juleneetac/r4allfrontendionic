@@ -15,7 +15,7 @@ export class Modeltorneo {
     };
     inscripcion: number;    //Precio de inscripcion
     premio: string;  
-    ganador: Modelusuario;
+    ganador: Modelusuario;  //Si es null, el Torneo está activo aún
     organizador: string;    //Por ejemplo, Club de Tenis, Federacion, Usuario...
     participantes: [Modelusuario];
 }

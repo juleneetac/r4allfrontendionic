@@ -31,7 +31,7 @@ export class UsuarioService {
     return this.http.post<Modelusuario>(this.ambiente.urlUsuario + '/register', register);  //REVISAR !!!! DEVUELVE UN MODELUSUARIO + SU TOKEN !!!
   }
 
-  getUsuarios(filtros): Observable<Modelusuario[]>{
+  getUsuarios(filtros: any): Observable<Modelusuario[]>{
     return this.http.post<Modelusuario[]>(this.ambiente.urlUsuario + '/getusrs', filtros);  
   }
   
@@ -39,33 +39,26 @@ export class UsuarioService {
     return this.http.get<Modelusuario[]>(this.ambiente.urlUsuario + '/getallusrs');  //me da todos los usuarios del sistema
   }
 
-  getUsuario(usuarioid): Observable<Modelusuario>{
-    return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getusr/${usuarioid}`);  
+  getUsuario(id: string): Observable<Modelusuario>{
+    return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getusr/${id}`);  
   }
   
   getUsuariobyusername(username: string): Observable<Modelusuario> {
     return this.http.get<Modelusuario>(this.ambiente.urlUsuario + `/getusrbyname/${username}`);
   }
 
-  updateUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, photo:File, id: string, punto): Observable<Modelusuario>{
+  updateUsuario(id:string, usuariomodificado:any): Observable<Modelusuario> {
+    return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/update/${id}`, usuariomodificado);
+  }
 
-    var identificador = id;
-    const fd = new FormData();
-  
-      //fd.append('username',this.usernombre);
-      fd.append('mail',mail);
-      fd.append('password',contraseña2);
-      fd.append('sexo', sexo);
-      fd.append('rutaimagen', photo);
-      fd.append('ubicacion',ubicacion);
-      fd.append('edad',edad.toString());
-      fd.append('punto', punto);
-      //fd.append('vexp',exp);
-
-      return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/update/${identificador}`,fd)
+  updateImagenUsuario(id:string, photo:File): Observable<Modelusuario>{
+    //Para poder enviar la nueva Imagen de perfil (rutaimagen), en caso de haber sido modificada
+    const fdImagen = new FormData();
+    fdImagen.append('rutaimagen', photo);
+    return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/updaterutaimagen/${id}`, fdImagen);
   }
   
-  updateUsuarionofoto(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, id: string, punto): Observable<Modelusuario>{
+/*   updateFotoUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, id: string, punto): Observable<Modelusuario>{
     var identificador = id;
     var password = contraseña2;
     var mail = mail;
@@ -85,7 +78,7 @@ export class UsuarioService {
     console.log(user);
   
     return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/updatenofoto/${identificador}`,user)
-  }
+  } */
 
 
 }

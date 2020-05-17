@@ -52,7 +52,7 @@ export class PerfilPage implements OnInit {
  
   avatar
 
-  file: File;
+  imageFile: File;
   photoSelected: string | ArrayBuffer
 
   constructor(
@@ -135,10 +135,10 @@ export class PerfilPage implements OnInit {
 
   onPhotoSelected(event: HtmlInputEvent): void{
     if (event.target.files && event.target.files[0]) {
-      this.file = <File>event.target.files[0];
+      this.imageFile = <File>event.target.files[0];
       const reader = new FileReader();
       reader.onload = e => this.photoSelected = reader.result;
-      reader.readAsDataURL(this.file);
+      reader.readAsDataURL(this.imageFile);
     }
   }
 
@@ -174,46 +174,53 @@ export class PerfilPage implements OnInit {
           duration: 2000,
           color: 'success',
         });
-        if(this.file == undefined){
-          this.usuariosSevice.updateUsuarionofoto(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.user._id, this.punto)
-          .subscribe(  //para actualizar el usuario con lo que quiero editar
-            async res => {
-            let usuariomodificado = res as Modelusuario;
+
+        //Primero actualizamos el Usuario y luego le actualizamos la Foto si es necesario:
+        let usuariomodificado = {
+          password: this.difpass,
+          mail: this.mail,
+          sexo: this.sexo,
+          ubicacion: this.ubicacion,  //Hay que comprobar también si ha cambiado
+          punto: this.punto,          //Hay que comprobar también si ha cambiado
+          edad: this.edad,
+        }
+
+        this.usuarioService.updateUsuario(this.user._id, usuariomodificado)
+        .subscribe(async res => {
+          let usuariomod = res as Modelusuario;
+          console.log(usuariomod);
+          // this.usuario = response.usuario;
+          //this.usuario.jwt = response.jwt;
+          //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+          //Save info locally
+          //await this.storage.saveToken(this.usuario.jwt);
+          await this.storage.saveUser(JSON.stringify(usuariomod));
+          await this.goProfile();
+          await toast.present();
+        },
+        (err) => {
+          console.log("err", err);
+        });
+
+        if(this.imageFile != undefined){
+          this.usuarioService.updateImagenUsuario(this.user._id, this.imageFile)
+          .subscribe(async res => {
+            let usuariomod = res as Modelusuario;
+            console.log(usuariomod);
             // this.usuario = response.usuario;
             //this.usuario.jwt = response.jwt;
             //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
             //Save info locally
             //await this.storage.saveToken(this.usuario.jwt);
-            console.log(usuariomodificado);
-            await this.storage.saveUser(JSON.stringify(usuariomodificado));
+            await this.storage.saveUser(JSON.stringify(usuariomod));
             await this.goProfile();
             await toast.present();
           },
           (err) => {
-            console.log(err);
+            console.log("err", err);
           });
         }
 
-        else{
-          this.usuariosSevice.updateUsuario(this.difpass, this.mail, this.sexo, this.ubicacion, this.edad, this.file, this.user._id, this.punto)
-            .subscribe(  //para actualizar el usuario con lo que quiero editar
-              async res => {
-              let usuariomodificado = res as Modelusuario;
-              // this.usuario = response.usuario;
-              //this.usuario.jwt = response.jwt;
-              //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
-              //Save info locally
-              //await this.storage.saveToken(this.usuario.jwt);
-              console.log(usuariomodificado);
-              await this.storage.saveUser(JSON.stringify(usuariomodificado));
-
-              await this.goProfile();
-              await toast.present();
-            },
-            (err) => {
-              console.log(err);
-            });  
-        }
     },
     err => {
       console.log(err);
@@ -232,7 +239,7 @@ export class PerfilPage implements OnInit {
       });
       await toast.present();
     } 
-    else if  (err.status == 402) {
+    else if  (err.status == 401) {
       console.log('La contraseña antigua no coincide, vuelve a probar');
       const toast = await this.toastController.create({
         message: 'La contraseña antigua no coincide, vuelve a probar',

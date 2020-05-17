@@ -18,6 +18,8 @@ export class MainPage {
 
   lat?: any;
   lon?: any;
+
+  selectedPunto;  //Variable donde se guarda la Ubicación (Punto) del Torneo, Usuario, etc. que se ha pulsado en la Lista
   
   ngOnInit() {
     this.geolocalizacion();
@@ -39,6 +41,9 @@ export class MainPage {
     });
   }
 
-  
+  selectPunto(punto:any){ 
+    //Para guardar el punto seleccionado, y luego mostrarlo en el Tab de Mapas
+    this.selectedPunto = punto;
+  }
 
 }

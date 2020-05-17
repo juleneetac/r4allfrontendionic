@@ -16,6 +16,9 @@
 
             <ion-list>
               <div class="formGroup">
+                <input type = "file" class=d-none (change)="onPhotoSelected($event)" required #photoInput>
+                <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="200px" class="img-fluid" (click)="photoInput.click()">
+
                 <ion-item>
                   <ion-input  formControlName="pass1" type="password" name="pass1" placeholder="Your active password" [(ngModel)]="pass1"></ion-input>
                   <div *ngIf="editperfilForm.controls['pass1'].valid">
@@ -143,11 +146,17 @@
                   </ng-container>
                 </div>
               </div>
-            <input type = "file" class=d-none (change)="onPhotoSelected($event)" required #photoInput>
-            <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="400px" class="img-fluid" (click)="photoInput.click()">
+
+              <div>
+                <label>
+                  Aquí irá el punto {{user.punto.coordinates[0]}} {{user.punto.coordinates[1]}} del Usuario en el Mapa y se podrá cambiar
+                </label>
+              </div>
+            
             <br>   
             </ion-list>
-            <div>
+            
+          <div class="ion-justify-content-center">
             <ion-button color="tertiary" size="large" type="submit" [disabled]="editperfilForm.invalid">Guardar Cambios</ion-button>
           </div>
 
