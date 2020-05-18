@@ -13,6 +13,8 @@ import { ToastController } from '@ionic/angular';
 import { ChatService } from 'src/app/services/serviceChat/chat.service';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { StorageComponent } from 'src/app/storage/storage.component';
+import { AuthService } from 'src/app/services/serviceAuth/auth.service';
+import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'app-register',
@@ -30,8 +32,10 @@ export class RegisterPage implements OnInit {
   sexo: string;
   ubicacion: string;
   punto;
+  usuario: Modelusuario;
 
 constructor(
+  
   private usuarioService: UsuarioService, 
   private torneoService: TorneoService, 
   private router: Router,  
@@ -39,11 +43,13 @@ constructor(
   public toastController: ToastController,
   private chatService: ChatService,
   private geolocation: Geolocation,
-  private storage: StorageComponent
+  private storage: StorageComponent,
+  public auth: AuthService,
+  private socket: Socket
   ) { 
+
+    this.chatService.setSocket(socket); //para iniciar el socket de primeras
   
-  //ESTO AQUÍ PETA PORQUE ESTÁ INTENTANDO CONECTAR EL SOCKET CON UN NOMBRE QUE NO TIENE AÚN
-  //this.chatService.connectSocket(this.username)
 
   this.registerForm = this.formBuilder.group({
 
@@ -125,22 +131,19 @@ ngOnInit() {
     ],
   },
 
+
   //Registrar ubicación del usuario cuando se registra
   this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
     console.log(geoposition);
-
     this.punto = {
       "type": "Point",
       "coordinates": [geoposition.coords.longitude, geoposition.coords.latitude]    //SEGÚN RFC DEL GEOJSON, PARA QUE NO DE ERRORES EN EL MONGO
     }
-
     //ESTO ES PROVISIONAL, EN TEORÍA EL REGISTER DEBERÍA GUARDAR EL USUARIO REGISTRADO EN EL LOCALSTORAGE Y DE AHI COGER SU UBICACIÓN (QUE DE MOMENTO ES LA DE REGISTRO)
-    localStorage.setItem("milatitud", JSON.stringify(this.punto.coordinates[0]));
-    localStorage.setItem("milongitud", JSON.stringify(this.punto.coordinates[1]));
-
-    console.log(this.punto.coordinates[0]);
-    console.log(this.punto.coordinates[1]);
-
+    //localStorage.setItem("milatitud", JSON.stringify(this.punto.coordinates[0]));
+    //localStorage.setItem("milongitud", JSON.stringify(this.punto.coordinates[1]));
+    //console.log(this.punto.coordinates[0]);
+    //console.log(this.punto.coordinates[1]);
   });
 }
 
@@ -162,17 +165,7 @@ registerUser(event){
   let credencialr: Modelregister = new Modelregister(this.username, this.mail, this.pass, this.edad, this.sexo, this.ubicacion, this.punto)
   this.usuarioService.registrar(credencialr).subscribe(
     async res =>{
-      console.log(res);
-      //confirm('Se registro OK')
-
-      //let { usuario, jwt } = res.body;
-      //this.storage.saveUser(JSON.stringify(res.usuario));
-      //this.storage.saveToken(res.jwt);
-
-      //ESTO HAY QUE REVISARLO: EN EL SERVICE DE USUARIO PONE QUE LAS FUNCIONES LOGIN Y REGISTER
-      //RECIBEN UN MODELOUSUARIO COMO RESPONSE DEL POST, PERO EN EL BACKEND DEVUELVE USUARIO + JWT 
-      
-      this.chatService.connectSocket(this.username)
+      console.log(res);    
       const toast = await this.toastController.create({
         message: 'Te registraste con éxito',
         position: 'top',
@@ -180,11 +173,28 @@ registerUser(event){
         color: 'success',
       });
 
-      await toast.present();
+      const response: any = res;
+      this.usuario = response.usuario;
+      this.usuario.jwt = response.jwt;
+      console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+
+      //Save info locally
+      await this.storage.saveToken(this.usuario.jwt);
+      await this.storage.saveUser(JSON.stringify(this.usuario));
+
+      //poner el loginlocal a true para saber que estan logeado en este caso registrado
+      this.auth.loginLocal();
+
       //rutas
-      this.goMain();
+      await this.goMain();
+
+      //send socket username
+      this.chatService.connectSocket(this.username)
+
+      //presentacion del toast
+      await toast.present();
     },
-    err => {
+    async err => {
       console.log(err);
       this.handleError(err);
     });
