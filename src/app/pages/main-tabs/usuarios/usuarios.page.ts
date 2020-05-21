@@ -9,10 +9,14 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./usuarios.page.scss'],
 })
 export class UsuariosPage implements OnInit {
-
+ambiente: Ambiente; 
+  path;
   constructor(
     private usuariosService: UsuarioService
-  ) { }
+  ) { 
+     this.ambiente = new Ambiente();
+    this.path=this.ambiente.path;
+    }
 
   listaUsuarios: Modelusuario[];  //Lista de Usuarios
   
