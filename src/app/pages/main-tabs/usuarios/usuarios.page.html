@@ -88,7 +88,7 @@
           <!--ion-list-header>Lista de Usuarios</ion-list-header-->
             <ion-item *ngFor = "let usuario of listaUsuarios">
               <ion-avatar slot="start">
-                <img [src]="'http://localhost:7000/'+usuario.rutaimagen">
+                <img [src]="path+usuario.rutaimagen">
               </ion-avatar>
               <ion-label> 
                 {{usuario.username}}
