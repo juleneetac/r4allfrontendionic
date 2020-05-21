@@ -8,10 +8,14 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-
+ambiente: Ambiente; 
+  path;
   constructor(
     private storage: StorageComponent
-  ) { }
+  ) {
+    this.ambiente = new Ambiente();
+    this.path=this.ambiente.path;
+    }
 
   usuarioLogueado: Modelusuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
 
