@@ -94,8 +94,8 @@ export class TorneosPage implements OnInit {
 
     
     this.torneosService.getTorneos(query)
-    .subscribe(res => {
-      this.listaTorneos = res as Modeltorneo[];
+    .subscribe(trns => {
+      this.listaTorneos = trns as Modeltorneo[];
       console.log(this.listaTorneos);
     },
     (err) => {

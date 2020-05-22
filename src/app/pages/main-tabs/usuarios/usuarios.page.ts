@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Ambiente } from 'src/app/services/ambiente';
 
 @Component({
   selector: 'app-usuarios',
@@ -11,7 +12,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class UsuariosPage implements OnInit {
 
   constructor(
-    private usuariosService: UsuarioService
+    private usuariosService: UsuarioService,
+    private ambiente: Ambiente
   ) { }
 
   listaUsuarios: Modelusuario[];  //Lista de Usuarios
@@ -127,8 +129,8 @@ export class UsuariosPage implements OnInit {
     Object.assign(query, {'flags': queryflags});
 
     this.usuariosService.getUsuarios(query)
-    .subscribe((res) => {
-        this.listaUsuarios = res as Modelusuario[];
+    .subscribe((usrs) => {
+        this.listaUsuarios = usrs as Modelusuario[];
         console.log(this.listaUsuarios);
       },
       (err) => {

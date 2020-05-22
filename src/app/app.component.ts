@@ -69,14 +69,8 @@ export class AppComponent{
       icon: 'chatbox-ellipses'
      },
 
-    {
-      title: 'Map',
-      //url: '/mapa',
-      icon: 'location'
-     },
-
      {
-      title: 'Settings (Editar Perfil provisional)',
+      title: 'Editar Perfil',
       url: '/perfil',
       icon: 'settings'
      },

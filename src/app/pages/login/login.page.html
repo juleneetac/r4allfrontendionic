@@ -1,7 +1,13 @@
-<ion-header>
+<ion-header translucent>
+
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">Acceder</ion-title>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content class="ion-padding" color="success">
@@ -23,19 +29,18 @@
                 <!-- <ion-label class= "text">Contraseña:  </ion-label> -->
                 <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="password"></ion-input>
               </ion-item>
-              <div>
-                <ion-row class="ion-justify-content-center">
-                    <ion-button size="large" color="tertiary" type="submit" fill="outline">LOGIN</ion-button>
-                </ion-row>
-              </div>
+              
+              <ion-row class="ion-justify-content-center" size="auto">
+                    <ion-button size="large" color="tertiary" type="submit" fill="outline">ENTRAR</ion-button>
+              </ion-row>
             
           </ion-col>
 
           <div>
-             <ion-label class="facebooklabel" (click)="auth.login()" >
+            <ion-label class="facebooklabel" (click)="auth.login()">
               <ion-icon name="logo-facebook"></ion-icon>
-               Click here to sign in with Facebook
-              </ion-label>
+              Accede con tu cuenta de Facebook
+            </ion-label>
           </div>
         </ion-row>
 

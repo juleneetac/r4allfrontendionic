@@ -12,8 +12,7 @@ export class TorneoService {
   environment:Ambiente;
 
   constructor(
-    private http: HttpClient,
-    
+    private http: HttpClient
   ) { 
     this.environment = new Ambiente();
   }

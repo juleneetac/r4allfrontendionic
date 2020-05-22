@@ -1,7 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Hola, bienvenido a editar perfil</ion-title>
+<ion-header translucent>
+
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">Editar perfil</ion-title>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
@@ -10,16 +16,13 @@
     <ion-grid>
       <ion-row class="ion-justify-content-center">
         <ion-col class="ion-align-self-center" size-lg="11" size-xs="12">
-          <div>
-            <h3>Edita tu perfil</h3>
-          </div>
 
             <ion-list>
               <div class="formGroup">
                 <input type = "file" class=d-none (change)="onPhotoSelected($event)" required #photoInput>
                 <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="200px" class="img-fluid" (click)="photoInput.click()">
 
-                <ion-item>
+                <ion-item lines="none">
                   <ion-input  formControlName="pass1" type="password" name="pass1" placeholder="Your active password" [(ngModel)]="pass1"></ion-input>
                   <div *ngIf="editperfilForm.controls['pass1'].valid">
                     <a class="success">&#9989;</a>
@@ -37,7 +40,7 @@
               </div>
 
                 <div class="formGroup">
-                  <ion-item>
+                  <ion-item lines="none">
                     <ion-input  formControlName="difpass" type="password" name="difpass" placeholder="Your NEW password or if you dont want to change put the old password" [(ngModel)]="difpass"></ion-input>
                     <div *ngIf="editperfilForm.controls['difpass'].valid">
                       <a class="success">&#9989;</a>
@@ -76,7 +79,7 @@
               </div> -->
 
               <div class="formGroup">
-                <ion-item>
+                <ion-item lines="none">
                   <ion-input  formControlName="mail" type="text" name="mail" placeholder="Mail" value={{mail}} [(ngModel)]="mail"></ion-input>
                   <div *ngIf="editperfilForm.controls['mail'].valid">
                     <a class="success">&#9989;</a>
@@ -94,7 +97,7 @@
               </div>
   
               <div class="formGroup">
-                <ion-item>
+                <ion-item lines="none">
                   <ion-input  formControlName="sexo" type="text" name="sexo" placeholder="Sexo" value={{user.sexo}} [(ngModel)]="sexo" ></ion-input>
                   <div *ngIf="editperfilForm.controls['sexo'].valid">
                     <a class="success">&#9989;</a>
@@ -112,7 +115,7 @@
               </div>
   
               <div class="formGroup">
-                <ion-item>              
+                <ion-item lines="none">              
                   <ion-input  formControlName="ubicacion" type="text" name="ubicacion" placeholder="Ubicacion" value={{user.ubicacion}} [(ngModel)]="ubicacion" ></ion-input>
                   <div *ngIf="editperfilForm.controls['ubicacion'].valid">
                     <a class="success">&#9989;</a>
@@ -130,7 +133,7 @@
               </div>
   
               <div class="formGroup">
-                <ion-item>
+                <ion-item lines="none">
                   <ion-input  formControlName="edad" type="text" name="edad" placeholder="Edad" value={{user.edad}} [(ngModel)]="edad"></ion-input>
                   <div *ngIf="editperfilForm.controls['edad'].valid">
                     <a class="success">&#9989;</a>
@@ -147,17 +150,30 @@
                 </div>
               </div>
 
-              <div>
-                <label>
-                  Aquí irá el punto {{user.punto.coordinates[0]}} {{user.punto.coordinates[1]}} del Usuario en el Mapa y se podrá cambiar
-                </label>
-              </div>
-            
+              <!--div>
+                <ion-row>
+                  <ion-col size="12"><ion-label>Guardar ubicación actual</ion-label></ion-col>
+                  <ion-col>
+                    <ion-button *ngIf="locationSelected" color="success" fill="solid" (click)="toggleLocationSelected()"><ion-icon name="location-outline"></ion-icon></ion-button>
+                    <ion-button *ngIf="!locationSelected" color="success" fill="outline" (click)="toggleLocationSelected()"><ion-icon name="location-outline"></ion-icon></ion-button> 
+                  </ion-col>
+                </ion-row> 
+              </div-->
+
+
+              <ion-item lines="none">
+                Guardar ubicación actual
+                <ion-button slot="end" *ngIf="locationSelected" color="success" fill="solid" size="default" (click)="toggleLocationSelected()"><ion-icon name="location-outline" slot="icon-only"></ion-icon></ion-button>
+                <ion-button slot="end" *ngIf="!locationSelected" color="success" fill="outline" size="default" (click)="toggleLocationSelected()"><ion-icon name="location-outline" slot="icon-only"></ion-icon></ion-button> 
+              </ion-item> 
+           
             <br>   
             </ion-list>
             
           <div class="ion-justify-content-center">
-            <ion-button color="tertiary" size="large" type="submit" [disabled]="editperfilForm.invalid">Guardar Cambios</ion-button>
+            <ion-row class="ion-justify-content-center">
+              <ion-button color="tertiary" size="large" type="submit" [disabled]="editperfilForm.invalid">ACTUALIZAR</ion-button>
+            </ion-row>
           </div>
 
           </ion-col>

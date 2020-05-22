@@ -46,16 +46,7 @@ const routes: Routes = [
   {
     path: 'chatroom/:username',
     loadChildren: () => import('./pages/chatroom/chatroom.module').then( m => m.ChatroomPageModule)
-  },
-  {
-    path: 'usuarios',
-    loadChildren: () => import('./pages/main-tabs/usuarios/usuarios.module').then( m => m.UsuariosPageModule)
-  },
-  {
-    path: 'torneos',
-    loadChildren: () => import('./pages/main-tabs/torneos/torneos.module').then( m => m.TorneosPageModule)
-  },
-
+  }
 ];
 
 @NgModule({

@@ -1,31 +1,39 @@
 .log {
-    color: #7e57ff;
-    margin-right: 5%;
-    margin-left:5%;
-    position: fixed;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    margin-top: 107px;
+  color: #7e57ff;
+  margin-right: 5%;
+  margin-left:5%;
+  position: fixed;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 107px;
 
-  }
-  .reg {
-    color: #7e57ff;
-    margin-right: 5%;
-    margin-left:5%;
-    position: fixed;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    margin-top: 160px;
-  }
-  ion-label{
-    font-size: 24px;
-    background-color: transparent;
-    color: black;
-    font-weight:bold;
-    margin-top: 60px;
-    justify-content: center;
-    text-align: center;
+}
+.reg {
+  color: #7e57ff;
+  margin-right: 5%;
+  margin-left:5%;
+  position: fixed;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 160px;
+}
+ion-label{
+  font-size: 24px;
+  background-color: transparent;
+  color: black;
+  font-weight:bold;
+  margin-top: 60px;
+  justify-content: center;
+  text-align: center;
 
-  }
+}
+ion-card {
+  display: flex;
+  flex-direction: column;
+  width: 720px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

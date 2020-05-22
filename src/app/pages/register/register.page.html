@@ -1,7 +1,13 @@
-<ion-header>
+<ion-header translucent>
+
   <ion-toolbar>
-    <ion-title>Registro</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">Registrarse</ion-title>
   </ion-toolbar>
+
 </ion-header>
 
 
@@ -13,7 +19,7 @@
       <ion-row class="ion-justify-content-center">
         <ion-col class="ion-align-self-center" size-lg="11" size-xs="12">
           <div>
-            <h3>Registrate y crea una cuenta</h3>
+            <h3>Crea una cuenta en Rackets4All</h3>
           </div>
           <ion-list>
             
@@ -158,7 +164,7 @@
           </ion-list>
             <div>
               <ion-row class="ion-justify-content-center">
-                <ion-button color="tertiary" size="large" type="submit" [disabled]="registerForm.invalid" fill="outline">REGISTRAR</ion-button>
+                <ion-button color="tertiary" size="large" type="submit" [disabled]="registerForm.invalid" fill="outline">REGISTRARSE</ion-button>
               </ion-row>
             </div>
           </ion-col>

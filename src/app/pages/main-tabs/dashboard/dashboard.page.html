@@ -1,15 +1,30 @@
 <ion-app>
+
+  <ion-header translucent>
+
+    <ion-toolbar color="success">
+      <ion-buttons slot="start">
+        <ion-menu-button auto-hide="false"></ion-menu-button>
+      </ion-buttons>
+
+      <ion-title class="ion-text-center">Página Principal</ion-title>
+    </ion-toolbar>
+
+  </ion-header>
+
   <ion-content>
     <ion-card>
       <ion-card-header>
         <ion-card-title class="ion-text-center">
-          <ion-chip color="primary">
-            <ion-avatar>
-              <img [src]="'http://localhost:7000/'+usuarioLogueado.rutaimagen">
-            </ion-avatar>
-            <ion-label>{{usuarioLogueado.username}}</ion-label>
-          </ion-chip>
-          <ion-label>Bienvenido a Rackets4All</ion-label>
+          <ion-row class="ion-justify-content-center">
+            <ion-chip color="primary">
+              <ion-avatar>
+                <img [src]="this.ambiente.path + usuarioLogueado.rutaimagen">
+              </ion-avatar>
+              <ion-label>{{usuarioLogueado.username}}</ion-label>
+            </ion-chip>
+          </ion-row>
+          <strong>Bienvenido de nuevo a Rackets4All</strong>
         </ion-card-title>
       </ion-card-header>
 

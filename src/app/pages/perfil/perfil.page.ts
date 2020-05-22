@@ -15,6 +15,7 @@ import { StorageComponent } from 'src/app/storage/storage.component';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 
 //import crypto = require('crypto-browserify');
 
@@ -55,6 +56,8 @@ export class PerfilPage implements OnInit {
   imageFile: File;
   photoSelected: string | ArrayBuffer
 
+  locationSelected: boolean;  //Indica si guardar o no la ubicación del Usuario en el Servidor
+
   constructor(
     private usuariosSevice: UsuarioService,
     private storage: StorageComponent,
@@ -62,7 +65,8 @@ export class PerfilPage implements OnInit {
     private usuarioService: UsuarioService,
     private router: Router,
     public toastController: ToastController,
-    ) {
+    private mapsService: MapsService
+  ) {
       this.editperfilForm = this.formBuilder.group({
     
         pass1: new FormControl('', Validators.compose([  //se pone el nombre del form control donde pone formControlName
@@ -98,6 +102,7 @@ export class PerfilPage implements OnInit {
     
       );
      }
+
   ngOnInit() {
 
     this.validation_messages = {
@@ -130,8 +135,10 @@ export class PerfilPage implements OnInit {
       'ubicacion': [
         { type: 'required', message: 'Especifique ubicación'}
       ],
+    }
+
+    this.locationSelected = false;
   }
- }
 
   onPhotoSelected(event: HtmlInputEvent): void{
     if (event.target.files && event.target.files[0]) {
@@ -142,30 +149,34 @@ export class PerfilPage implements OnInit {
     }
   }
 
+  toggleLocationSelected(){
+    this.locationSelected = !this.locationSelected;
+    console.log(`Actualizar ubicación ${this.locationSelected}`);
+  }
 
-    goProfile() {
-      this.router.navigateByUrl("profile")
-    }
 
-    updatePerfil (event2){//, experiencia: HTMLInputElement){
-      event.preventDefault()
-      console.log(event2)
+  goProfile() {
+    this.router.navigateByUrl("profile")
+  }
 
-      console.log(this.usernombre)
-      console.log(this.pass1);
-      console.log(this.difpass);
-      console.log(this.mail);
-      console.log(this.sexo);
-      console.log(this.ubicacion);
-      console.log(this.edad);
-      //console.log(experiencia.value);
-      console.log(this.user._id);
-      console.log(this.user.punto);
-      console.log(this.punto);
+  updatePerfil (event2){//, experiencia: HTMLInputElement){
+    event.preventDefault()
+    console.log(event2)
 
-      let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
-      this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
-        async res =>{
+    console.log(this.usernombre)
+    console.log(this.pass1);
+    console.log(this.difpass);
+    console.log(this.mail);
+    console.log(this.sexo);
+    console.log(this.ubicacion);
+    console.log(this.edad);
+    //console.log(experiencia.value);
+    console.log(this.user._id);
+    console.log(this.punto);
+
+    let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
+    this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
+      async res =>{
         //console.log(res);
         //confirm('login correcto');
         const toast = await this.toastController.create({
@@ -175,13 +186,23 @@ export class PerfilPage implements OnInit {
           color: 'success',
         });
 
+        if(this.locationSelected){
+          await this.mapsService.getCurrentPosition().then(pos => { 
+            let position = pos as [number];
+            this.punto = {
+              "type": "Point",
+              "coordinates": pos
+            }
+          });
+        }
+
         //Primero actualizamos el Usuario y luego le actualizamos la Foto si es necesario:
         let usuariomodificado = {
           password: this.difpass,
           mail: this.mail,
           sexo: this.sexo,
           ubicacion: this.ubicacion,  //Hay que comprobar también si ha cambiado
-          punto: this.punto,          //Hay que comprobar también si ha cambiado
+          punto: this.punto,
           edad: this.edad,
         }
 
@@ -220,14 +241,13 @@ export class PerfilPage implements OnInit {
             console.log("err", err);
           });
         }
-
-    },
-    err => {
-      console.log(err);
-      this.handleError(err);
-    });
-
+      },
+      err => {
+        console.log(err);
+        this.handleError(err);
+      });
   }
+
   //errores
   private async handleError(err: HttpErrorResponse) {
     if (err.status == 500) {
