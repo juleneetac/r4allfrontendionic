@@ -6,6 +6,7 @@ Podrás encontrar eventos y personas cerca de tu ubicación o según tus prefere
 en partidos amistosos o torneos organizados por clubs y otros organizadores. 
 
 **Las imágenes contenidas en el directorio `/uploads` son para uso exclusivamente educativo**  
+**Las ubicaciones que se registran, así como las APIs de Mapas y Geolocalización son para uso exclusivamente educativo.**  
   
 ## INDICACIONES:  
 para instalar ionic:  
