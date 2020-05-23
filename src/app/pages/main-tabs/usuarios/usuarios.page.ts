@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Ambiente } from 'src/app/services/ambiente';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios',
@@ -12,7 +14,8 @@ export class UsuariosPage implements OnInit {
 ambiente: Ambiente; 
   path;
   constructor(
-    private usuariosService: UsuarioService
+    private usuariosService: UsuarioService,
+    private router: Router,
   ) { 
      this.ambiente = new Ambiente();
     this.path=this.ambiente.path;
@@ -146,6 +149,11 @@ ambiente: Ambiente;
 
   generoSegmentChanged(ev){
     this.generoValue = ev.detail.value;
+  }
+
+  goAddPartida(invitado)
+  {
+    this.router.navigateByUrl("newpartida/" + invitado)
   }
 
 }

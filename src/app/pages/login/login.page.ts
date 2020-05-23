@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
   private socket: Socket
 
   ) { 
-    this.chatService.setSocket(socket);
+    this.chatService.setSocket(socket);   //VOLVER A PONER CUANDO ACABE DE PROBAR LODE FACEBOOK
   }
 
 password: string;

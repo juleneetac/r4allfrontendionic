@@ -49,6 +49,7 @@ export class AppComponent{
 
     // },
   ];
+  
   public appOut = [
 
     {
@@ -116,8 +117,8 @@ constructor(
       console.log(index)
       this.logout();
     }
-
   }
+  
   initializeApp() {
     this.platform.ready().then(() => {
     this.statusBar.styleDefault();

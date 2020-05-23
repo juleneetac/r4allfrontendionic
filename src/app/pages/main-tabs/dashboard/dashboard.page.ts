@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageComponent } from 'src/app/storage/storage.component'
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
+import { Ambiente } from 'src/app/services/ambiente';
 
 @Component({
   selector: 'app-dashboard',

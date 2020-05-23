@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import { Ambiente } from '../ambiente';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
@@ -56,6 +56,15 @@ export class UsuarioService {
     const fdImagen = new FormData();
     fdImagen.append('rutaimagen', photo);
     return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/updaterutaimagen/${id}`, fdImagen);
+  }
+
+  //Tema facebook
+  updatefacebookUsuario(id:string, userfacemodified:any): Observable<Modelusuario> {
+    return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/updatefacebook/${id}`, userfacemodified);
+  }
+
+  registrarfacebook(register: Modelregister): Observable<HttpResponse<Modelusuario>>{ 
+    return this.http.post<Modelusuario>(this.ambiente.urlUsuario + '/registerfacebook', register, {observe:'response'});  //REVISAR !!!! DEVUELVE UN MODELUSUARIO + SU TOKEN !!!
   }
   
 /*   updateFotoUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, id: string, punto): Observable<Modelusuario>{
