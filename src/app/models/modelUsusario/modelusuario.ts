@@ -1,5 +1,6 @@
 import { Modeltorneo } from '../modelTorneo/modeltorneo';
 import * as io from 'socket.io-client' ;
+import { Modelpartida } from '../modelPartida/modelpartida';
 
 export class Modelusuario {
     _id: string;
@@ -16,9 +17,9 @@ export class Modelusuario {
     edad: number;
     exp: number;
     valoracion: number;
-    partidas: [string]; // cambiar a Modelpartida
+    partidas: [Modelpartida];
     torneos: [Modeltorneo]; 
-    chats: [string];    // cambiar a Modelchat
+    chats: [];    // cambiar a Modelchat
     amigos: [Modelusuario]; 
     jwt: string;  //para el json web token
     socket: SocketIOClient.Socket; 
