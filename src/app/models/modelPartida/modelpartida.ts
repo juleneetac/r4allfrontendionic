@@ -1,4 +1,5 @@
 export class Modelpartida {
+    _id:string;
     modo: string;
     ubicacion: string;
     ganador: string;
