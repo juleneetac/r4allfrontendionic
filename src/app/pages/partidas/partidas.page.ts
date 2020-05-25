@@ -18,7 +18,7 @@ export class PartidasPage implements OnInit {
   usuario = this.localperfil.username;
   jugadoresList: string[] = [];
   ganador: string;
-  myIndex: number;
+  myIndex: number=0;
 
   constructor(
     private partidaService: PartidaService,
@@ -44,19 +44,26 @@ export class PartidasPage implements OnInit {
       }
     )  //el subject service es el declarado arriba en private
   }
-
-  detGanador(event2){
-    let index = this.myIndex;
-    console.log(index)
+  viva(){
+    console.log("viva españa")
+  }
+  
+  detGanador(i){
+   
+    console.log(i)
     event.preventDefault()
-    console.log(event2)
+    
+    
+   
+    //console.log(event2.ganador)
     //this.jugadoresList.push(this.listapartidas[].organizador)
       
       let setganador = {
         ganador: this.ganador, 
       }
-  
-      this.partidaService.updateGanador(this.listapartidas[1]._id, setganador).subscribe( //NO COGE EL ID
+      console.log("ganador: "+ this.ganador)
+      this.ganador=undefined; //megachapuza para que no se activen los dos ion-select a la vez
+      this.partidaService.updateGanador(this.listapartidas[i]._id, setganador).subscribe( //NO COGE EL ID
         async res => {
           const toast = await this.toastController.create({
             message: 'Partida modificada correctamente',
@@ -67,7 +74,7 @@ export class PartidasPage implements OnInit {
         let partidamod = res as Modelpartida;
         console.log(partidamod);
 
-        //window.location.reload();   //para refrescar la pagina
+        window.location.reload();   //para refrescar la pagina
 
         await toast.present();
   
