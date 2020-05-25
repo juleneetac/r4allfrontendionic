@@ -2,21 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
 import { IonicModule } from '@ionic/angular';
 
-import { PerfilPageRoutingModule } from './perfil-routing.module';
+import { NewpartidaPageRoutingModule } from './newpartida-routing.module';
 
-import { PerfilPage } from './perfil.page';
+import { NewpartidaPage } from './newpartida.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PerfilPageRoutingModule,
+    NewpartidaPageRoutingModule,
     ReactiveFormsModule,
-
   ],
-  declarations: [PerfilPage]
+  declarations: [NewpartidaPage]
 })
-export class PerfilPageModule {}
+export class NewpartidaPageModule {}

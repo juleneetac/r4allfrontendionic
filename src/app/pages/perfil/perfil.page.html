@@ -5,6 +5,14 @@
 </ion-header>
 
 <ion-content>
+
+  <div class="ion-justify-content-center">
+    <ion-label> Edita tus datos aquí si te registrarset con Facebook   </ion-label>
+    <ion-button class="facebooklabel" (click)="goEditFacebook()" >
+      <ion-icon name="logo-facebook" ></ion-icon>
+       Edita</ion-button>
+  </div>
+
   <ion-card>
     <form [formGroup]="editperfilForm" (ngSubmit)="updatePerfil($event2)">
     <ion-grid>

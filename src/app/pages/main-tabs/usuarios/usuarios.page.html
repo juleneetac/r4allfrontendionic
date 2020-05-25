@@ -88,7 +88,7 @@
           <!--ion-list-header>Lista de Usuarios</ion-list-header-->
             <ion-item *ngFor = "let usuario of listaUsuarios">
               <ion-avatar slot="start">
-                <img [src]="'http://localhost:7000/'+usuario.rutaimagen">
+                <img [src]="path+usuario.rutaimagen">
               </ion-avatar>
               <ion-label> 
                 {{usuario.username}}
@@ -107,7 +107,7 @@
                   <ion-label>Valoración {{usuario.valoracion}}</ion-label>
                 </ion-chip>
               </ion-label>
-              <ion-button fill="clear" color="success" size="large">
+              <ion-button fill="clear" color="success" size="large" (click)= "goAddPartida(usuario.username)">
                 <ion-icon name="add"></ion-icon>
               </ion-button>
             </ion-item>
