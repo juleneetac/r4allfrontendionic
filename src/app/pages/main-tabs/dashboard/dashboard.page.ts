@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
-import { Ambiente } from '../../../services/ambiente';
+import { Ambiente } from 'src/app/services/ambiente';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,16 +10,25 @@ import { Ambiente } from '../../../services/ambiente';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-
+  ambiente: Ambiente; 
+  path;
   constructor(
     private storage: StorageComponent,
-    private ambiente: Ambiente
-  ) { }
+    private router: Router,
+  ) {
+    this.ambiente = new Ambiente();
+    this.path=this.ambiente.path;
+    }
 
   usuarioLogueado: Modelusuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
 
   ngOnInit() {
     this.usuarioLogueado = JSON.parse(this.storage.getUser());
+  }
+
+  goPartidas()
+  {
+    this.router.navigateByUrl("partidas")
   }
 
 }

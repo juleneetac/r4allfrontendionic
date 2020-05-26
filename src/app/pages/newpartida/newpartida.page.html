@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>newpartida</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="true">
+  <ion-card>
+    <form (ngSubmit)="addPartida($event)">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Crea tu partida</ion-card-title> 
+      </ion-card-header>
+
+
+      <ion-card-content>
+        <ion-list>
+          <!-- <ion-item lines="none">
+            <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[0]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+            <ion-col><ion-label>Ubicación:</ion-label></ion-col>
+            <ion-col>Aquí irá el Mapa</ion-col>
+            <ion-col><ion-input type="number" min="0" formControlName="radio"></ion-input></ion-col>
+          </ion-item> -->
+
+          <ion-item lines="none">
+            <ion-col><ion-label>Organizador</ion-label></ion-col>
+            <ion-col>
+              <ion-input class= "inp" type="text" name="organizador" value= {{organizador}} readonly=readonly></ion-input>
+            </ion-col>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-col><ion-label>Invitado</ion-label></ion-col>
+            <ion-col>
+              <ion-input class= "inp" type="text" name="invitado"  value= {{invitado[0]}} readonly=readonly></ion-input>
+            </ion-col>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-col><ion-label>Modo</ion-label></ion-col>
+            <ion-col>
+              <ion-segment value="i" (ionChange)="modoSegmentChanged($event)" [(ngModel)]="modo" name = "modo">
+                <ion-segment-button value="i">
+                  <ion-label>(I)ndividuales</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="d">
+                  <ion-label>(D)obles</ion-label>
+                </ion-segment-button>
+              </ion-segment>
+            </ion-col>
+          </ion-item>
+        </ion-list>
+
+        <div>
+          <ion-row class="ion-justify-content-center">
+              <ion-button size="large" color="tertiary" type="submit" fill="outline">Crea Partida</ion-button>
+          </ion-row>
+        </div>
+
+
+      </ion-card-content>
+    </form>
+
+    <div>
+      <h3>Partidas de {{organizador}}</h3>
+      <ion-item *ngFor="let partida of listapartidas">
+        <ion-label>Organizada por: {{partida.organizador}}</ion-label>
+      </ion-item>
+    </div>
+
+  </ion-card>
+  
+
+</ion-content>

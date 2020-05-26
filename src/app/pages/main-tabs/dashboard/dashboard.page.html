@@ -19,7 +19,7 @@
           <ion-row class="ion-justify-content-center">
             <ion-chip color="primary">
               <ion-avatar>
-                <img [src]="this.ambiente.path + usuarioLogueado.rutaimagen">
+                <img [src]="path+usuarioLogueado.rutaimagen">
               </ion-avatar>
               <ion-label>{{usuarioLogueado.username}}</ion-label>
             </ion-chip>
@@ -67,7 +67,7 @@
               <ion-card>
                 <ion-card-header>
                   <ion-card-title>
-                    Tus Partidos Activos
+                    <ion-button (click)= "goPartidas()">Tus Partidos Activos </ion-button>
                   </ion-card-title>
                 </ion-card-header>
               </ion-card>

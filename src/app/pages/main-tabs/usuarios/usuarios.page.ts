@@ -4,6 +4,7 @@ import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service'
 import { FormGroup, FormControl } from '@angular/forms';
 import { Ambiente } from 'src/app/services/ambiente';
 import { MapsService } from 'src/app/services/serviceMaps/maps.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios',
@@ -11,12 +12,16 @@ import { MapsService } from 'src/app/services/serviceMaps/maps.service';
   styleUrls: ['./usuarios.page.scss'],
 })
 export class UsuariosPage implements OnInit {
-
+ambiente: Ambiente; 
+  path;
   constructor(
     private usuariosService: UsuarioService,
     private mapsService: MapsService,
-    private ambiente: Ambiente
-  ) { }
+    private router: Router,
+  ) { 
+    this.ambiente = new Ambiente();
+    this.path=this.ambiente.path;
+    }
 
   listaUsuarios: Modelusuario[];  //Lista de Usuarios
   
@@ -156,4 +161,10 @@ export class UsuariosPage implements OnInit {
   updateRangoValue(event){
     this.rangoValue = event.detail.value;
   }
+  
+  goAddPartida(invitado)
+  {
+    this.router.navigateByUrl("newpartida/" + invitado)
+  }
+
 }

@@ -4,19 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PerfilPageRoutingModule } from './perfil-routing.module';
+import { EditfacebookPageRoutingModule } from './editfacebook-routing.module';
 
-import { PerfilPage } from './perfil.page';
+import { EditfacebookPage } from './editfacebook.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PerfilPageRoutingModule,
+    EditfacebookPageRoutingModule,
     ReactiveFormsModule,
-
   ],
-  declarations: [PerfilPage]
+  declarations: [EditfacebookPage]
 })
-export class PerfilPageModule {}
+export class EditfacebookPageModule {}

@@ -193,7 +193,7 @@ registerUser(event){
       await this.storage.saveToken(this.usuario.jwt);
       await this.storage.saveUser(JSON.stringify(this.usuario));
 
-      //poner el loginlocal a true para saber que estan logeado en este caso registrado
+      //poner el loginlocal a true para saber que estan logeado
       this.auth.loginLocal();
 
       //rutas

@@ -50,7 +50,9 @@ export class ChatService {
     console.log(this.socket)
     return new Observable((observer) => {
       this.socket.on('listaUsuarios', (data) => {
+        console.log(data);
         observer.next(data);
+        console.log(observer);
       });
     });
 

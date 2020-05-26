@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>editfacebook</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <pre *ngIf="auth.userProfile$ | async as profile">
+
+    <ion-card>
+      <form [formGroup]="editfacebookForm" (ngSubmit)="updatefacebookPerfil($event2)">
+      <ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-col class="ion-align-self-center" size-lg="11" size-xs="12">
+            <div>
+              <h3>Edita tu cuenta Facebook</h3>
+            </div>
+            <ion-input class="facebookform" type="text" name="given_name" value= {{profile.given_name}}   readonly=readonly></ion-input>
+            <ion-input class="facebookform" type="text" name="mail" value= {{profile.email}}   readonly=readonly></ion-input>
+            <ion-input class="facebookform" type="text" name="sexo" value= {{profile.gender}}   readonly=readonly></ion-input>
+
+          <ion-list>
+              <div class="formGroup">
+              <ion-item>
+                <ion-input  formControlName="edad" type="text" name="edad" placeholder="tu edad" [(ngModel)]="edad"></ion-input>
+                <div *ngIf="editfacebookForm.controls['edad'].valid">
+                  <a class="success">&#9989;</a>
+                </div>
+              </ion-item>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.edad" >
+                  <div *ngIf="editfacebookForm.get('edad').hasError(validation.type) && (editfacebookForm.get('edad').dirty || editfacebookForm.get('edad').touched)">
+                    <div class="danger">
+                      {{ validation.message }}
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+    
+                <div class="formGroup">
+                  <ion-item>              
+                    <ion-input  formControlName="ubicacion" type="text" name="ubicacion" placeholder="Ubicacion" [(ngModel)]="ubicacion" ></ion-input>
+                    <div *ngIf="editfacebookForm.controls['ubicacion'].valid">
+                      <a class="success">&#9989;</a>
+                    </div>
+                  </ion-item>
+                  <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.ubicacion" >
+                      <div *ngIf="editfacebookForm.get('ubicacion').hasError(validation.type) && (editfacebookForm.get('ubicacion').dirty || editfacebookForm.get('ubicacion').touched)">
+                        <div class="danger">
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div> 
+                <div class="formGroup">
+                  <input type = "file" class=d-none (change)="onPhotoSelected($event)" required #photoInput>
+                  <img [src] ="photoSelected || 'assets/c12139b9-196e-4ee3-beb5-ce0438932898.png'" width="200px" class="img-fluid" (click)="photoInput.click()">
+                </div>
+  
+                <!-- <div>
+                  <label>
+                    Aquí irá el punto {{user.punto.coordinates[0]}} {{user.punto.coordinates[1]}} del Usuario en el Mapa y se podrá cambiar
+                  </label>
+                </div> -->
+              
+              <br>   
+              </ion-list>
+              
+            <div class="ion-justify-content-center">
+              <ion-button color="tertiary" size="large" type="submit" [disabled]="editfacebookForm.invalid">Guardar Cambios</ion-button>
+            </div>
+  
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-card>
+  </pre>
+</ion-content>

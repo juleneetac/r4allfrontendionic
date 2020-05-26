@@ -46,7 +46,32 @@ const routes: Routes = [
   {
     path: 'chatroom/:username',
     loadChildren: () => import('./pages/chatroom/chatroom.module').then( m => m.ChatroomPageModule)
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () => import('./pages/main-tabs/usuarios/usuarios.module').then( m => m.UsuariosPageModule)
+  },
+  {
+    path: 'torneos',
+    loadChildren: () => import('./pages/main-tabs/torneos/torneos.module').then( m => m.TorneosPageModule)
+  },
+  {
+    path: 'editfacebook',
+    loadChildren: () => import('./pages/facebook/editfacebook/editfacebook.module').then( m => m.EditfacebookPageModule)
+  },
+  {
+    path: 'registerfacebook',
+    loadChildren: () => import('./pages/facebook/registerfacebook/registerfacebook.module').then( m => m.RegisterfacebookPageModule)
+  },
+  {
+    path: 'newpartida/:invitado',
+    loadChildren: () => import('./pages/newpartida/newpartida.module').then( m => m.NewpartidaPageModule)
+  },
+  {
+    path: 'partidas',
+    loadChildren: () => import('./pages/partidas/partidas.module').then( m => m.PartidasPageModule)
   }
+
 ];
 
 @NgModule({

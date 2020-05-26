@@ -185,7 +185,6 @@ export class PerfilPage implements OnInit {
     }
   }
 
-
   goProfile() {
     this.router.navigateByUrl("profile")
   }
@@ -208,6 +207,98 @@ export class PerfilPage implements OnInit {
     let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
     this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
       async res =>{
+        //console.log(res);
+        //confirm('login correcto');
+        const toast = await this.toastController.create({
+          message: 'Updated usuario',
+          position: 'top',
+          duration: 2000,
+          color: 'success',
+        });
+
+        if(this.locationSelected){
+          this.ubicacion = this.newUbicacion;
+          this.punto = this.newPunto;
+        }
+
+        //Primero actualizamos el Usuario y luego le actualizamos la Foto si es necesario:
+        let usuariomodificado = {
+          password: this.difpass,
+          mail: this.mail,
+          sexo: this.sexo,
+          ubicacion: this.ubicacion,
+          punto: this.punto,
+          edad: this.edad,
+        }
+
+        console.log(usuariomodificado);
+
+        this.usuarioService.updateUsuario(this.user._id, usuariomodificado)
+        .subscribe(async res => {
+          let usuariomod = res as Modelusuario;
+          console.log(usuariomod);
+          // this.usuario = response.usuario;
+          //this.usuario.jwt = response.jwt;
+          //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+          //Save info locally
+          //await this.storage.saveToken(this.usuario.jwt);
+          await this.storage.saveUser(JSON.stringify(usuariomod));
+          await this.goProfile();
+          await toast.present();
+        },
+        (err) => {
+          console.log("err", err);
+        });
+
+        if(this.imageFile != undefined){
+          this.usuarioService.updateImagenUsuario(this.user._id, this.imageFile)
+          .subscribe(async res => {
+            let usuariomod = res as Modelusuario;
+            console.log(usuariomod);
+            // this.usuario = response.usuario;
+            //this.usuario.jwt = response.jwt;
+            //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+            //Save info locally
+            //await this.storage.saveToken(this.usuario.jwt);
+            await this.storage.saveUser(JSON.stringify(usuariomod));
+            await this.goProfile();
+            await toast.present();
+          },
+          (err) => {
+            console.log("err", err);
+          });
+        }
+      },
+      err => {
+        console.log(err);
+        this.handleError(err);
+      });
+  }
+
+
+    goEditFacebook() {
+      this.router.navigateByUrl("editfacebook")
+    }
+
+    updatePerfil (event2){//, experiencia: HTMLInputElement){
+      event.preventDefault()
+      console.log(event2)
+
+      console.log(this.usernombre)
+      console.log(this.pass1);
+      console.log(this.difpass);
+      console.log(this.mail);
+      console.log(this.sexo);
+      console.log(this.ubicacion);
+      console.log(this.edad);
+      //console.log(experiencia.value);
+      console.log(this.user._id);
+      console.log(this.user.punto);
+      console.log(this.punto);
+
+      let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
+      this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
+        async res =>{
         //console.log(res);
         //confirm('login correcto');
         const toast = await this.toastController.create({
