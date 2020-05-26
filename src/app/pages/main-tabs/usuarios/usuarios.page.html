@@ -33,22 +33,26 @@
         <ion-card-content *ngIf="visibleFilters">
 
           <ion-list>
+            <ion-list-header>Filtrar por</ion-list-header>
+
             <ion-item lines="none">
               <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[0]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Nombre de Usuario:</ion-label></ion-col>
+              <ion-col><ion-label>Nombre de Usuario</ion-label></ion-col>
               <ion-col><ion-input type="text" placeholder="Nombre del Usuario" formControlName="usernameInput"></ion-input></ion-col>
             </ion-item>
 
             <ion-item lines="none">
               <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[1]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Ubicación:</ion-label></ion-col>
-              <ion-col>Aquí irá el Mapa</ion-col>
-              <ion-col><ion-input type="number" min="0" formControlName="radio"></ion-input></ion-col>
+              <ion-col><ion-label>Ubicación (km)</ion-label></ion-col>
+              <ion-range max="100" pin="true" [(ngModel)]="rangoValue" [ngModelOptions]="{standalone: true}" (ionChange)="updateRangoValue($event)">
+                <ion-icon slot="start" size="small" name="pin"></ion-icon>
+                <ion-icon slot="end" name="pin"></ion-icon>
+              </ion-range>
             </ion-item>
 
             <ion-item lines="none">
               <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[2]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Sexo:</ion-label></ion-col>
+              <ion-col><ion-label>Sexo</ion-label></ion-col>
               <ion-col>
                 <ion-segment value="m" (ionChange)="generoSegmentChanged($event)">
                   <ion-segment-button value="m">
@@ -62,7 +66,7 @@
             </ion-item>
 
             <ion-item lines="none">
-              <ion-col><ion-label>Edad:</ion-label></ion-col>
+              <ion-col><ion-label>Edad</ion-label></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[3]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
               <ion-col size="2"><ion-input type="number" placeholder="Min" min="0" formControlName="minEdadInput"></ion-input></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[4]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
@@ -70,7 +74,7 @@
             </ion-item>
 
             <ion-item lines="none">
-              <ion-col><ion-label>Experiencia:</ion-label></ion-col>
+              <ion-col><ion-label>Experiencia</ion-label></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[5]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
               <ion-col size="2"><ion-input type="number" placeholder="Min" min="0" formControlName="minExpInput"></ion-input></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[6]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
@@ -106,7 +110,7 @@
               <ion-label> 
                 {{usuario.username}}
                 <h1><ion-badge color="secondary">{{usuario.ubicacion}}</ion-badge></h1>
-                <ion-chip outline color="tertiary">
+                <ion-chip outline color="dark">
                   <ion-label *ngIf="usuario.sexo == 'm'">Hombre</ion-label>
                   <ion-label *ngIf="usuario.sexo == 'f'">Mujer</ion-label>
                 </ion-chip>

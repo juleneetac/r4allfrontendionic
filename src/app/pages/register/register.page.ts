@@ -80,8 +80,8 @@ constructor(
            Validators.required,
           Validators.pattern(/^[mf]$/)])),  
 
-    ubicacion: new FormControl('', Validators.compose([
-            Validators.required,])),  
+/*     ubicacion: new FormControl('', Validators.compose([
+            Validators.required,])),   */
   },
 
   {
@@ -123,10 +123,12 @@ async ngOnInit() {
     'sexo': [
       { type: 'required', message: 'Sexo is required'},
       { type: 'pattern', message: 'Pon " m " para masculino y " f " para femenino'}
-    ],
+    ]
+    
+/*     ,
     'ubicacion': [
       { type: 'required', message: 'Especifique ubicación'}
-    ],
+    ], */
   },
 
   //Registrar ubicación del usuario cuando se registra
@@ -137,7 +139,23 @@ async ngOnInit() {
       "type": "Point",
       "coordinates": [position[0], position[1]]    //SEGÚN RFC DEL GEOJSON, PARA QUE NO DE ERRORES EN EL MONGO
     }
+    this.mapsService.getReverseGeocode(position[1], position[0])
+    .subscribe((res) => { 
+      if(res.address.city != null){
+        this.ubicacion = res.address.city;
+      }
+      else if(res.address.town != null){
+        this.ubicacion = res.address.town;
+      }
+      else if(res.address.village != null){
+        this.ubicacion = res.address.village;
+      }
+      else {
+        this.ubicacion = res.display_name;
+      }
+    });
   });
+
 }
 
  //rutas

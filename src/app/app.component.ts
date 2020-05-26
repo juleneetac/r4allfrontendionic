@@ -7,7 +7,8 @@ import {Router} from "@angular/router";
 import { AuthService } from './services/serviceAuth/auth.service';
 import { ChatService } from './services/serviceChat/chat.service';
 import { StorageComponent } from './storage/storage.component';
-
+import { Modelusuario } from './models/modelUsusario/modelusuario';
+import { Ambiente } from './services/ambiente';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import { StorageComponent } from './storage/storage.component';
 })
 export class AppComponent{
 
-  localperfil: string;
+  usuarioLogueado: Modelusuario;
 
   public appPages = [
     {
@@ -54,7 +55,7 @@ export class AppComponent{
     {
       title: 'Main',
       url: '/main',
-      icon: 'desktop'
+      icon: 'tablet-landscape'
      },
 
     {
@@ -85,17 +86,16 @@ constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private router: Router,
-    //public storage: StorageComponent,
+    public storage: StorageComponent,
     private statusBar: StatusBar,
     public auth: AuthService,
     public chatService: ChatService,
-    public storage: StorageComponent
+    private ambiente: Ambiente
   ) 
   
   {
     this.initializeApp();
   }
-
 
   logout(){
     this.auth.logout();
@@ -103,8 +103,6 @@ constructor(
   }
 
   checkButton(index :number){
-
-    //this.localperfil =  JSON.parse(this.storage.getUser());
     console.log()
     if (index==5){
       console.log(index)
@@ -116,6 +114,7 @@ constructor(
     this.platform.ready().then(() => {
     this.statusBar.styleDefault();
     this.splashScreen.hide();
+    this.usuarioLogueado = JSON.parse(this.storage.getUser());
     });
   }
 }

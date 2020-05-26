@@ -21,4 +21,9 @@ export class TorneoService {
     const path = `${this.environment.urlTorneo}/gettrns`;
     return this.http.post<Modeltorneo[]>(path, filtros);
   }
+
+  getAllTorneos(): Observable<Modeltorneo[]> {
+    const path = `${this.environment.urlTorneo}/getalltrns`;
+    return this.http.get<Modeltorneo[]>(path);
+  }
 }

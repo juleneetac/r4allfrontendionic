@@ -3,6 +3,8 @@ import { Modelusuario } from '../modelUsusario/modelusuario';
 export class Modeltorneo {
     _id: string;
     nombre: string;         //Nombre del Torneo
+    descripcion: string;        
+    sitioweb: string;       //Sitio web del Organizador o del torneo
     modo: string;           //Individuales o Dobles
     genero: string;         //m o f
     pistacubierta: boolean; //Cubierta o no

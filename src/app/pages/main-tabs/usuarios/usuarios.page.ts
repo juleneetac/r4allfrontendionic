@@ -3,6 +3,7 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Ambiente } from 'src/app/services/ambiente';
+import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -13,6 +14,7 @@ export class UsuariosPage implements OnInit {
 
   constructor(
     private usuariosService: UsuarioService,
+    private mapsService: MapsService,
     private ambiente: Ambiente
   ) { }
 
@@ -22,6 +24,7 @@ export class UsuariosPage implements OnInit {
 
   listaUsuariosFlags = [];  //Flags para filtrar la lista de Usuarios
   generoValue;              //Valor del Segment de sexo del Usuario (m/f)
+  rangoValue;               //Valor del Range de ubicación
 
   //Form para filtrar la lista de Usuarios
   listaUsuariosForm = new FormGroup({
@@ -48,7 +51,10 @@ export class UsuariosPage implements OnInit {
     this.getUsuarios();
   }
 
-  public getUsuarios(){
+  public async getUsuarios(){
+
+    let position;
+    await this.mapsService.getCurrentPosition().then(pos => { position = pos as [number]; });
 
     interface LooseObject {
       [key: string]: any
@@ -62,7 +68,8 @@ export class UsuariosPage implements OnInit {
     }
     if(this.listaUsuariosFlags[1]){
       queryflags[1] = this.listaUsuariosFlags[1];
-        //--------- BUSCAR POR UBICACIÓN Y RADIO: QUEDA PENDIENTE ------------//
+      Object.assign(query, { 'punto': { 'type': "Point", 'coordinates': position }});
+      Object.assign(query, { 'radio': (this.rangoValue * 1000) });
     }
     if(this.listaUsuariosFlags[2]){
       queryflags[2] = this.listaUsuariosFlags[2];
@@ -146,4 +153,7 @@ export class UsuariosPage implements OnInit {
     this.generoValue = ev.detail.value;
   }
 
+  updateRangoValue(event){
+    this.rangoValue = event.detail.value;
+  }
 }

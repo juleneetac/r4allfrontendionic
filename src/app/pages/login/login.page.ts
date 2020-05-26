@@ -61,8 +61,8 @@ loginUser(event){
       const toast = await this.toastController.create({
         message: 'Login correcto',
         position: 'top',
-        duration: 2000,
-        color: 'success',
+        duration: 1000,
+        color: 'dark',
       });
 
       

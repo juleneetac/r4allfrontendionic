@@ -80,34 +80,55 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
+
+      <ion-header *ngIf="!auth.loggedIn && !auth.authenticationState">
+        <ion-toolbar translucent>
+          <ion-title>Rackets4All</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-header *ngIf="auth.loggedIn || auth.authenticationState">
+        <ion-toolbar translucent>
+          <ion-title>
+            <ion-chip color="primary">
+              <ion-avatar>
+                <img [src]="this.ambiente.path + usuarioLogueado.rutaimagen">
+              </ion-avatar>
+              <ion-label *ngIf="auth.userProfile$ | async as profile">{{profile.given_name}}</ion-label>
+              <ion-label *ngIf="auth.authenticationState">{{auth.putUsername()}}</ion-label>
+            </ion-chip>
+          </ion-title>
+
+
+        </ion-toolbar>
+      </ion-header>
+
+
       <ion-content *ngIf="!auth.loggedIn && !auth.authenticationState">
         <ion-list id="inbox-list">
-          <ion-list-header>R4all</ion-list-header>
-          <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
-
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
-          </ion-menu-toggle>    
+          </ion-menu-toggle>
+          <br>
+          <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
         </ion-list>
       </ion-content>
 
       <ion-content *ngIf="auth.loggedIn || auth.authenticationState">
         <ion-list id="inbox-list">
-          <ion-list-header *ngIf="auth.userProfile$ | async as profile">R4all:  {{profile.given_name}} </ion-list-header>
-          <ion-list-header *ngIf="auth.authenticationState">R4all:  {{auth.putUsername()}} </ion-list-header>
-          <ion-note>Contact support: piterarmstrongeetac@hotmail.com</ion-note>
+
           <ion-menu-toggle auto-hide="false" *ngFor="let o of appOut; let i = index">
             <ion-item (click)="checkButton(i)" routerDirection="root" [routerLink]="[o.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
               <!--<span *ngIf=i=4  >{{logout()}} </span> -->
               <ion-icon slot="start" [ios]="o.icon + '-outline'" [md]="o.icon + '-sharp'"></ion-icon>
               <ion-label>{{ o.title }}</ion-label>
             </ion-item>
-
-          </ion-menu-toggle> 
-
+          </ion-menu-toggle>
+          <br>
+          <ion-item lines="none"><ion-note><b>Rackets4All</b><br><p>Contact support: piterarmstrongeetac@hotmail.com</p></ion-note></ion-item>
         </ion-list>
       </ion-content>
 

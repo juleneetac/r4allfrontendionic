@@ -57,6 +57,8 @@ export class PerfilPage implements OnInit {
   photoSelected: string | ArrayBuffer
 
   locationSelected: boolean;  //Indica si guardar o no la ubicación del Usuario en el Servidor
+  newUbicacion;   //Guardar la nueva ubicación cuando le das al botón
+  newPunto;       //Guardar la nueva ubicación cuando le das al botón
 
   constructor(
     private usuariosSevice: UsuarioService,
@@ -90,10 +92,10 @@ export class PerfilPage implements OnInit {
     
         sexo: new FormControl('', Validators.compose([
               Validators.required,
-              Validators.pattern(/^[mf]$/)])),  
+              Validators.pattern(/^[mf]$/)]))
     
-        ubicacion: new FormControl('', Validators.compose([
-                Validators.required,])),  
+/*         ubicacion: new FormControl('', Validators.compose([
+                Validators.required,])),   */
       },
     
       // {
@@ -131,10 +133,10 @@ export class PerfilPage implements OnInit {
       'sexo': [
         { type: 'required', message: 'Sexo is required'},
         { type: 'pattern', message: 'Pon " m " para masculino y " f " para femenino'}
-      ],
-      'ubicacion': [
+      ]
+/*       'ubicacion': [
         { type: 'required', message: 'Especifique ubicación'}
-      ],
+      ], */
     }
 
     this.locationSelected = false;
@@ -149,9 +151,38 @@ export class PerfilPage implements OnInit {
     }
   }
 
-  toggleLocationSelected(){
+  async toggleLocationSelected(){
     this.locationSelected = !this.locationSelected;
     console.log(`Actualizar ubicación ${this.locationSelected}`);
+
+    if(this.locationSelected){
+      await this.mapsService.getCurrentPosition().then(pos => { 
+        let position = pos;
+        this.newPunto = {
+          "type": "Point",
+          "coordinates": pos
+        }
+        this.mapsService.getReverseGeocode(position[1], position[0])
+        .subscribe((res) => { 
+          if(res.address.city != null){
+            console.log(res.address.city);
+            this.newUbicacion = res.address.city.toString();
+          }
+          else if(res.address.town != null){
+            console.log(res.address.town);
+            this.newUbicacion = res.address.town.toString();
+          }
+          else if(res.address.village != null){
+            console.log(res.address.village);
+            this.newUbicacion = res.address.village.toString();
+          }
+          else {
+            console.log(res.address.display_name);
+            this.newUbicacion = res.display_name.toString();
+          }
+        });
+      });
+    }
   }
 
 
@@ -187,13 +218,8 @@ export class PerfilPage implements OnInit {
         });
 
         if(this.locationSelected){
-          await this.mapsService.getCurrentPosition().then(pos => { 
-            let position = pos as [number];
-            this.punto = {
-              "type": "Point",
-              "coordinates": pos
-            }
-          });
+          this.ubicacion = this.newUbicacion;
+          this.punto = this.newPunto;
         }
 
         //Primero actualizamos el Usuario y luego le actualizamos la Foto si es necesario:
@@ -201,10 +227,12 @@ export class PerfilPage implements OnInit {
           password: this.difpass,
           mail: this.mail,
           sexo: this.sexo,
-          ubicacion: this.ubicacion,  //Hay que comprobar también si ha cambiado
+          ubicacion: this.ubicacion,
           punto: this.punto,
           edad: this.edad,
         }
+
+        console.log(usuariomodificado);
 
         this.usuarioService.updateUsuario(this.user._id, usuariomodificado)
         .subscribe(async res => {
