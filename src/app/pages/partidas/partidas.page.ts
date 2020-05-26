@@ -19,6 +19,7 @@ export class PartidasPage implements OnInit {
   jugadoresList: string[] = [];
   ganador: string;
   myIndex: number=0;
+  jugador:string;
 
   constructor(
     private partidaService: PartidaService,
@@ -29,8 +30,7 @@ export class PartidasPage implements OnInit {
 
   ngOnInit() {
     this.getPartidasde(this.localperfil._id)
-    this.jugadoresList[0]="Lel";
-    this.jugadoresList[1]="Grupoea";
+    
   }
 
   public getPartidasde(id:string){  //obtengo los estudiantes de una asignatura en concreto

@@ -25,7 +25,8 @@
         <div *ngIf="partida.ganador == 'encurso'">
         <ion-item>
             <ion-select  [(ngModel)]="ganador" placeholder="Seleccionar ganador"(ionChange)="detGanador(i)">
-              <ion-select-option *ngFor="let jugador of jugadoresList"   [value] =jugador  checked="false">{{jugador}}</ion-select-option>
+              <ion-select-option [value]=partida.organizador>{{partida.organizador}}</ion-select-option>
+              <ion-select-option *ngFor="let jugador of partida.invitado"   [value] =jugador  checked="false">{{jugador}}</ion-select-option>
               <!-- <ion-select-option value="Hierba">Hierba</ion-select-option>
               <ion-select-option value="Greenset">Greenset</ion-select-option>
               <ion-select-option value="Detourf">Detourf</ion-select-option>
