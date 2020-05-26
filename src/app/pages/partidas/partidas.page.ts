@@ -52,9 +52,6 @@ export class PartidasPage implements OnInit {
    
     console.log(i)
     event.preventDefault()
-    
-    
-   
     //console.log(event2.ganador)
     //this.jugadoresList.push(this.listapartidas[].organizador)
       
@@ -73,11 +70,9 @@ export class PartidasPage implements OnInit {
           });
         let partidamod = res as Modelpartida;
         console.log(partidamod);
-
+        await toast.present();
         window.location.reload();   //para refrescar la pagina
 
-        await toast.present();
-  
     },
     err => {
       console.log(err);
