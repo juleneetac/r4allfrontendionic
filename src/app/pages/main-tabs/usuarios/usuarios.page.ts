@@ -3,6 +3,7 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Ambiente } from 'src/app/services/ambiente';
+import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,9 +16,10 @@ ambiente: Ambiente;
   path;
   constructor(
     private usuariosService: UsuarioService,
+    private mapsService: MapsService,
     private router: Router,
   ) { 
-     this.ambiente = new Ambiente();
+    this.ambiente = new Ambiente();
     this.path=this.ambiente.path;
     }
 
@@ -27,6 +29,7 @@ ambiente: Ambiente;
 
   listaUsuariosFlags = [];  //Flags para filtrar la lista de Usuarios
   generoValue;              //Valor del Segment de sexo del Usuario (m/f)
+  rangoValue;               //Valor del Range de ubicación
 
   //Form para filtrar la lista de Usuarios
   listaUsuariosForm = new FormGroup({
@@ -53,7 +56,10 @@ ambiente: Ambiente;
     this.getUsuarios();
   }
 
-  public getUsuarios(){
+  public async getUsuarios(){
+
+    let position;
+    await this.mapsService.getCurrentPosition().then(pos => { position = pos as [number]; });
 
     interface LooseObject {
       [key: string]: any
@@ -67,7 +73,8 @@ ambiente: Ambiente;
     }
     if(this.listaUsuariosFlags[1]){
       queryflags[1] = this.listaUsuariosFlags[1];
-        //--------- BUSCAR POR UBICACIÓN Y RADIO: QUEDA PENDIENTE ------------//
+      Object.assign(query, { 'punto': { 'type': "Point", 'coordinates': position }});
+      Object.assign(query, { 'radio': (this.rangoValue * 1000) });
     }
     if(this.listaUsuariosFlags[2]){
       queryflags[2] = this.listaUsuariosFlags[2];
@@ -134,8 +141,8 @@ ambiente: Ambiente;
     Object.assign(query, {'flags': queryflags});
 
     this.usuariosService.getUsuarios(query)
-    .subscribe((res) => {
-        this.listaUsuarios = res as Modelusuario[];
+    .subscribe((usrs) => {
+        this.listaUsuarios = usrs as Modelusuario[];
         console.log(this.listaUsuarios);
       },
       (err) => {
@@ -151,6 +158,10 @@ ambiente: Ambiente;
     this.generoValue = ev.detail.value;
   }
 
+  updateRangoValue(event){
+    this.rangoValue = event.detail.value;
+  }
+  
   goAddPartida(invitado)
   {
     this.router.navigateByUrl("newpartida/" + invitado)

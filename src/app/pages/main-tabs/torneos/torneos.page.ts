@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 
 @Component({
   selector: 'app-torneos',
@@ -11,7 +12,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class TorneosPage implements OnInit {
 
   constructor(
-    private torneosService: TorneoService
+    private torneosService: TorneoService,
+    private mapsService: MapsService,
   ) { }
 
   listaTorneos: Modeltorneo[];    //Lista de Torneos
@@ -23,6 +25,7 @@ export class TorneosPage implements OnInit {
   generoValue;                    //Valor del Segment de genero del Torneo (m/f)
   modoValue;                      //Valor del Segment de modo del Torneo (i/d)
   tipopistaValue;                 //Valor del Select de tipopista del Torneo
+  rangoValue;                     //Valor del Range de ubicación
 
   //Form para filtrar la lista de Torneos
   listaTorneosForm = new FormGroup({
@@ -46,7 +49,10 @@ export class TorneosPage implements OnInit {
     this.getTorneos();
   }
 
-  public getTorneos(){
+  public async getTorneos(){
+
+    let position;
+    await this.mapsService.getCurrentPosition().then(pos => { position = pos as [number]; });
     
     interface LooseObject {
       [key: string]: any
@@ -56,7 +62,8 @@ export class TorneosPage implements OnInit {
 
     if(this.listaTorneosFlags[0]){
       queryflags[0] = this.listaTorneosFlags[0];
-        //--------- BUSCAR POR UBICACIÓN Y RADIO: QUEDA PENDIENTE ------------//
+      Object.assign(query, { 'punto': { 'type': "Point", 'coordinates': position }});
+      Object.assign(query, { 'radio': (this.rangoValue * 1000) });
     }
     if(this.listaTorneosFlags[1]){
       queryflags[1] = this.listaTorneosFlags[1];
@@ -94,8 +101,8 @@ export class TorneosPage implements OnInit {
 
     
     this.torneosService.getTorneos(query)
-    .subscribe(res => {
-      this.listaTorneos = res as Modeltorneo[];
+    .subscribe(trns => {
+      this.listaTorneos = trns as Modeltorneo[];
       console.log(this.listaTorneos);
     },
     (err) => {
@@ -113,6 +120,10 @@ export class TorneosPage implements OnInit {
 
   modoSegmentChanged(ev){
     this.modoValue = ev.detail.value;
+  }
+
+  updateRangoValue(event){
+    this.rangoValue = event.detail.value;
   }
 
   /* generoSegmentChanged(ev){

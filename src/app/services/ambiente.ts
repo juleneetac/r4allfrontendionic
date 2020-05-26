@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 
 export class Ambiente{
-path:string;
+  
+    path:string;
     constructor() { 
       this.configureRemoteServer()
       this.prepareAmbiente()

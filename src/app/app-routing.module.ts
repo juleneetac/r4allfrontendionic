@@ -66,13 +66,11 @@ const routes: Routes = [
   {
     path: 'newpartida/:invitado',
     loadChildren: () => import('./pages/newpartida/newpartida.module').then( m => m.NewpartidaPageModule)
-  },  {
+  },
+  {
     path: 'partidas',
     loadChildren: () => import('./pages/partidas/partidas.module').then( m => m.PartidasPageModule)
-  },
-
-
-
+  }
 
 ];
 

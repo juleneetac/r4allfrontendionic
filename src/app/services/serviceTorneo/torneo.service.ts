@@ -12,8 +12,7 @@ export class TorneoService {
   environment:Ambiente;
 
   constructor(
-    private http: HttpClient,
-    
+    private http: HttpClient
   ) { 
     this.environment = new Ambiente();
   }
@@ -21,5 +20,10 @@ export class TorneoService {
   getTorneos(filtros): Observable<Modeltorneo[]> {
     const path = `${this.environment.urlTorneo}/gettrns`;
     return this.http.post<Modeltorneo[]>(path, filtros);
+  }
+
+  getAllTorneos(): Observable<Modeltorneo[]> {
+    const path = `${this.environment.urlTorneo}/getalltrns`;
+    return this.http.get<Modeltorneo[]>(path);
   }
 }

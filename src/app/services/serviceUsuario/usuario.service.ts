@@ -66,28 +66,5 @@ export class UsuarioService {
   registrarfacebook(register: Modelregister): Observable<HttpResponse<Modelusuario>>{ 
     return this.http.post<Modelusuario>(this.ambiente.urlUsuario + '/registerfacebook', register, {observe:'response'});  //REVISAR !!!! DEVUELVE UN MODELUSUARIO + SU TOKEN !!!
   }
-  
-/*   updateFotoUsuario(contraseña2: string, mail: string, sexo: string, ubicacion:string, edad: number, id: string, punto): Observable<Modelusuario>{
-    var identificador = id;
-    var password = contraseña2;
-    var mail = mail;
-    var sexo = sexo;
-    var ubicacion = ubicacion;
-    var edad = edad;
-    var valoracion = valoracion;
-    
-    const user = {
-      password: password,
-      mail: mail,
-      sexo: sexo,
-      ubicacion: ubicacion,
-      edad: edad,
-      punto: punto
-    }
-    console.log(user);
-  
-    return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/updatenofoto/${identificador}`,user)
-  } */
-
 
 }

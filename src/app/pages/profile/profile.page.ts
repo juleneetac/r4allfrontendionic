@@ -4,7 +4,6 @@ import { StorageComponent } from 'src/app/storage/storage.component';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Ambiente } from 'src/app/services/ambiente';
 
-
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -17,9 +16,9 @@ export class ProfilePage implements OnInit {
     public auth: AuthService,  //se puede quitar creo
     private storage: StorageComponent
   ) { 
-    this.ambiente = new Ambiente();
+      this.ambiente = new Ambiente();
       this.path=this.ambiente.path; 
-    }
+  }
 
   localperfil: Modelusuario;
     

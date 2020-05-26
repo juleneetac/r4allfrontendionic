@@ -1,30 +1,50 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>chat hola</ion-title>
+<ion-header translucent>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">Chats</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-card>
+    <ion-card-header>
+      Global Chat
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-list-header>
+          Online:
+        </ion-list-header>
+
+        <ion-item *ngFor="let userItem of listaUsuarios">
+          <ion-label><strong>{{ userItem[0] }}</strong></ion-label>
+            <!-- <h3 *ngIf="filterLast(userItem[0]) !== undefined">
+              <span *ngIf="filterLast(userItem[0]).author === user.name">
+                <b>You: </b>
+              </span>
+              {{filterLast(userItem[0]).text}}
+            </h3> -->
+    
+          <ion-button color="dark" fill="clear" size ="large" (click)="goRoom(userItem[0])">
+            <ion-icon name="chatbubbles-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!--ion-list>
     <ion-list-header>
       Global Chat
     </ion-list-header>
     <ion-list-header>
       Online
     </ion-list-header>
-    <ion-item *ngFor="let userItem of listaUsuarios" (click)="goRoom(userItem[0])">
-        
-        <ion-label>
-          <h2>{{ userItem[0] }}</h2>
-          <!-- <h3 *ngIf="filterLast(userItem[0]) !== undefined">
-            <span *ngIf="filterLast(userItem[0]).author === user.name">
-              <b>You: </b>
-            </span>
-            {{filterLast(userItem[0]).text}}
-          </h3> -->
-        </ion-label>
-    </ion-item>
-  </ion-list>
+  </ion-list-->
  
 </ion-content>
 

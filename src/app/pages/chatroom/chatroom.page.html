@@ -1,6 +1,9 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>ChatRoom</ion-title>
+<ion-header translucent>
+   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/chat"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">{{namedestino}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,18 +11,53 @@
   <ion-grid>
     <ion-row *ngFor="let message of messages">
       
-      <ion-col col-9 *ngIf="message.author !== username" class="message" >
-        <span class="user_name">{{ message.author}}:</span><br>
+    <!-- <div class="aaa"> -->
+      <ion-col class="ion-margin-start" size="5" *ngIf="message.author !== username" class="message">
+        <!-- <span class="user_name">{{ message.author}}:</span><br>
         <span>{{ message.mensaje }}</span>
-        <div class="time">{{message.date | date:'dd.MM hh:MM'}}</div>
+        <div class="time">{{message.date | date:'dd.MM.yy hh:MM:yy'}}</div> -->
+
+        <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle> 
+          {{ message.author}}  -  {{message.date | date:'dd/MM/yy hh:MM:yy'}}
+          </ion-card-subtitle>
+          <!--ion-card-title>
+          {{ message.author}}
+          </ion-card-title-->     
+        </ion-card-header>
+
+        <ion-card-content id="textsize">
+          <strong>{{ message.mensaje }}</strong>
+        </ion-card-content>        
+      </ion-card>
       </ion-col>
- 
-      <ion-col offset-3 col-9 *ngIf="message.author === username" class="message" >
-        <span class="user_name">{{ username }}:</span><br>
+   <!--  </div> <img [src]="this.ambiente.path + usuario.rutaimagen">-->
+
+   <!--  <div class="align-self-end" id="a"> -->
+      <ion-col offset-3 class="ion-margin-end" size="5" *ngIf="message.author === username" class="message" id="res">
+        <!-- <span class="user_name">{{ username }}:</span><br>
         <span>{{ message.mensaje }}</span>
-        <div class="time">{{message.date | date:'dd.MM hh:MM'}}</div>
+        <div class="time">{{message.date | date:'dd.MM hh:MM'}}</div> -->
+        <ion-card id="u">
+          <ion-card-header class="text-white">
+            <ion-card-subtitle class="text-white"> 
+            {{ username }}  -  {{message.date | date:'dd/MM/yy hh:MM:yy'}}
+            </ion-card-subtitle>
+            <!--ion-card-title class="text-white">
+            {{ username }}
+          </ion-card-title-->
+          </ion-card-header>
+          <ion-card-content class="text-white" id="textsize">
+            <strong>{{ message.mensaje }}</strong>
+          </ion-card-content>
+        </ion-card>
+        
+
       </ion-col>
+    
  
+    <!-- </div> -->
     </ion-row>
   </ion-grid>
  
@@ -28,12 +66,12 @@
 <ion-footer>
   <ion-toolbar>
     <ion-row class="message_row">
-      <ion-col col-9>
-        <ion-item no-lines>
+      <ion-col size="11">
+        <ion-item lines="none">
           <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
         </ion-item>
       </ion-col>
-      <ion-col col-3>
+      <ion-col size="1">
         <ion-button clear color="primary" (click)="sendMessage(message)" [disabled]="message === ''">&#10146;</ion-button>
       </ion-col>
     </ion-row>

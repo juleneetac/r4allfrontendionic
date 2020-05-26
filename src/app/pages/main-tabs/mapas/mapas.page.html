@@ -1,23 +1,26 @@
 <ion-app>
+
+  <ion-header translucent>
+
+    <ion-toolbar color="success">
+      <ion-buttons slot="start">
+        <ion-menu-button auto-hide="false"></ion-menu-button>
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="this.loadPosition()">
+          <ion-icon slot="icon-only" name="locate-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+      <ion-title class="ion-text-center">Mapas</ion-title>
+    </ion-toolbar>
+
+  </ion-header>
+
   <ion-content>
-    <!--ion-card>
-      <ion-card-header>
-        <ion-card-title class="ion-text-center">
-          Mapas
-        </ion-card-title>
-      </ion-card-header>
 
-      <ion-card-content>
-        <div id="mapid"></div>
-      </ion-card-content>
-    </ion-card-->
-
-
-    
-    <!--ion-item>
-      <label>Mapas</label>
-    </ion-item-->
-    <div id="mapid"></div>
+  <div id="mapid"></div>
 
   </ion-content>
 </ion-app>

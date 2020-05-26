@@ -15,6 +15,7 @@ import { StorageComponent } from 'src/app/storage/storage.component';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 
 //import crypto = require('crypto-browserify');
 
@@ -55,6 +56,10 @@ export class PerfilPage implements OnInit {
   imageFile: File;
   photoSelected: string | ArrayBuffer
 
+  locationSelected: boolean;  //Indica si guardar o no la ubicación del Usuario en el Servidor
+  newUbicacion;   //Guardar la nueva ubicación cuando le das al botón
+  newPunto;       //Guardar la nueva ubicación cuando le das al botón
+
   constructor(
     private usuariosSevice: UsuarioService,
     private storage: StorageComponent,
@@ -62,7 +67,8 @@ export class PerfilPage implements OnInit {
     private usuarioService: UsuarioService,
     private router: Router,
     public toastController: ToastController,
-    ) {
+    private mapsService: MapsService
+  ) {
       this.editperfilForm = this.formBuilder.group({
     
         pass1: new FormControl('', Validators.compose([  //se pone el nombre del form control donde pone formControlName
@@ -86,10 +92,10 @@ export class PerfilPage implements OnInit {
     
         sexo: new FormControl('', Validators.compose([
               Validators.required,
-              Validators.pattern(/^[mf]$/)])),  
+              Validators.pattern(/^[mf]$/)]))
     
-        ubicacion: new FormControl('', Validators.compose([
-                Validators.required,])),  
+/*         ubicacion: new FormControl('', Validators.compose([
+                Validators.required,])),   */
       },
     
       // {
@@ -98,6 +104,7 @@ export class PerfilPage implements OnInit {
     
       );
      }
+
   ngOnInit() {
 
     this.validation_messages = {
@@ -126,12 +133,14 @@ export class PerfilPage implements OnInit {
       'sexo': [
         { type: 'required', message: 'Sexo is required'},
         { type: 'pattern', message: 'Pon " m " para masculino y " f " para femenino'}
-      ],
-      'ubicacion': [
+      ]
+/*       'ubicacion': [
         { type: 'required', message: 'Especifique ubicación'}
-      ],
+      ], */
+    }
+
+    this.locationSelected = false;
   }
- }
 
   onPhotoSelected(event: HtmlInputEvent): void{
     if (event.target.files && event.target.files[0]) {
@@ -142,34 +151,62 @@ export class PerfilPage implements OnInit {
     }
   }
 
+  async toggleLocationSelected(){
+    this.locationSelected = !this.locationSelected;
+    console.log(`Actualizar ubicación ${this.locationSelected}`);
 
-    goProfile() {
-      this.router.navigateByUrl("profile")
+    if(this.locationSelected){
+      await this.mapsService.getCurrentPosition().then(pos => { 
+        let position = pos;
+        this.newPunto = {
+          "type": "Point",
+          "coordinates": pos
+        }
+        this.mapsService.getReverseGeocode(position[1], position[0])
+        .subscribe((res) => { 
+          if(res.address.city != null){
+            console.log(res.address.city);
+            this.newUbicacion = res.address.city.toString();
+          }
+          else if(res.address.town != null){
+            console.log(res.address.town);
+            this.newUbicacion = res.address.town.toString();
+          }
+          else if(res.address.village != null){
+            console.log(res.address.village);
+            this.newUbicacion = res.address.village.toString();
+          }
+          else {
+            console.log(res.address.display_name);
+            this.newUbicacion = res.display_name.toString();
+          }
+        });
+      });
     }
+  }
 
-    goEditFacebook() {
-      this.router.navigateByUrl("editfacebook")
-    }
+  goProfile() {
+    this.router.navigateByUrl("profile")
+  }
 
-    updatePerfil (event2){//, experiencia: HTMLInputElement){
-      event.preventDefault()
-      console.log(event2)
+  updatePerfil (event2){//, experiencia: HTMLInputElement){
+    event.preventDefault()
+    console.log(event2)
 
-      console.log(this.usernombre)
-      console.log(this.pass1);
-      console.log(this.difpass);
-      console.log(this.mail);
-      console.log(this.sexo);
-      console.log(this.ubicacion);
-      console.log(this.edad);
-      //console.log(experiencia.value);
-      console.log(this.user._id);
-      console.log(this.user.punto);
-      console.log(this.punto);
+    console.log(this.usernombre)
+    console.log(this.pass1);
+    console.log(this.difpass);
+    console.log(this.mail);
+    console.log(this.sexo);
+    console.log(this.ubicacion);
+    console.log(this.edad);
+    //console.log(experiencia.value);
+    console.log(this.user._id);
+    console.log(this.punto);
 
-      let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
-      this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
-        async res =>{
+    let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
+    this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
+      async res =>{
         //console.log(res);
         //confirm('login correcto');
         const toast = await this.toastController.create({
@@ -179,15 +216,22 @@ export class PerfilPage implements OnInit {
           color: 'success',
         });
 
+        if(this.locationSelected){
+          this.ubicacion = this.newUbicacion;
+          this.punto = this.newPunto;
+        }
+
         //Primero actualizamos el Usuario y luego le actualizamos la Foto si es necesario:
         let usuariomodificado = {
           password: this.difpass,
           mail: this.mail,
           sexo: this.sexo,
-          ubicacion: this.ubicacion,  //Hay que comprobar también si ha cambiado
-          punto: this.punto,          //Hay que comprobar también si ha cambiado
+          ubicacion: this.ubicacion,
+          punto: this.punto,
           edad: this.edad,
         }
+
+        console.log(usuariomodificado);
 
         this.usuarioService.updateUsuario(this.user._id, usuariomodificado)
         .subscribe(async res => {
@@ -224,14 +268,105 @@ export class PerfilPage implements OnInit {
             console.log("err", err);
           });
         }
-
-    },
-    err => {
-      console.log(err);
-      this.handleError(err);
-    });
-
+      },
+      err => {
+        console.log(err);
+        this.handleError(err);
+      });
   }
+
+
+    goEditFacebook() {
+      this.router.navigateByUrl("editfacebook")
+    }
+
+    updatePerfil (event2){//, experiencia: HTMLInputElement){
+      event.preventDefault()
+      console.log(event2)
+
+      console.log(this.usernombre)
+      console.log(this.pass1);
+      console.log(this.difpass);
+      console.log(this.mail);
+      console.log(this.sexo);
+      console.log(this.ubicacion);
+      console.log(this.edad);
+      //console.log(experiencia.value);
+      console.log(this.user._id);
+      console.log(this.user.punto);
+      console.log(this.punto);
+
+      let credencial: Modellogin = new Modellogin(this.user.username, this.pass1)
+      this.usuarioService.login(credencial).subscribe(  //para comparar contraseña que sea la correcta
+        async res =>{
+        //console.log(res);
+        //confirm('login correcto');
+        const toast = await this.toastController.create({
+          message: 'Updated usuario',
+          position: 'top',
+          duration: 2000,
+          color: 'success',
+        });
+
+        if(this.locationSelected){
+          this.ubicacion = this.newUbicacion;
+          this.punto = this.newPunto;
+        }
+
+        //Primero actualizamos el Usuario y luego le actualizamos la Foto si es necesario:
+        let usuariomodificado = {
+          password: this.difpass,
+          mail: this.mail,
+          sexo: this.sexo,
+          ubicacion: this.ubicacion,
+          punto: this.punto,
+          edad: this.edad,
+        }
+
+        console.log(usuariomodificado);
+
+        this.usuarioService.updateUsuario(this.user._id, usuariomodificado)
+        .subscribe(async res => {
+          let usuariomod = res as Modelusuario;
+          console.log(usuariomod);
+          // this.usuario = response.usuario;
+          //this.usuario.jwt = response.jwt;
+          //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+          //Save info locally
+          //await this.storage.saveToken(this.usuario.jwt);
+          await this.storage.saveUser(JSON.stringify(usuariomod));
+          await this.goProfile();
+          await toast.present();
+        },
+        (err) => {
+          console.log("err", err);
+        });
+
+        if(this.imageFile != undefined){
+          this.usuarioService.updateImagenUsuario(this.user._id, this.imageFile)
+          .subscribe(async res => {
+            let usuariomod = res as Modelusuario;
+            console.log(usuariomod);
+            // this.usuario = response.usuario;
+            //this.usuario.jwt = response.jwt;
+            //console.log(this.usuario.username, this.usuario.mail, this.usuario.sexo);
+            //Save info locally
+            //await this.storage.saveToken(this.usuario.jwt);
+            await this.storage.saveUser(JSON.stringify(usuariomod));
+            await this.goProfile();
+            await toast.present();
+          },
+          (err) => {
+            console.log("err", err);
+          });
+        }
+      },
+      err => {
+        console.log(err);
+        this.handleError(err);
+      });
+  }
+
   //errores
   private async handleError(err: HttpErrorResponse) {
     if (err.status == 500) {

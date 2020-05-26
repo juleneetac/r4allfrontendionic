@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StorageComponent } from 'src/app/storage/storage.component'
+import { StorageComponent } from 'src/app/storage/storage.component';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Ambiente } from 'src/app/services/ambiente';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-ambiente: Ambiente; 
+  ambiente: Ambiente; 
   path;
   constructor(
     private storage: StorageComponent,
