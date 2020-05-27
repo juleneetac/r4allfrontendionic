@@ -1,22 +1,31 @@
-<ion-header>
+<ion-header translucent>
+
   <ion-toolbar>
-    <ion-title>Registro</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">Registrarse</ion-title>
   </ion-toolbar>
+
 </ion-header>
 
 
-<ion-content class="ion-padding" color="tertiary">
+<ion-content class="ion-padding">
           
-  <ion-card>
+  <ion-card id="card">
+    <ion-card-title>
+      Regístrate
+    </ion-card-title>
+    <ion-card-content>
     <form [formGroup]="registerForm" (ngSubmit)="registerUser($event)">
     <ion-grid>
       <ion-row class="ion-justify-content-center">
         <ion-col class="ion-align-self-center" size-lg="11" size-xs="12">
-          <div>
-            <h3>Registrate y crea una cuenta</h3>
-          </div>
+          <!-- <div>
+            <h3>Crear una cuenta</h3>
+          </div> -->
           <ion-list>
-            
             <div class="formGroup">
               <ion-item>
                 <!-- <ion-label class="text">Username: </ion-label> -->
@@ -135,9 +144,9 @@
               </div>
             </div>
 
-            <div class="formGroup">
+            <!-- div class="formGroup">
               <ion-item>
-                <!-- <ion-label class="text">Ubicacion: </ion-label> -->
+                <ion-label class="text">Ubicacion: </ion-label>
                 <ion-input formControlName="ubicacion" type="text" name="ubicacion" placeholder="Ciudad de residencia" [(ngModel)]="ubicacion"></ion-input>
                 <div *ngIf="registerForm.controls['ubicacion'].valid">
                   <a class="success">&#9989;</a>
@@ -153,18 +162,19 @@
                 </ng-container>
                 
               </div>
-            </div>
+            </div-->
 
           </ion-list>
             <div>
               <ion-row class="ion-justify-content-center">
-                <ion-button color="tertiary" size="large" type="submit" [disabled]="registerForm.invalid" fill="outline">REGISTRAR</ion-button>
+                <ion-button size="large" type="submit" [disabled]="registerForm.invalid">REGISTRAR</ion-button>
               </ion-row>
             </div>
           </ion-col>
         </ion-row>
       </ion-grid>
     </form>
+  </ion-card-content>
   </ion-card>
 </ion-content>
 

@@ -1,19 +1,32 @@
-<ion-header>
+<ion-header translucent>
+
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">Acceder</ion-title>
   </ion-toolbar>
+
 </ion-header>
 
-<ion-content class="ion-padding" color="success">
-  <ion-card class="item item-text-wrap">
+<ion-content class="ion-padding">
+  
+  <ion-card  id="card">
+  <ion-card-title>
+    Iniciar sesión
+  </ion-card-title>
+  <ion-card-content>
     <form (submit)="loginUser($event)">
       <ion-grid>
         <ion-row class="ion-justify-content-center">
-          <ion-col class="ion-align-self-center" size-lg="11" size-xs="12">
-            <div>
+          <ion-col class="ion-align-self-center" size-lg="11" size-xs="12"> 
+
+            <!-- <div>
               <h3 class="no-margin">Inicia sesión con tu cuenta de Rackets4All</h3>
               <h5 class="no-margin">O autentícate con Facebook</h5>
-            </div>
+            </div> -->
+
                 <ion-item class="ion-padding-top" lines="none">
                   <!-- <ion-label class= "text" >Username:  </ion-label> -->
                   <ion-input class= "inp"type="text" name="username" placeholder="Username" [(ngModel)]="username"></ion-input>
@@ -23,24 +36,38 @@
                 <!-- <ion-label class= "text">Contraseña:  </ion-label> -->
                 <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="password"></ion-input>
               </ion-item>
+              <br>
               <div>
                 <ion-row class="ion-justify-content-center">
-                    <ion-button size="large" color="tertiary" type="submit" fill="outline">LOGIN</ion-button>
+                    <ion-button size="large" type="submit">Iniciar sesión</ion-button>
                 </ion-row>
               </div>
             
           </ion-col>
 
+          <br>
+          <br>
+          
+          <ion-row>
+            <button class="btn loginface" id="boton" type="button" (click)="auth.login()">Inicia sesión con Facebook</button><ion-icon name="logo-facebook" id="logo" (click)="auth.login()"></ion-icon>
+          </ion-row>
+          
+<!-- 
           <div>
-             <ion-label class="facebooklabel" (click)="auth.login()" >
+             <ion-label class="facebooklabel" (click)="auth.login()" id="face">
               <ion-icon name="logo-facebook"></ion-icon>
                Click here to sign in with Facebook
               </ion-label>
-          </div>
+          </div> -->
+
+          
         </ion-row>
 
       </ion-grid>
+      
+
     </form>
+  </ion-card-content>
 
   </ion-card>
 

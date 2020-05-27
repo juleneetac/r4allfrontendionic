@@ -27,8 +27,6 @@ import { ChatService } from './services/serviceChat/chat.service';
 // import { Main } from './components/main/main.component';
 //import {MatListModule} from "@angular/material/list";
 // import { MainPage } from './pages/main/main.page';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NativeGeocoder, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 //import * as io from 'socket.io-client' ;  //sockets
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';  // tema sockets
@@ -61,8 +59,6 @@ const config: SocketIoConfig = { url: new Ambiente().path, options: {}};
     
   ],
   providers: [
-    Geolocation,
-    NativeGeocoder,
     StatusBar,
     SplashScreen,
     ToastController,

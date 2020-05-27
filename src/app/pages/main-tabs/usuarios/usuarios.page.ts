@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Ambiente } from 'src/app/services/ambiente';
+import { MapsService } from 'src/app/services/serviceMaps/maps.service';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { StorageComponent } from 'src/app/storage/storage.component';
 
 @Component({
   selector: 'app-usuarios',
@@ -9,17 +14,28 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./usuarios.page.scss'],
 })
 export class UsuariosPage implements OnInit {
-
+ambiente: Ambiente; 
+  path;
   constructor(
-    private usuariosService: UsuarioService
-  ) { }
+    private usuariosService: UsuarioService,
+    private mapsService: MapsService,
+    private router: Router,
+    private storage: StorageComponent,
+    public alertController: AlertController
+  ) { 
+    this.ambiente = new Ambiente();
+    this.path=this.ambiente.path;
+    }
 
   listaUsuarios: Modelusuario[];  //Lista de Usuarios
+
+  usuarioLogueado: Modelusuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
   
   visibleFilters: boolean;  //Indica si la lista de filtros está visible o no
 
   listaUsuariosFlags = [];  //Flags para filtrar la lista de Usuarios
   generoValue;              //Valor del Segment de sexo del Usuario (m/f)
+  rangoValue;               //Valor del Range de ubicación
 
   //Form para filtrar la lista de Usuarios
   listaUsuariosForm = new FormGroup({
@@ -33,6 +49,8 @@ export class UsuariosPage implements OnInit {
   });
 
   ngOnInit() {
+    this.usuarioLogueado = JSON.parse(this.storage.getUser());
+    
     this.listaUsuariosFlags = [Boolean];
     for (let i = 0; i < 8; i++){
       //Por defecto, seleccionar todos como no marcados
@@ -46,7 +64,10 @@ export class UsuariosPage implements OnInit {
     this.getUsuarios();
   }
 
-  public getUsuarios(){
+  public async getUsuarios(){
+
+    let position;
+    await this.mapsService.getCurrentPosition().then(pos => { position = pos as [number]; });
 
     interface LooseObject {
       [key: string]: any
@@ -60,7 +81,8 @@ export class UsuariosPage implements OnInit {
     }
     if(this.listaUsuariosFlags[1]){
       queryflags[1] = this.listaUsuariosFlags[1];
-        //--------- BUSCAR POR UBICACIÓN Y RADIO: QUEDA PENDIENTE ------------//
+      Object.assign(query, { 'punto': { 'type': "Point", 'coordinates': position }});
+      Object.assign(query, { 'radio': (this.rangoValue * 1000) });
     }
     if(this.listaUsuariosFlags[2]){
       queryflags[2] = this.listaUsuariosFlags[2];
@@ -127,8 +149,8 @@ export class UsuariosPage implements OnInit {
     Object.assign(query, {'flags': queryflags});
 
     this.usuariosService.getUsuarios(query)
-    .subscribe((res) => {
-        this.listaUsuarios = res as Modelusuario[];
+    .subscribe((usrs) => {
+        this.listaUsuarios = usrs as Modelusuario[];
         console.log(this.listaUsuarios);
       },
       (err) => {
@@ -142,6 +164,50 @@ export class UsuariosPage implements OnInit {
 
   generoSegmentChanged(ev){
     this.generoValue = ev.detail.value;
+  }
+
+  updateRangoValue(event){
+    this.rangoValue = event.detail.value;
+  }
+  
+  async presentAlert(usuario: Modelusuario){
+    const alert = await this.alertController.create({
+      animated: true,
+      backdropDismiss: true, 
+      keyboardClose: true,
+      translucent: true,
+      header: usuario.username,
+      subHeader: 'Usuario',
+      buttons: [
+        {
+          text: 'Invitar a un Partido',
+          handler: () => {
+            this.router.navigateByUrl("newpartida/" + usuario.username);
+          }
+        }, 
+        {
+          text: 'Abrir chat',
+          handler: () => {
+            console.log(`Abrir chat a ${usuario.username}`);
+          }
+        },
+        {
+          text: 'Añadir a Amigos',
+          handler: () => {
+            console.log(`Añadir a ${usuario.username} a Amigos`);
+          }
+        },
+        {
+          text: 'Cancelar',
+          handler: () => {
+            alert.dismiss();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+    
   }
 
 }

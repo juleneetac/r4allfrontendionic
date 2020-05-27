@@ -6,8 +6,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from "@angular/router";
 import { AuthService } from './services/serviceAuth/auth.service';
 import { ChatService } from './services/serviceChat/chat.service';
-import { StorageComponent } from './storage/storage.component';
-
+//import { StorageComponent } from './storage/storage.component';
+import { Modelusuario } from './models/modelUsusario/modelusuario';
+import { Ambiente } from './services/ambiente';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import { StorageComponent } from './storage/storage.component';
 })
 export class AppComponent{
 
-  localperfil: string;
+  usuarioLogueado: Modelusuario;
 
   public appPages = [
     {
@@ -49,12 +50,13 @@ export class AppComponent{
 
     // },
   ];
+  
   public appOut = [
 
     {
       title: 'Main',
       url: '/main',
-      icon: 'desktop'
+      icon: 'tablet-landscape'
      },
 
     {
@@ -69,14 +71,8 @@ export class AppComponent{
       icon: 'chatbox-ellipses'
      },
 
-    {
-      title: 'Map',
-      //url: '/mapa',
-      icon: 'location'
-     },
-
      {
-      title: 'Settings (Editar Perfil provisional)',
+      title: 'Editar Perfil',
       url: '/perfil',
       icon: 'settings'
      },
@@ -95,13 +91,12 @@ constructor(
     private statusBar: StatusBar,
     public auth: AuthService,
     public chatService: ChatService,
-    public storage: StorageComponent
+    private ambiente: Ambiente
   ) 
   
   {
     this.initializeApp();
   }
-
 
   logout(){
     this.auth.logout();
@@ -109,19 +104,18 @@ constructor(
   }
 
   checkButton(index :number){
-
-    //this.localperfil =  JSON.parse(this.storage.getUser());
     console.log()
-    if (index==5){
+    if (index==4){
       console.log(index)
       this.logout();
     }
-
   }
+  
   initializeApp() {
     this.platform.ready().then(() => {
-    this.statusBar.styleDefault();
-    this.splashScreen.hide();
+      //this.usuarioLogueado = JSON.parse(this.storage.getUser());
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
   }
 }

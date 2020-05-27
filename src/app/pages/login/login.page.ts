@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
   private socket: Socket
 
   ) { 
-    this.chatService.setSocket(socket);
+    this.chatService.setSocket(socket);   //VOLVER A PONER CUANDO ACABE DE PROBAR LODE FACEBOOK
   }
 
 password: string;
@@ -48,7 +48,6 @@ goProfile() {
   this.router.navigateByUrl("profile")
 }
 
-//localStorage.setItem("Usuario",String(credencial.username));
 //funciones
 loginUser(event){
   event.preventDefault()
@@ -62,13 +61,9 @@ loginUser(event){
       const toast = await this.toastController.create({
         message: 'Login correcto',
         position: 'top',
-        duration: 2000,
-        color: 'success',
+        duration: 1000,
+        color: 'dark',
       });
-
-
-      //ESTO HAY QUE REVISARLO: EN EL SERVICE DE USUARIO PONE QUE LAS FUNCIONES LOGIN Y REGISTER
-      //RECIBEN UN MODELOUSUARIO COMO RESPONSE DEL POST, PERO EN EL BACKEND DEVUELVE USUARIO + JWT 
 
       
       const response: any = res;
@@ -79,16 +74,16 @@ loginUser(event){
       //Save info locally
       await this.storage.saveToken(this.usuario.jwt);
       await this.storage.saveUser(JSON.stringify(this.usuario));
+
+      //poner el loginlocal a true para saber que estan logeado
       this.auth.loginLocal();
-      //await this.goProfile();
+
       await this.goMain();    //Que al loguearte vayas al Main
+
       this.chatService.connectSocket(this.username)  //se le pasa el usuario  del socket
 
       //console.log(String(this.auth.authenticationState));
       await toast.present();
-      //rutas
-      //localStorage.setItem("Usuario",String(credencial.username));
-      //this.goMain();
     },
     err => {
       console.log(err);

@@ -1,8 +1,18 @@
 <ion-app>
+
   <ion-header>
-    <ion-toolbar>
-      <ion-title>Profile</ion-title>
-      <ion-button (click)="auth.logout()">Log Out</ion-button>
+    <ion-toolbar color="success">
+      <ion-buttons slot="start">
+        <ion-menu-button auto-hide="false"></ion-menu-button>
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="auth.logout()" color="danger" size="large">
+          <ion-icon slot="icon-only" name="power-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+      <ion-title class="ion-text-center">Tu Perfil</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -10,79 +20,78 @@
     <pre *ngIf="auth.userProfile$ | async as profile">
       <code>{{ profile | json }}</code>
     </pre>
-    <pre *ngIf="auth.authenticationState">
-      <ion-row>
-        <ion-col size="12">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title>Perfil</ion-card-title>
-            </ion-card-header>
-        
-            <ion-card-content>
-              <ion-item>
-                <ion-avatar>
-                    <ion-img [src]="'http://localhost:7000/'+ localperfil.rutaimagen"></ion-img>
-                </ion-avatar>
-              </ion-item>
+<!-- <pre *ngIf="auth.authenticationState">
+ -->
+    <ion-row *ngIf="auth.authenticationState">
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ localperfil.username }}</ion-card-title>
+          </ion-card-header>
+      
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="5" size-xs="12" size-sm="6" size-md="4" size-sm="2">
+                <ion-item lines="none">
+                  <ion-avatar>
+                      <ion-img [src]="path + localperfil.rutaimagen"></ion-img>
+                  </ion-avatar>
+                </ion-item>
+              </ion-col>
 
-              <ion-item>
-                <label>
-                  Nombre de usuario: {{ localperfil.username }} 
-                </label>
-              </ion-item>
-        
-              <ion-item>
-                <label>
-                  id: {{localperfil._id}}
-                </label>
-              </ion-item>
+              <ion-col size="6" size-xs="12" size-sm="6" size-md="4" size-sm="2">
+                <br>
+                <!-- <ion-item>
+                  <label>
+                    id: {{localperfil._id}}
+                  </label>
+                </ion-item> -->
+                <ion-item lines="none">
+                  <label>
+                    Correo: {{localperfil.mail}}
+                  </label>
+                </ion-item> 
 
-              <ion-item>
-                <label>
-                  Correo: {{localperfil.mail}}
-                </label>
-              </ion-item>
-                
-              <ion-item>
-                <label>
-                  Edad: {{localperfil.edad}}
-                </label>
-              </ion-item>
+                <ion-item lines="none">
+                  <label>
+                    Edad: {{localperfil.edad}}
+                  </label>
+                </ion-item>
 
-              <ion-item>
-                <label>
-                  Sexo: {{localperfil.sexo}}
-                </label>
-              </ion-item>
-                
-              <ion-item>
-                <label>
-                  Ubicación: {{localperfil.ubicacion}}
-                </label>
-              </ion-item>
+                <ion-item lines="none">
+                  <label>
+                    Sexo: {{localperfil.sexo}}
+                  </label>
+                </ion-item>
 
-              <ion-item>
-                <label>
-                  Aquí irá el punto {{localperfil.punto.coordinates[0]}} {{localperfil.punto.coordinates[1]}} del Usuario en el Mapa
-                </label>
-              </ion-item>
+                <ion-item lines="none">
+                  <label>
+                    Ubicación: {{localperfil.ubicacion}}
+                  </label>
+                </ion-item>  
 
-              <!-- <ion-item>
-                <label>
-                  Torneos: {{localperfil.torneos}}
-                </label>
-              </ion-item> -->
+              </ion-col>
+            </ion-row>
 
-              <!-- <label>
-                Foto de perfil: 
-                <img [src]="'http://localhost:7000/'+ localperfil.rutaimagen">
-              </label> -->
-              
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
+                    <!--div id="mapid"></div-->
 
-    </pre>
+                    <!-- <ion-item>
+                      <label>
+                        Torneos: {{localperfil.torneos}}
+                      </label>
+                    </ion-item> -->
+
+                    <!-- <label>
+                      Foto de perfil: 
+                      <img [src]=" this.ambiente.path + localperfil.rutaimagen">
+                    </label> -->
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!--  </pre> -->   
+    <div id="mapid3" class="mapa"></div>
+
   </ion-content>
 </ion-app>

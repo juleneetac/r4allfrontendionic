@@ -1,62 +1,65 @@
-*{
-    margin: 0;
-    padding: 0;
-  }
-  
-  body, html{
-    background: #fff;
-    //font-size: 16px;
-    color: #000;
-    font-family: monospace;
-    width: 100%;
-    height: 100%;
-  }
-
-  h3{
-    margin-top: 15px;
-  }
-ion-card {
-    display: flex;
-    flex-direction: column;
-    width: 720px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    //--background: rgb(240, 159, 159);
-  }
-.text{
-    font-size: 17px;
+.ion-padding{
+  --background: url('../../../assets/pista.jpg') no-repeat center/cover fixed;
 }
-.center{
-  text-align: center;
-}
-/* ion-item{
-    --background: rgb(240, 159, 159);
+/* 
+.body{
+  background: url('../../../assets/c12139b9-196e-4ee3-beb5-ce0438932898.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; 
 } */
-  ion-text {
-    margin-left: 15px;
-  }
-  ion-button {
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-  ion-input, select, textarea{
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    border-radius: 10px;
-    //margin-bottom: 10px;  
-    background-color: rgb(243, 238, 192);
-    //margin-top: 17px;
-    text-align: center;
-  }
 
-  .facebooklabel{
-    margin-bottom: 15px;
-    margin-left: 10px;
-    text-decoration: underline;
-    color: rgb(3, 3, 3);
-  }
-  .facebooklabel:hover {
-    color:blue;
-    //font-weight:bold;
-  }
+ion-card-title{
+  display: center;
+  align-self: center;
+  align-content: center;
+  text-align: center;
+  font-size: 20px;
+  margin-top: 30px;  
+}
+
+#card{
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+ion-input, select, textarea{
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 10px;
+  //margin-bottom: 10px;  
+  background-color: rgb(243, 238, 192);
+  //margin-top: 17px;
+  text-align: center;
+  margin-top: -10px;
+}
+
+#face{
+  margin-top: 15px;
+}
+
+.loginface{
+  background: #3b5998;
+  color: white;
+  height: 43px;
+  width: 220px;
+  text-align: right;
+}
+
+#logo{
+  color: #3b5998;
+  size: 40px;
+  font-size: 50px;
+  /* background-color: white; */
+  /* border-color: #3b5998;
+  border-left: none;
+  border-style: 0; */
+ /*  margin-left: -40px; */
+  display: flex;
+  z-index: 1;
+  border-width: 5px;
+  margin-top: -3px;
+  margin-left: -7px;
+}

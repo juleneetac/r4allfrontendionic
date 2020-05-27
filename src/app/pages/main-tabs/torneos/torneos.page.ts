@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MapsService } from 'src/app/services/serviceMaps/maps.service';
+import { AlertController } from '@ionic/angular';
+import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
+import { StorageComponent } from 'src/app/storage/storage.component';
 
 @Component({
   selector: 'app-torneos',
@@ -11,10 +15,15 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class TorneosPage implements OnInit {
 
   constructor(
-    private torneosService: TorneoService
+    private torneosService: TorneoService,
+    private mapsService: MapsService,
+    private storage: StorageComponent,
+    public alertController: AlertController
   ) { }
 
   listaTorneos: Modeltorneo[];    //Lista de Torneos
+
+  usuarioLogueado: Modelusuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
 
   visibleFilters: boolean;  //Indica si la lista de filtros está visible o no
 
@@ -23,6 +32,7 @@ export class TorneosPage implements OnInit {
   generoValue;                    //Valor del Segment de genero del Torneo (m/f)
   modoValue;                      //Valor del Segment de modo del Torneo (i/d)
   tipopistaValue;                 //Valor del Select de tipopista del Torneo
+  rangoValue;                     //Valor del Range de ubicación
 
   //Form para filtrar la lista de Torneos
   listaTorneosForm = new FormGroup({
@@ -31,6 +41,8 @@ export class TorneosPage implements OnInit {
   });
 
   ngOnInit() {
+    this.usuarioLogueado = JSON.parse(this.storage.getUser());
+
     this.listaTorneosFlags = [Boolean];
     for (let i = 0; i < 5; i++){
       //Por defecto, seleccionar todos como no marcados
@@ -46,7 +58,10 @@ export class TorneosPage implements OnInit {
     this.getTorneos();
   }
 
-  public getTorneos(){
+  public async getTorneos(){
+
+    let position;
+    await this.mapsService.getCurrentPosition().then(pos => { position = pos as [number]; });
     
     interface LooseObject {
       [key: string]: any
@@ -56,7 +71,8 @@ export class TorneosPage implements OnInit {
 
     if(this.listaTorneosFlags[0]){
       queryflags[0] = this.listaTorneosFlags[0];
-        //--------- BUSCAR POR UBICACIÓN Y RADIO: QUEDA PENDIENTE ------------//
+      Object.assign(query, { 'punto': { 'type': "Point", 'coordinates': position }});
+      Object.assign(query, { 'radio': (this.rangoValue * 1000) });
     }
     if(this.listaTorneosFlags[1]){
       queryflags[1] = this.listaTorneosFlags[1];
@@ -94,8 +110,8 @@ export class TorneosPage implements OnInit {
 
     
     this.torneosService.getTorneos(query)
-    .subscribe(res => {
-      this.listaTorneos = res as Modeltorneo[];
+    .subscribe(trns => {
+      this.listaTorneos = trns as Modeltorneo[];
       console.log(this.listaTorneos);
     },
     (err) => {
@@ -115,8 +131,73 @@ export class TorneosPage implements OnInit {
     this.modoValue = ev.detail.value;
   }
 
+  updateRangoValue(event){
+    this.rangoValue = event.detail.value;
+  }
+
   /* generoSegmentChanged(ev){
     this.generoValue = ev.detail.value;
   } */
+
+  async presentAlert(torneo: Modeltorneo){
+    const alertActive = await this.alertController.create({
+      animated: true,
+      backdropDismiss: true, 
+      keyboardClose: true,
+      translucent: true,
+      header: torneo.nombre,
+      subHeader: 'Torneo',
+      message: `Inscripción: ${torneo.inscripcion} €`,
+      buttons: [
+        {
+          text: 'Inscribirse',
+          handler: () => {
+            console.log(`Añadir participante ${this.usuarioLogueado.username} al torneo: ${torneo.nombre}`)
+          }
+        },
+        {
+          text: 'Sitio Web',
+          handler: () => {
+            window.open(`${torneo.sitioweb}`, "_blank");
+          }
+        },
+        {
+          text: 'Cancelar',
+          handler: () => {
+            alertActive.dismiss();
+          }
+        }
+      ]
+    });
+
+    const alertFinished = await this.alertController.create({
+      animated: true,
+      backdropDismiss: true, 
+      keyboardClose: true,
+      translucent: true,
+      header: torneo.nombre,
+      subHeader: 'Torneo',
+      message: `Finalizado. Premio: ${torneo.premio}`,
+      buttons: [
+        {
+          text: 'Sitio Web',
+          handler: () => {
+            window.open(`${torneo.sitioweb}`, "_blank");
+          }
+        },
+        {
+          text: 'Cancelar',
+          handler: () => {
+            alertFinished.dismiss();
+          }
+        }
+      ]
+    });
+
+    if(torneo.ganador == undefined)
+      await alertActive.present();
+    else
+      await alertFinished.present();
+  }
 
 }

@@ -5,12 +5,17 @@ import { from, of, Observable, BehaviorSubject, combineLatest, throwError } from
 import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { StorageComponent } from 'src/app/storage/storage.component';
+import { UsuarioService } from '../serviceUsuario/usuario.service';
+import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
+import { Modelregister } from 'src/app/models/modelRegister/modelregister';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   public localperfil;// = JSON.parse(this.storage.getUser());
+  usuario: Modelusuario;
+  
 
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
@@ -41,7 +46,12 @@ export class AuthService {
   // Create a local property for login status
   loggedIn: boolean = null;
 
-  constructor(private router: Router, private storage: StorageComponent) {
+  constructor(
+    private router: Router, 
+    private storage: StorageComponent,
+    private usuarioService: UsuarioService, 
+
+    ) {
     // On initial load, check authentication state with authorization server
     // Set up local auth streams if user is already authenticated
     this.localAuthSetup();
@@ -76,7 +86,7 @@ export class AuthService {
     checkAuth$.subscribe();
   }
 
-  login(redirectPath: string = '/profile') {
+  login(redirectPath: string = '/editfacebook') {
     // A desired redirect path can be passed to login method
     // (e.g., from a route guard)
     // Ensure Auth0 client instance exists
@@ -87,7 +97,8 @@ export class AuthService {
         appState: { target: redirectPath }
       });
     });
-  }
+}
+  
 
   private handleAuthCallback() {
     // Call when app reloads after user logs in with Auth0
@@ -128,6 +139,7 @@ export class AuthService {
       this.storage.clearStorage();
     });
   }
+
  //PARA LOGIN LOCAL
    authenticationState:boolean = false;
     loginLocal() {//user: CredentialsResponse
