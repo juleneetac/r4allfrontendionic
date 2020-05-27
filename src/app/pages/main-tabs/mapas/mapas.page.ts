@@ -7,6 +7,7 @@ import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
 import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { Ambiente } from 'src/app/services/ambiente';
+import { Modelpartida } from 'src/app/models/modelPartida/modelpartida';
 
 @Component({
   selector: 'app-mapas',
@@ -34,6 +35,7 @@ export class MapasPage implements OnInit {
   
   listaUsuarios: Modelusuario[];  //Lista de Usuarios
   listaTorneos: Modeltorneo[];    //Lista de Torneos
+  listaPartidas: Modelpartida[];   //Lista de Partidas del Usuario Logueado
 
   ngOnInit() {
 
@@ -81,12 +83,12 @@ export class MapasPage implements OnInit {
 
     this.mymap = new L.Map('mapid', { layers:[this.baseLayer] });
 
-    this.mymap.on('click', (e) => {
+/*     this.mymap.on('click', (e) => {
       this.mapsService.getReverseGeocode(e.latlng.lat, e.latlng.lng)
       .subscribe((res) => {
         L.marker([e.latlng.lat, e.latlng.lng], { icon: this.goldMarker }).bindPopup(res.display_name).addTo(this.mymap).openPopup();
       });
-    });
+    }); */
 
   }
 
@@ -99,6 +101,7 @@ export class MapasPage implements OnInit {
     await this.loadPosition();
     await this.loadUsuarios();
     await this.loadTorneos();
+    await this.loadPartidas();
   }
   
   async loadPosition(){
@@ -145,7 +148,7 @@ export class MapasPage implements OnInit {
             .addTo(this.mymap);
         }
         catch(err){
-          console.log("No se ha podido cargar ubicación del Torneo ", torneo.nombre);
+          console.log("No se ha podido cargar ubicación del Torneo", torneo.nombre);
         }
       });
     },
@@ -153,4 +156,32 @@ export class MapasPage implements OnInit {
       console.log("err", err);
     });
   }
+
+  loadPartidas(){
+    this.usuarioService.getPartidasde(this.usuarioLogueado._id)
+    .subscribe((res) => {
+      this.listaPartidas = res.partidas as Modelpartida[];
+      this.listaPartidas.forEach((partida) => {
+        try{
+          if(partida.modo == 'i'){
+            L.marker([partida.punto.coordinates[1], partida.punto.coordinates[0]], {icon: this.goldMarker})
+            .bindPopup("<strong>Partido organizado por " + partida.organizador + "</strong><br><ion-list><ion-list-header><b>Participantes:</b></ion-list-header><ion-item>" + partida.organizador + "</ion-item><ion-item lines=\"none\"><ion-label>"+partida.invitados[0]+"</ion-label></ion-item></ion-list><br><p>" + partida.ubicacion + "</p", {minWidth: 200, closeOnClick: true, autoClose: true})
+            .addTo(this.mymap);
+          }
+          if(partida.modo == 'd'){
+            L.marker([partida.punto.coordinates[1], partida.punto.coordinates[0]], {icon: this.goldMarker})
+            .bindPopup("<strong>Partido organizado por " + partida.organizador + "</strong><br><ion-list><ion-list-header><b>Participantes:</b></ion-list-header><ion-item>" + partida.organizador + "</ion-item><ion-item lines=\"none\"><ion-label>"+partida.invitados[0]+"</ion-label></ion-item><ion-item lines=\"none\"><ion-label>"+partida.invitados[1]+"</ion-label></ion-item><ion-item lines=\"none\"><ion-label>"+partida.invitados[2]+"</ion-label></ion-item></ion-list><br><p>" + partida.ubicacion + "</p", {minWidth: 200, closeOnClick: true, autoClose: true})
+            .addTo(this.mymap);
+          }  
+        }
+        catch(err){
+          console.log("No se ha podido cargar ubicación de la Partida");
+        }
+      });
+    },
+    (err) => {
+      console.log("err", err);
+    });
+  }
+
 }

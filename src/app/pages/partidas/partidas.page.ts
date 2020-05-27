@@ -5,6 +5,7 @@ import { StorageComponent } from 'src/app/storage/storage.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 
 @Component({
   selector: 'app-partidas',
@@ -25,6 +26,7 @@ export class PartidasPage implements OnInit {
     private partidaService: PartidaService,
     private storage: StorageComponent,
     public toastController: ToastController,
+    private usuarioService: UsuarioService,
     private router: Router,
   ) { }
 
@@ -34,7 +36,7 @@ export class PartidasPage implements OnInit {
   }
 
   public getPartidasde(id:string){  //obtengo los estudiantes de una asignatura en concreto
-    this.partidaService.getPartidasde(id).subscribe(
+    this.usuarioService.getPartidasde(id).subscribe(
       (data) => {
         this.listapartidas = data.partidas;   //este data.partidas se refiere al apartado students que hay en el model de usuarios
         console.log("getparetidasde", this.listapartidas);
@@ -44,9 +46,7 @@ export class PartidasPage implements OnInit {
       }
     )  //el subject service es el declarado arriba en private
   }
-  viva(){
-    console.log("viva españa")
-  }
+
   
   detGanador(i){
    

@@ -6,6 +6,12 @@
       <ion-buttons slot="start">
         <ion-menu-button auto-hide="false"></ion-menu-button>
       </ion-buttons>
+      
+      <ion-buttons slot="end">
+        <ion-button (click)="refreshDashboard()" size="large">
+          <ion-icon slot="start" slot="icon-only" name="reload"></ion-icon>
+        </ion-button>
+      </ion-buttons>
 
       <ion-title class="ion-text-center">Página Principal</ion-title>
     </ion-toolbar>
@@ -57,25 +63,71 @@
               <ion-card>
                 <ion-card-header>
                   <ion-card-title>
+                    Tus Partidos Activos
+                  </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-list>
+                      <ion-card *ngFor = "let partida of listaPartidas; let i = index">
+                        <ion-card-header>Partido organizado por: <b>{{partida.organizador}}</b></ion-card-header>
+                        <ion-card-content>
+                          <h1><ion-badge color="secondary">{{partida.ubicacion}}</ion-badge></h1>
+                          <ion-chip outline color="primary">
+                            <ion-label *ngIf="partida.modo == 'i'">Individuales</ion-label>
+                            <ion-label *ngIf="partida.modo == 'd'">Dobles</ion-label>
+                          </ion-chip>
+                          <ion-chip outline color="success" *ngIf="partida.ganador===undefined">
+                            En Curso
+                          </ion-chip>
+                          <ion-chip outline color="warning" *ngIf="partida.ganador!==undefined">
+                            Ganado por: {{partida.ganador}}
+                          </ion-chip>
+
+                          <!--ion-button fill="clear" color="success" size="large" (click)= "presentAlert(usuario)" *ngIf="this.usuarioLogueado.username !== usuario.username">
+                          <ion-icon name="trophy-outline"></ion-icon>
+                          </ion-button-->
+
+                          <ion-list>
+                            <ion-list-header>
+                              <b>Participantes:</b>
+                            </ion-list-header>
+                            <ion-item>{{partida.organizador}}</ion-item>
+                            <ion-item *ngFor="let invitado of partida.invitados" lines="none">
+                              <ion-label>{{invitado}}</ion-label>
+                            </ion-item>
+                          </ion-list>
+
+                          <ion-item *ngIf="partida.ganador===undefined">
+                            <ion-label>Elegir Ganador</ion-label>
+                            <ion-select [(ngModel)]="this.ganador" placeholder="Acabar Partida" (ionChange)="setGanador(i)">
+                              <ion-select-option [value]=partida.organizador checked="false">{{partida.organizador}}</ion-select-option>
+                              <ion-select-option *ngFor="let jugador of partida.invitados" [value]=jugador checked="false">{{jugador}}</ion-select-option>
+                            </ion-select>
+                          </ion-item>
+
+                        </ion-card-content>
+                      </ion-card>
+                  </ion-list>
+                  
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>
                     Tus Torneos Activos
                   </ion-card-title>
                 </ion-card-header>
               </ion-card>
             </ion-col>
-
-            <ion-col>
-              <ion-card>
-                <ion-card-header>
-                  <ion-card-title>
-                    <ion-button (click)= "goPartidas()">Tus Partidos Activos </ion-button>
-                  </ion-card-title>
-                </ion-card-header>
-              </ion-card>
-            </ion-col>
           </ion-row>
+
         </ion-grid>
 
-        
       </ion-card-content>
     </ion-card>
 

@@ -66,13 +66,13 @@
             <ion-item lines="none">
               <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[1]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
               <ion-col><ion-label>Pista Cubierta</ion-label></ion-col>
-              <ion-col><ion-toggle name="pistacubierta" color="tertiary" (ionChange)="pistacubiertaToggleChanged()"></ion-toggle></ion-col>
+              <!--ion-col--><ion-toggle name="pistacubierta" color="tertiary" (ionChange)="pistacubiertaToggleChanged()"></ion-toggle><!--/ion-col-->
             </ion-item>
 
             <ion-item lines="none">
               <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[2]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
               <ion-col><ion-label>Tipo de Pista</ion-label></ion-col>
-              <ion-col>
+              <!--ion-col-->
                 <ion-select [(ngModel)]="tipopistaValue" placeholder="Seleccionar" [ngModelOptions]="{standalone: true}" >
                   <ion-select-option value="TierraBatida">Tierra Batida</ion-select-option>
                   <ion-select-option value="Hierba">Hierba</ion-select-option>
@@ -81,13 +81,13 @@
                   <ion-select-option value="Plexicushion">Plexicushion</ion-select-option>
                   <ion-select-option value="Rapida">Rápida</ion-select-option>
                 </ion-select>
-              </ion-col>
+              <!--/ion-col-->
             </ion-item>
 
             <ion-item lines="none">
               <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[3]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
               <ion-col><ion-label>Modo</ion-label></ion-col>
-              <ion-col>
+              <!--ion-col-->
                 <ion-segment value="i" (ionChange)="modoSegmentChanged($event)">
                   <ion-segment-button value="i">
                     <ion-label>(I)ndividuales</ion-label>
@@ -96,15 +96,15 @@
                     <ion-label>(D)obles</ion-label>
                   </ion-segment-button>
                 </ion-segment>
-              </ion-col>
+              <!--/ion-col-->
             </ion-item>
 
             <ion-item lines="none">
               <ion-col><ion-label>Nº Participantes</ion-label></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaTorneosFlags[4]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="2"><ion-input type="number" placeholder="Min" min="0" formControlName="minParticipantesInput"></ion-input></ion-col>
+              <ion-col size="3"><ion-input type="number" placeholder="Min" min="0" formControlName="minParticipantesInput"></ion-input></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaTorneosFlags[5]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="2"><ion-input type="number" placeholder="Max" min="0" formControlName="maxParticipantesInput"></ion-input></ion-col>
+              <ion-col size="3"><ion-input type="number" placeholder="Max" min="0" formControlName="maxParticipantesInput"></ion-input></ion-col>
             </ion-item>
           </ion-list>
 
@@ -153,12 +153,12 @@
                 <b>{{torneo.descripcion}}</b>
                 <p>{{torneo.ubicacion}}</p>
               </ion-label>
-              <ion-button fill="clear" color="success" size="large">
+              <ion-button fill="clear" color="success" size="large" (click)= "presentAlert(torneo)">
                 <ion-icon name="add"></ion-icon>
               </ion-button>
-              <ion-button href="{{torneo.sitioweb}}" target="_blank" size="large" fill="clear" color="dark">
+              <!--ion-button href="{{torneo.sitioweb}}" target="_blank" size="large" fill="clear" color="dark">
                 <ion-icon name="link"></ion-icon>
-              </ion-button>
+              </ion-button-->
             </ion-item>
         </ion-list>
       </ion-card-content>

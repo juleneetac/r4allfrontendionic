@@ -8,7 +8,7 @@
 
       <ion-buttons slot="end">
         <ion-button (click)="auth.logout()" color="danger" size="large">
-          <ion-icon name="power-outline"></ion-icon>
+          <ion-icon slot="icon-only" name="power-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
 
@@ -17,80 +17,81 @@
   </ion-header>
 
   <ion-content>
-    <!-- <pre *ngIf="auth.userProfile$ | async as profile">
-      <ion-card-header>
-        <ion-card-title>Perfil</ion-card-title>
-      </ion-card-header>
-      <code>{{ profile | json }}</code>                                //volver a poner alomejor
-      <code>{{ profile.given_name}}</code>
-      <code>{{ profile.email}}</code>
-    </pre> -->
-    <!-- <pre *ngIf="auth.authenticationState"> -->
-      <pre >
-      <ion-row>
-        <ion-col size="12">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title>{{ localperfil.username }}</ion-card-title>
-            </ion-card-header>
-        
-            <ion-card-content>
-              <ion-list>
-                <ion-item>
+    <pre *ngIf="auth.userProfile$ | async as profile">
+      <code>{{ profile | json }}</code>
+    </pre>
+<!-- <pre *ngIf="auth.authenticationState">
+ -->
+    <ion-row *ngIf="auth.authenticationState">
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ localperfil.username }}</ion-card-title>
+          </ion-card-header>
+      
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="5" size-xs="12" size-sm="6" size-md="4" size-sm="2">
+                <ion-item lines="none">
                   <ion-avatar>
-                     <ion-img [src]="path + localperfil.rutaimagen"></ion-img>
+                      <ion-img [src]="path + localperfil.rutaimagen"></ion-img>
                   </ion-avatar>
                 </ion-item>
-          
-                <ion-item>
+              </ion-col>
+
+              <ion-col size="6" size-xs="12" size-sm="6" size-md="4" size-sm="2">
+                <br>
+                <!-- <ion-item>
                   <label>
                     id: {{localperfil._id}}
                   </label>
-                </ion-item>
-
-                <ion-item>
+                </ion-item> -->
+                <ion-item lines="none">
                   <label>
                     Correo: {{localperfil.mail}}
                   </label>
-                </ion-item>
-                  
-                <ion-item>
+                </ion-item> 
+
+                <ion-item lines="none">
                   <label>
                     Edad: {{localperfil.edad}}
                   </label>
                 </ion-item>
 
-                <ion-item>
+                <ion-item lines="none">
                   <label>
                     Sexo: {{localperfil.sexo}}
                   </label>
                 </ion-item>
-                  
-                <ion-item>
+
+                <ion-item lines="none">
                   <label>
                     Ubicación: {{localperfil.ubicacion}}
                   </label>
-                </ion-item>
+                </ion-item>  
 
-                <!--div id="mapid"></div-->
+              </ion-col>
+            </ion-row>
 
-                <!-- <ion-item>
-                  <label>
-                    Torneos: {{localperfil.torneos}}
-                  </label>
-                </ion-item> -->
+                    <!--div id="mapid"></div-->
 
-                <!-- <label>
-                  Foto de perfil: 
-                  <img [src]=" this.ambiente.path + localperfil.rutaimagen">
-                </label> -->
-              </ion-list>
+                    <!-- <ion-item>
+                      <label>
+                        Torneos: {{localperfil.torneos}}
+                      </label>
+                    </ion-item> -->
 
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </pre>
+                    <!-- <label>
+                      Foto de perfil: 
+                      <img [src]=" this.ambiente.path + localperfil.rutaimagen">
+                    </label> -->
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!--  </pre> -->   
+    <div id="mapid3" class="mapa"></div>
 
   </ion-content>
 </ion-app>

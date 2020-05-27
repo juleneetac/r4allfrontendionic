@@ -38,7 +38,7 @@
             <ion-item lines="none">
               <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[0]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
               <ion-col><ion-label>Nombre de Usuario</ion-label></ion-col>
-              <ion-col><ion-input type="text" placeholder="Nombre del Usuario" formControlName="usernameInput"></ion-input></ion-col>
+              <!--ion-col--><ion-input type="text" placeholder="Nombre" formControlName="usernameInput"></ion-input><!--/ion-col-->
             </ion-item>
 
             <ion-item lines="none">
@@ -53,7 +53,7 @@
             <ion-item lines="none">
               <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[2]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
               <ion-col><ion-label>Sexo</ion-label></ion-col>
-              <ion-col>
+              <!--ion-col-->
                 <ion-segment value="m" (ionChange)="generoSegmentChanged($event)">
                   <ion-segment-button value="m">
                     <ion-label>(M)asculino</ion-label>
@@ -62,31 +62,31 @@
                     <ion-label>(F)emenino</ion-label>
                   </ion-segment-button>
                 </ion-segment>
-              </ion-col>
+              <!--/ion-col-->
             </ion-item>
 
             <ion-item lines="none">
               <ion-col><ion-label>Edad</ion-label></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[3]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="2"><ion-input type="number" placeholder="Min" min="0" formControlName="minEdadInput"></ion-input></ion-col>
+              <ion-col size="3"><ion-input type="number" placeholder="Min" min="0" formControlName="minEdadInput"></ion-input></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[4]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="2"><ion-input type="number" placeholder="Max" min="0" formControlName="maxEdadInput"></ion-input></ion-col>
+              <ion-col size="3"><ion-input type="number" placeholder="Max" min="0" formControlName="maxEdadInput"></ion-input></ion-col>
             </ion-item>
 
             <ion-item lines="none">
               <ion-col><ion-label>Experiencia</ion-label></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[5]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="2"><ion-input type="number" placeholder="Min" min="0" formControlName="minExpInput"></ion-input></ion-col>
+              <ion-col size="3"><ion-input type="number" placeholder="Min" min="0" formControlName="minExpInput"></ion-input></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[6]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="2"><ion-input type="number" placeholder="Max" min="0" formControlName="maxExpInput"></ion-input></ion-col>
+              <ion-col size="3"><ion-input type="number" placeholder="Max" min="0" formControlName="maxExpInput"></ion-input></ion-col>
             </ion-item>
 
             <ion-item lines="none">
               <ion-col><ion-label>Valoración</ion-label></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[7]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="2"><ion-input type="number" placeholder="Min" min="0" formControlName="minValoracionInput"></ion-input></ion-col>
+              <ion-col size="3"><ion-input type="number" placeholder="Min" min="0" formControlName="minValoracionInput"></ion-input></ion-col>
               <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[8]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="2"><ion-input type="number" placeholder="Max" min="0" formControlName="maxValoracionInput"></ion-input></ion-col>
+              <ion-col size="3"><ion-input type="number" placeholder="Max" min="0" formControlName="maxValoracionInput"></ion-input></ion-col>
             </ion-item>
           </ion-list>
 
@@ -124,7 +124,7 @@
                   <ion-label>Valoración {{usuario.valoracion}}</ion-label>
                 </ion-chip>
               </ion-label>
-              <ion-button fill="clear" color="success" size="large" (click)= "goAddPartida(usuario.username)">
+              <ion-button fill="clear" color="success" size="large" (click)= "presentAlert(usuario)" *ngIf="this.usuarioLogueado.username !== usuario.username">
                 <ion-icon name="add"></ion-icon>
               </ion-button>
             </ion-item>

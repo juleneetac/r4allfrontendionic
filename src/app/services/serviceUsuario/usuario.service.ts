@@ -47,8 +47,12 @@ export class UsuarioService {
     return this.http.get<Modelusuario>(this.ambiente.urlUsuario + `/getusrbyname/${username}`);
   }
 
-  updateUsuario(id:string, usuariomodificado:any): Observable<Modelusuario> {
+  updateUsuario(id: string, usuariomodificado:any): Observable<Modelusuario> {
     return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/update/${id}`, usuariomodificado);
+  }
+  
+  getPartidasde(id: string): Observable<Modelusuario>{  //no es un array porque es solo una asignatura lo que le paso
+    return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getpartbyuser/${id}`);
   }
 
   updateImagenUsuario(id:string, photo:File): Observable<Modelusuario>{

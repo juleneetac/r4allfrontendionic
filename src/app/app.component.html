@@ -90,13 +90,13 @@
       <ion-header *ngIf="auth.loggedIn || auth.authenticationState">
         <ion-toolbar translucent>
           <ion-title>
-            <ion-chip color="primary">
+            <!--ion-chip color="primary">
               <ion-avatar>
-                <img [src]="this.ambiente.path + usuarioLogueado.rutaimagen">
+                <-img [src]="this.ambiente.path + usuarioLogueado.rutaimagen">
               </ion-avatar>
-              <ion-label *ngIf="auth.userProfile$ | async as profile">{{profile.given_name}}</ion-label>
-              <ion-label *ngIf="auth.authenticationState">{{auth.putUsername()}}</ion-label>
-            </ion-chip>
+            </ion-chip-->
+            <ion-label *ngIf="auth.userProfile$ | async as profile">{{profile.given_name}}</ion-label>
+            <ion-label *ngIf="auth.authenticationState">{{auth.putUsername()}}</ion-label>
           </ion-title>
 
 

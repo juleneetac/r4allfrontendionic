@@ -6,7 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Router} from "@angular/router";
 import { AuthService } from './services/serviceAuth/auth.service';
 import { ChatService } from './services/serviceChat/chat.service';
-import { StorageComponent } from './storage/storage.component';
+//import { StorageComponent } from './storage/storage.component';
 import { Modelusuario } from './models/modelUsusario/modelusuario';
 import { Ambiente } from './services/ambiente';
 
@@ -87,7 +87,7 @@ constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private router: Router,
-    public storage: StorageComponent,
+    //public storage: StorageComponent,
     private statusBar: StatusBar,
     public auth: AuthService,
     public chatService: ChatService,
@@ -105,7 +105,7 @@ constructor(
 
   checkButton(index :number){
     console.log()
-    if (index==5){
+    if (index==4){
       console.log(index)
       this.logout();
     }
@@ -113,9 +113,9 @@ constructor(
   
   initializeApp() {
     this.platform.ready().then(() => {
-    this.statusBar.styleDefault();
-    this.splashScreen.hide();
-    this.usuarioLogueado = JSON.parse(this.storage.getUser());
+      //this.usuarioLogueado = JSON.parse(this.storage.getUser());
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
   }
 }

@@ -19,10 +19,6 @@ export class PartidaService {
     return this.http.post<Modelpartida>(this.ambiente.urlPartida + '/addprd', addpartida);
   }
 
-  getPartidasde(_id:string): Observable<Modelusuario>{  //no es un array porque es solo una asignatura lo que le paso
-    return this.http.get<Modelusuario>(this.ambiente.urlUsuario+'/getpartbyuser'+ `/${_id}`);
-    }
-
   updateGanador(_id: string, setganador:any): Observable<Modelpartida> {
       return this.http.put<Modelpartida>(`${this.ambiente.urlPartida}/updprd/${_id}`, setganador);
     }

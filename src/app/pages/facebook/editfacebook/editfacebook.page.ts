@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
@@ -11,6 +10,7 @@ import { Modelregister } from 'src/app/models/modelRegister/modelregister';
 import { AuthService } from 'src/app/services/serviceAuth/auth.service';
 import { Socket } from 'ng-socket-io';
 import { ChatService } from 'src/app/services/serviceChat/chat.service';
+import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -49,13 +49,13 @@ export class EditfacebookPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private geolocation: Geolocation,
     private storage: StorageComponent,
     public toastController: ToastController,
     private usuarioService: UsuarioService,
     public auth: AuthService, 
     private socket: Socket,
     private chatService: ChatService,
+    private mapsService: MapsService
   ) 
   {
     this.editfacebookForm = this.formBuilder.group({
@@ -78,7 +78,7 @@ export class EditfacebookPage implements OnInit {
     )
    }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.validation_messages = {
       'edad': [
@@ -109,13 +109,29 @@ export class EditfacebookPage implements OnInit {
       this.registerUser();
     }
 
-    //Registrar ubicación del usuario cuando se registra
-  this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
-    console.log(geoposition);
+  //Registrar ubicación del usuario cuando se registra
+  await this.mapsService.getCurrentPosition()
+  .then(pos => {
+    let position = pos;
     this.punto = {
       "type": "Point",
-      "coordinates": [geoposition.coords.longitude, geoposition.coords.latitude]    //SEGÚN RFC DEL GEOJSON, PARA QUE NO DE ERRORES EN EL MONGO
+      "coordinates": [position[0], position[1]]    //SEGÚN RFC DEL GEOJSON, PARA QUE NO DE ERRORES EN EL MONGO
     }
+    this.mapsService.getReverseGeocode(position[1], position[0])
+    .subscribe((res) => { 
+      if(res.address.city != null){
+        this.ubicacion = res.address.city;
+      }
+      else if(res.address.town != null){
+        this.ubicacion = res.address.town;
+      }
+      else if(res.address.village != null){
+        this.ubicacion = res.address.village;
+      }
+      else {
+        this.ubicacion = res.display_name;
+      }
+    });
   });
 
 
