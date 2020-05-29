@@ -17,12 +17,12 @@
             </div>
             <ion-input class="facebookform" type="text" name="given_name" value= {{profile.given_name}}   readonly=readonly></ion-input>
             <ion-input class="facebookform" type="text" name="mail" value= {{profile.email}}   readonly=readonly></ion-input>
-            <ion-input class="facebookform" type="text" name="sexo" value= {{profile.gender}}   readonly=readonly></ion-input>
+            <!-- <ion-input class="facebookform" type="text" name="sexo" value= {{sexo}}  readonly=readonly></ion-input> -->
 
           <ion-list>
               <div class="formGroup">
               <ion-item>
-                <ion-input  formControlName="edad" type="text" name="edad" placeholder="tu edad" [(ngModel)]="edad"></ion-input>
+                <ion-input  formControlName="edad" type="text" name="edad" placeholder="Introduce tu edad" [(ngModel)]="edad"></ion-input>
                 <div *ngIf="editfacebookForm.controls['edad'].valid">
                   <a class="success">&#9989;</a>
                 </div>
@@ -37,10 +37,28 @@
                 </ng-container>
               </div>
             </div>
+
+            <div class="formGroup">
+              <ion-item>
+                <ion-input  formControlName="sexo" type="text" name="sexo" placeholder="Género: m / f" [(ngModel)]="sexo"></ion-input>
+                <div *ngIf="editfacebookForm.controls['sexo'].valid">
+                  <a class="success">&#9989;</a>
+                </div>
+              </ion-item>
+              <div class="validation-errors">
+                <ng-container *ngFor="let validation of validation_messages.sexo" >
+                  <div *ngIf="editfacebookForm.get('sexo').hasError(validation.type) && (editfacebookForm.get('sexo').dirty || editfacebookForm.get('sexo').touched)">
+                    <div class="danger">
+                      {{ validation.message }}
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
     
                 <div class="formGroup">
                   <ion-item>              
-                    <ion-input  formControlName="ubicacion" type="text" name="ubicacion" placeholder="Ubicacion" [(ngModel)]="ubicacion" ></ion-input>
+                    <ion-input  formControlName="ubicacion" type="text" name="ubicacion" placeholder="Pon donde resides" [(ngModel)]="ubicacion" ></ion-input>
                     <div *ngIf="editfacebookForm.controls['ubicacion'].valid">
                       <a class="success">&#9989;</a>
                     </div>
