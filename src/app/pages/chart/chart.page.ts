@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { GoogleChartInterface} from 'ng2-google-charts';
+import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
+
 //import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 // import {
 //   ChartErrorEvent,
@@ -20,11 +23,10 @@ import { GoogleChartInterface} from 'ng2-google-charts';
 })
 export class ChartPage implements OnInit {
   // public columnChart1: GoogleChartInterface;// = google.visualization.arrayToDataTable;
-  // public columnChart2;// GoogleChartInterface;
-  // public barChart; //GoogleChartInterface;
   public googleChartLibrary;
+  public usuarios: Modelusuario[];
 
-  constructor() {   //public platform:Platform
+  constructor(private usuariosService: UsuarioService, ) {   //public platform:Platform
     // this.platform.ready().then(()=>{
     //   google.charts.load('current', {'packages':['corechart']});
     //   //this.DrawPieChart(); porque no se hace¿?
@@ -32,11 +34,12 @@ export class ChartPage implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllUsuarios();
     this.useVanillaJSLibrary();
   }
 
   useVanillaJSLibrary() {
-    this.googleChartLibrary = (<any>window).google;
+    this.googleChartLibrary = (<any> window).google;
     // Load the Visualization API and the corechart package.
     this.googleChartLibrary.charts.load('current', { 'packages': ['corechart'] });
 
@@ -46,13 +49,15 @@ export class ChartPage implements OnInit {
 
   DrawPieChart()
   {
+    let i = 0;
+    
     var data = this.googleChartLibrary.visualization.arrayToDataTable([
-      ['ID', 'Partidos jugados', 'Torneos jugados', 'Género', 'Experiencia'],
-      ['Goku',    20,              4,            'Masculino',            15],
-      ['Lel',    10,             3,            'Masculino',            9],
-      ['Marc',    5,               9,            'Masculino',            2],
-      ['Antonia',    4,             3,            'Femenino',            4],
-      ['Alex',    29,              2,               'Masculino',            23],
+      ['ID',      'Partidos jugados', 'Torneos jugados',   'Género',    'Experiencia'],
+      [this.usuarios[1].username,          20,                4,              this.usuarios[1].sexo,          15],
+      [this.usuarios[0].username,           10,                3,               this.usuarios[0].sexo,          9],
+      [this.usuarios[2].username,           56,                34,              this.usuarios[2].sexo,          34],
+       // [this.usuarios[3].username,           14,                34,              this.usuarios[3].sexo,          34],
+      ['Antonia',        4,                7,              'f',           4],
       // ['',    72.49,              1.7,             'f',            7],
       // ['IRQ',    68.09,              4.77,            'm',            3],
       // ['ISR',    81.55,              2.96,            'm',            7],
@@ -70,12 +75,23 @@ export class ChartPage implements OnInit {
             auraColor: 'none',
           }
         },
-      legend : { position:"right", alignment:"center"},   
+      legend : { position: "right", alignment: "center"},   
        };
 
     var chart = new this.googleChartLibrary.visualization.BubbleChart(document.getElementById('bubbleChart'));
     chart.draw(data, options);
+  }
 
+  public getAllUsuarios(){   //obtengo todos los usuarios
+    this.usuariosService.getAllUsuarios().subscribe(
+      (data) => {
+        this.usuarios = data;
+        console.log(this.usuarios);
+      },
+      (err) => {
+        console.log("err", err);
+      }
+    ) 
   }
 
   // public barChartOptions = {
