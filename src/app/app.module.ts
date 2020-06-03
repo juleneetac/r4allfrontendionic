@@ -33,6 +33,14 @@ import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';  // tema sockets
 import { Ambiente } from './services/ambiente';
 const config: SocketIoConfig = { url: new Ambiente().path, options: {}};
 
+//import { GoogleChartsModule } from 'angular-google-charts';  //para los graficos
+//import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+//import { ChartsModule } from 'ng2-charts';
+
+
+
+
+
  
 
 @NgModule({
@@ -55,8 +63,10 @@ const config: SocketIoConfig = { url: new Ambiente().path, options: {}};
     //MatListModule,
     ReactiveFormsModule,
     HomePageModule,
-    SocketIoModule.forRoot(config)
-    
+    SocketIoModule.forRoot(config),
+    //GoogleChartsModule.forRoot({ version: 'chart-version' }),
+   // Ng2GoogleChartsModule,
+   //ChartsModule, 
   ],
   providers: [
     StatusBar,
