@@ -12,8 +12,8 @@ export class Modeltorneo {
     tipobola: string;       //Introducido por el Organizador
     ubicacion: string;      //Nombre de la ubicación (Por ejemplo, Real Club de Tenis)
     punto: {                //Punto de la ubicación
-        type: { type: string },           //"Point"
-        coordinates: { type: [number] }   //[latitud,longitud]
+        type: string,           
+        coordinates: number[] //[longitud,latitud]
     };
     inscripcion: number;    //Precio de inscripcion
     premio: string;  
