@@ -49,11 +49,9 @@ export class ChartPage implements OnInit {
 
   DrawPieChart()
   {
-    let i = 0;
-    
     var data = this.googleChartLibrary.visualization.arrayToDataTable([
-      ['ID',      'Partidos jugados', 'Torneos jugados',   'Género',    'Experiencia'],
-      [this.usuarios[1].username,          20,                4,              this.usuarios[1].sexo,          15],
+      ['ID',                       'Partidos jugados',   'Torneos jugados',          'Género',           'Experiencia'],
+      [this.usuarios[1].username,          20,                20,              this.usuarios[1].sexo,          150],
       [this.usuarios[0].username,           10,                3,               this.usuarios[0].sexo,          9],
       [this.usuarios[2].username,           56,                34,              this.usuarios[2].sexo,          34],
        // [this.usuarios[3].username,           14,                34,              this.usuarios[3].sexo,          34],
