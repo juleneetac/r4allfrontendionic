@@ -70,7 +70,12 @@ const routes: Routes = [
   {
     path: 'partidas',
     loadChildren: () => import('./pages/partidas/partidas.module').then( m => m.PartidasPageModule)
+  },
+  {
+    path: 'torneo-enter',
+    loadChildren: () => import('./pages/torneo-enter/torneo-enter/torneo-enter.module').then( m => m.TorneoEnterPageModule)
   }
+
 
 ];
 

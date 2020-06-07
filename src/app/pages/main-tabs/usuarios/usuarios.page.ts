@@ -61,6 +61,9 @@ ambiente: Ambiente;
 
     this.generoValue = 'm';
 
+  }
+
+  ionViewDidEnter(){
     this.getUsuarios();
   }
 

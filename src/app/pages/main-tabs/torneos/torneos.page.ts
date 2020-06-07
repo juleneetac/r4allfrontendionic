@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MapsService } from 'src/app/services/serviceMaps/maps.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { StorageComponent } from 'src/app/storage/storage.component';
+import { NavController } from '@ionic/angular';
+import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-torneos',
@@ -15,10 +18,13 @@ import { StorageComponent } from 'src/app/storage/storage.component';
 export class TorneosPage implements OnInit {
 
   constructor(
+    private router: Router,
     private torneosService: TorneoService,
     private mapsService: MapsService,
     private storage: StorageComponent,
-    public alertController: AlertController
+    public alertController: AlertController,
+    public toastController: ToastController,
+    public navController: NavController
   ) { }
 
   listaTorneos: Modeltorneo[];    //Lista de Torneos
@@ -55,6 +61,9 @@ export class TorneosPage implements OnInit {
     this.generoValue = 'm';
     this.modoValue = 'i';
 
+  }
+
+  ionViewDidEnter(){
     this.getTorneos();
   }
 
@@ -150,10 +159,15 @@ export class TorneosPage implements OnInit {
       message: `Inscripción: ${torneo.inscripcion} €`,
       buttons: [
         {
-          text: 'Inscribirse',
-          handler: () => {
-            console.log(`Añadir participante ${this.usuarioLogueado.username} al torneo: ${torneo.nombre}`)
-          }
+          text: 'Entrar',
+          handler: async () => {
+            let navExtras: NavigationExtras = {
+              state: {
+                torneo: torneo
+              }
+            }
+            this.router.navigate(['torneo-enter'], navExtras);
+          } 
         },
         {
           text: 'Sitio Web',

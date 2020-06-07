@@ -7,6 +7,12 @@
         <ion-menu-button auto-hide="false"></ion-menu-button>
       </ion-buttons>
 
+      <ion-buttons slot="end">
+        <ion-button (click)="getTorneos()" size="large">
+          <ion-icon slot="start" slot="icon-only" name="reload"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
       <ion-title class="ion-text-center">Torneos</ion-title>
     </ion-toolbar>
 
@@ -123,11 +129,10 @@
           <!--ion-list-header>Lista de Torneos</ion-list-header-->
             <ion-item *ngFor = "let torneo of listaTorneos">
               <ion-label> 
-                {{torneo.nombre}}
-                <h1><ion-badge color="secondary">Organizado por {{torneo.organizador}}</ion-badge></h1>
-                <ion-badge *ngIf="torneo.ganador==undefined" color="success">Abierto</ion-badge><ion-badge *ngIf="torneo.ganador!==undefined" color="danger">Finalizado</ion-badge>
-                <ion-label>Precio de entrada: {{torneo.inscripcion}} €</ion-label>
-                <ion-label>Premio: {{torneo.premio}}</ion-label>
+                <ion-row>
+                  <ion-col size="auto">{{torneo.nombre}}</ion-col><ion-col size="auto"><ion-badge *ngIf="torneo.ganador==undefined" color="success">Abierto</ion-badge><ion-badge *ngIf="torneo.ganador!==undefined" color="danger">Finalizado</ion-badge></ion-col>
+                </ion-row>
+                <h1><ion-badge color="secondary">Organizado por {{torneo.organizador}} </ion-badge></h1>
                 <ion-chip outline color="secondary">
                   <ion-label *ngIf="torneo.modo == 'i'">Individuales</ion-label>
                   <ion-label *ngIf="torneo.modo == 'd'">Dobles</ion-label>
@@ -147,8 +152,10 @@
                   <ion-label>Bola: {{torneo.tipobola}}</ion-label>
                 </ion-chip>
                 <ion-chip outline color="danger">
-                  <ion-label>{{torneo.participantes.length}} Participantes</ion-label>
+                  <ion-label>{{torneo.participantes.length}} Participante/s</ion-label>
                 </ion-chip>
+                <ion-label>Precio de entrada: {{torneo.inscripcion}} €</ion-label>
+                <ion-label>Premio: {{torneo.premio}}</ion-label>
                 <br />
                 <b>{{torneo.descripcion}}</b>
                 <p>{{torneo.ubicacion}}</p>
