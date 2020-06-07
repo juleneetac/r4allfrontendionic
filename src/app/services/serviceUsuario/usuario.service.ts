@@ -5,6 +5,7 @@ import { Ambiente } from '../ambiente';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Modelregister } from 'src/app/models/modelRegister/modelregister';
+import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 
 
 @Injectable({
@@ -69,6 +70,10 @@ export class UsuarioService {
 
   registrarfacebook(register: Modelregister): Observable<HttpResponse<Modelusuario>>{ 
     return this.http.post<Modelusuario>(this.ambiente.urlUsuario + '/registerfacebook', register, {observe:'response'});  //REVISAR !!!! DEVUELVE UN MODELUSUARIO + SU TOKEN !!!
+  }
+  
+  getTorneos(id: string): Observable<Modelusuario>{
+    return this.http.get<Modelusuario>(this.ambiente.urlUsuario+'/gettornbyuser/'+ `${id}`)
   }
 
 }

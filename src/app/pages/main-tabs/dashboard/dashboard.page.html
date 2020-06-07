@@ -70,7 +70,7 @@
                   <ion-list>
                       <ion-card *ngFor = "let partida of listaPartidas; let i = index">
                         <ion-card-header>Partido organizado por: <b>{{partida.organizador}}</b></ion-card-header>
-                        <ion-card-content>
+                        <ion-card-content id="scroll1">
                           <h1><ion-badge color="secondary">{{partida.ubicacion}}</ion-badge></h1>
                           <ion-chip outline color="primary">
                             <ion-label *ngIf="partida.modo == 'i'">Individuales</ion-label>
@@ -122,6 +122,43 @@
                     Tus Torneos Activos
                   </ion-card-title>
                 </ion-card-header>
+                <ion-card-content id="scroll">
+                  <ion-list>
+                    <ion-item *ngFor = "let torneo of mistorneos">
+                      <ion-label> 
+                        {{torneo.nombre}}
+                        <h1><ion-badge color="secondary">Organizado por {{torneo.organizador}}</ion-badge></h1>
+                        <ion-badge *ngIf="torneo.ganador==undefined" color="success">Abierto</ion-badge><ion-badge *ngIf="torneo.ganador!==undefined" color="danger">Finalizado</ion-badge>
+                        <ion-label>Precio de entrada: {{torneo.inscripcion}} €</ion-label>
+                        <ion-label>Premio: {{torneo.premio}}</ion-label>
+                        <ion-chip outline color="secondary">
+                          <ion-label *ngIf="torneo.modo == 'i'">Individuales</ion-label>
+                          <ion-label *ngIf="torneo.modo == 'd'">Dobles</ion-label>
+                        </ion-chip>
+                        <ion-chip outline color="tertiary">
+                          <ion-label *ngIf="torneo.genero == 'm'">Masculino</ion-label>
+                          <ion-label *ngIf="torneo.genero == 'f'">Femenino</ion-label>
+                        </ion-chip>
+                        <ion-chip outline color="primary">
+                          <ion-label *ngIf="torneo.pistacubierta == true">Pista Cubierta</ion-label>
+                          <ion-label *ngIf="torneo.pistacubierta == false">Pista Descubierta</ion-label>
+                        </ion-chip>
+                        <ion-chip outline color="success">
+                          <ion-label>{{torneo.tipopista}}</ion-label>
+                        </ion-chip>
+                        <ion-chip outline color="warning">
+                          <ion-label>Bola: {{torneo.tipobola}}</ion-label>
+                        </ion-chip>
+                        <ion-chip outline color="danger">
+                          <ion-label>{{torneo.participantes.length}} Participantes</ion-label>
+                        </ion-chip>
+                        <br>
+                        <b>{{torneo.descripcion}}</b>
+                        <p>{{torneo.ubicacion}}</p>
+                      </ion-label>
+                    </ion-item> 
+                  </ion-list>
+                </ion-card-content>
               </ion-card>
             </ion-col>
           </ion-row>

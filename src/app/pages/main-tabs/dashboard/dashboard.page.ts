@@ -7,6 +7,7 @@ import { Modelpartida } from 'src/app/models/modelPartida/modelpartida';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 import { PartidaService } from 'src/app/services/servicePartida/partida.service';
 import { ToastController } from '@ionic/angular';
+import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,8 @@ import { ToastController } from '@ionic/angular';
 export class DashboardPage implements OnInit {
   ambiente: Ambiente; 
   path;
+  mistorneos: Modeltorneo[];
+
   constructor(
     private storage: StorageComponent,
     private usuariosService: UsuarioService,
@@ -38,7 +41,10 @@ export class DashboardPage implements OnInit {
     this.listaPartidas = [];
     this.ganador = undefined;
 
+    this.mistorneos = [];
+    
     this.refreshDashboard();
+    this.getmistorneosactivos(this.usuarioLogueado._id);
   }
 
   ionViewDidEnter(){
@@ -108,5 +114,24 @@ export class DashboardPage implements OnInit {
       });
       
   }
+
+  public async getmistorneosactivos(id:string){
+    this.usuariosService.getTorneos(id)
+    .subscribe((res)=>{
+      let torneos = res.torneos;
+      torneos.forEach((torneos)=>{
+        if(torneos.ganador==undefined)
+        {
+          this.mistorneos.push(torneos);
+          console.log(this.mistorneos);
+        }
+      })
+    },
+    (err) =>{
+      console.log(err);
+    });
+
+  }
+
 
 }
