@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { GoogleChartInterface} from 'ng2-google-charts';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
+import { ConsoleReporter } from 'jasmine';
 
 //import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
 // import {
@@ -25,6 +26,9 @@ export class ChartPage implements OnInit {
   // public columnChart1: GoogleChartInterface;// = google.visualization.arrayToDataTable;
   public googleChartLibrary;
   public usuarios: Modelusuario[];
+  public itemsUsuarios = [];
+  public values = [];
+  //this.itemsUsuario.push(this.usuarios[i].id);
 
   constructor(private usuariosService: UsuarioService, ) {   //public platform:Platform
     // this.platform.ready().then(()=>{
@@ -49,19 +53,27 @@ export class ChartPage implements OnInit {
 
   DrawPieChart()
   {
-    var data = this.googleChartLibrary.visualization.arrayToDataTable([
-      ['ID',                       'Partidos jugados',   'Torneos jugados',          'Género',           'Experiencia'],
-      [this.usuarios[1].username,          20,                20,              this.usuarios[1].sexo,          150],
-      [this.usuarios[0].username,           10,                3,               this.usuarios[0].sexo,          9],
-      [this.usuarios[2].username,           56,                34,              this.usuarios[2].sexo,          34],
+    this.values.push(['ID', 'Partidos jugados', 'Torneos jugados', 'Género','Experiencia' ]), //le paso el nombre de cada cosa en el array
+
+    console.log(this.usuarios)
+    var i = 0
+    while (i < this.usuarios.length)  {
+      this.itemsUsuarios = this.usuarios;
+      this.values.push([this.itemsUsuarios[i].username, this.itemsUsuarios[i].partidas.length, 13, this.itemsUsuarios[i].sexo, 30]), //voy metiendo a cada user en su array
+      i++;
+      }
+      console.log(this.values)
+  
+  
+
+    var data = this.googleChartLibrary.visualization.arrayToDataTable(
+      this.values,
+      //['ID',                       'Partidos jugados',   'Torneos jugados',          'Género',           'Experiencia'],
+      // [this.usuarios[1].username,          20,                20,              this.usuarios[1].sexo,          150],
+      // [this.usuarios[0].username,           10,                3,               this.usuarios[0].sexo,          9],
+      // [this.usuarios[2].username,           56,                34,              this.usuarios[2].sexo,          34],
        // [this.usuarios[3].username,           14,                34,              this.usuarios[3].sexo,          34],
-      ['Antonia',        4,                7,              'f',           4],
-      // ['',    72.49,              1.7,             'f',            7],
-      // ['IRQ',    68.09,              4.77,            'm',            3],
-      // ['ISR',    81.55,              2.96,            'm',            7],
-      // ['RUS',    68.6,               1.54,            'm',            14],
-      // ['USA',    78.09,              2.05,            'f',            20]
-    ]);
+    );
 
     var options = {
       title: 'Experciancia de los usuarios en función de los partidos y torneos jugados',
@@ -84,7 +96,6 @@ export class ChartPage implements OnInit {
     this.usuariosService.getAllUsuarios().subscribe(
       (data) => {
         this.usuarios = data;
-        console.log(this.usuarios);
       },
       (err) => {
         console.log("err", err);
