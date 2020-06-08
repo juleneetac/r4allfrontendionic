@@ -68,11 +68,11 @@
     <ion-row class="message_row">
       <ion-col size="11">
         <ion-item lines="none">
-          <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
+          <ion-input #text type="text" placeholder="Escribe un mensaje" [(ngModel)]="message"  (keyup.enter)="sendMessage(message); text.value = ''" ></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="1">
-        <ion-button clear color="primary" (click)="sendMessage(message)" [disabled]="message === ''">&#10146;</ion-button>
+        <ion-button clear color="primary" (click)="sendMessage(message); text.value = ''" [disabled]="message === ''">&#10146;</ion-button>
       </ion-col>
     </ion-row>
   </ion-toolbar>

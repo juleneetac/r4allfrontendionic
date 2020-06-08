@@ -13,6 +13,7 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modelmessage } from 'src/app/models/modelMessage/modelmessage';
 import { ChatService } from 'src/app/services/serviceChat/chat.service';
 import { Socket } from 'ng-socket-io';
+import {IonContent} from '@ionic/angular';
 
 @Component({
   selector: 'app-chatroom',
@@ -20,6 +21,8 @@ import { Socket } from 'ng-socket-io';
   styleUrls: ['./chatroom.page.scss'],
 })
 export class ChatroomPage implements OnInit {
+    // @ts-ignore
+    //@ViewChild(IonContent) myContent: IonContent;
   
   // message = '';
   user = JSON.parse(this.storage.getUser());
@@ -73,7 +76,7 @@ export class ChatroomPage implements OnInit {
     this.chatService.getMessages().subscribe((data: {message, username2}) => {
         if (data.username2 === this.namedestino) {
           this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, new Date()));
-          setTimeout(() => 50);
+          //setTimeout(() => this.scrollToBottom(), 50);
         }
       
     });
@@ -89,6 +92,7 @@ export class ChatroomPage implements OnInit {
         //setTimeout(() => this.scrollToBottom(), 50);
       }
     }
+
 
 
   // ionViewWillLeave() {
