@@ -1,21 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
-import { GoogleChartInterface} from 'ng2-google-charts';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
-import { ConsoleReporter } from 'jasmine';
 
-//import { GoogleChartInterface } from 'ng2-google-charts/google-charts-interfaces';
-// import {
-//   ChartErrorEvent,
-//   ChartMouseLeaveEvent,
-//   ChartMouseOverEvent,
-//   ChartSelectionChangedEvent,
-//   ChartType,
-//   Column,
-//   GoogleChartComponent
-// } from 'angular-google-charts';
-// import {Platform} from '@ionic/angular';  //NO HACE FALTA IMPORTAR NADA SI SE HACE DE ESTA FORMA
-// declare var google;                       //SOLO PEGAR EL SCRIPT EN EL index.html
  
 @Component({
   selector: 'app-chart',
@@ -23,24 +9,20 @@ import { ConsoleReporter } from 'jasmine';
   styleUrls: ['./chart.page.scss'],
 })
 export class ChartPage implements OnInit {
-  // public columnChart1: GoogleChartInterface;// = google.visualization.arrayToDataTable;
   public googleChartLibrary;
   public usuarios: Modelusuario[];
   public itemsUsuarios = [];
   public values = [];
-  //this.itemsUsuario.push(this.usuarios[i].id);
+  public i: number;
 
-  constructor(private usuariosService: UsuarioService, ) {   //public platform:Platform
-    // this.platform.ready().then(()=>{
-    //   google.charts.load('current', {'packages':['corechart']});
-    //   //this.DrawPieChart(); porque no se hace¿?
-    // })
-  }
+  constructor(private usuariosService: UsuarioService, ) {  }
 
   ngOnInit() {
     this.getAllUsuarios();
     this.useVanillaJSLibrary();
   }
+
+
 
   useVanillaJSLibrary() {
     this.googleChartLibrary = (<any> window).google;
@@ -54,16 +36,20 @@ export class ChartPage implements OnInit {
   DrawPieChart()
   {
     this.values.push(['ID', 'Partidos jugados', 'Torneos jugados', 'Género','Experiencia' ]), //le paso el nombre de cada cosa en el array
-
-    console.log(this.usuarios)
-    var i = 0
-    while (i < this.usuarios.length)  {
+    this.i = 0;
+    while (this.i < this.usuarios.length)  {
       this.itemsUsuarios = this.usuarios;
-      this.values.push([this.itemsUsuarios[i].username, this.itemsUsuarios[i].partidas.length, 13, this.itemsUsuarios[i].sexo, 30]), //voy metiendo a cada user en su array
-      i++;
+      //this.values.push([this.itemsUsuarios[this.i].username, this.itemsUsuarios[this.i].partidas.length, 9, this.itemsUsuarios[this.i].sexo, 67]),
+      this.values.push([this.itemsUsuarios[this.i].username, 
+                        this.itemsUsuarios[this.i].partidas.length, 
+                        this.itemsUsuarios[this.i].torneos.length, 
+                        this.itemsUsuarios[this.i].sexo, 
+                        this.itemsUsuarios[this.i].exp
+                      ]),
+       //voy metiendo a cada user en su array
+      this.i++;
       }
       console.log(this.values)
-  
   
 
     var data = this.googleChartLibrary.visualization.arrayToDataTable(
@@ -71,8 +57,6 @@ export class ChartPage implements OnInit {
       //['ID',                       'Partidos jugados',   'Torneos jugados',          'Género',           'Experiencia'],
       // [this.usuarios[1].username,          20,                20,              this.usuarios[1].sexo,          150],
       // [this.usuarios[0].username,           10,                3,               this.usuarios[0].sexo,          9],
-      // [this.usuarios[2].username,           56,                34,              this.usuarios[2].sexo,          34],
-       // [this.usuarios[3].username,           14,                34,              this.usuarios[3].sexo,          34],
     );
 
     var options = {
@@ -102,19 +86,4 @@ export class ChartPage implements OnInit {
       }
     ) 
   }
-
-  // public barChartOptions = {
-  //   scaleShowVerticalLines: false,
-  //   responsive: true
-  // };
-  // public barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  // public barChartType = 'bar';
-  // public barChartLegend = true;
-  // public barChartData = [
-  //   {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-  //   {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
-  // ];
-
-
-
 }
