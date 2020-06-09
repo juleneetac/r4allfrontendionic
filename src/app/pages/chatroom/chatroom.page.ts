@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
 //import {Observable} from "rxjs";
 //import { Observable } from 'rxjs/Observable';
 import { NavController, NavParams, ToastController } from '@ionic/angular';
@@ -21,8 +21,9 @@ import {IonContent} from '@ionic/angular';
   styleUrls: ['./chatroom.page.scss'],
 })
 export class ChatroomPage implements OnInit {
-    // @ts-ignore
-    //@ViewChild(IonContent) myContent: IonContent;
+
+    //@ts-ignore
+    @ViewChild(IonContent) myContent: IonContent;
   
   // message = '';
   user = JSON.parse(this.storage.getUser());
@@ -45,7 +46,7 @@ export class ChatroomPage implements OnInit {
   ) { 
 
     this.namedestino = this.route.snapshot.paramMap.get('username');
-    //setTimeout(() => this.scrollToBottom(), 500);
+    setTimeout(() => this.scrollToBottom(), 500);  //para que se bajen solos los mensajes
 
     console.log(socket);
     this.chatService.setSocket(socket); //para pasar el socket en las diferentes paginas
@@ -76,7 +77,7 @@ export class ChatroomPage implements OnInit {
     this.chatService.getMessages().subscribe((data: {message, username2}) => {
         if (data.username2 === this.namedestino) {
           this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, new Date()));
-          //setTimeout(() => this.scrollToBottom(), 50);
+          setTimeout(() => this.scrollToBottom(), 50);
         }
       
     });
@@ -89,8 +90,12 @@ export class ChatroomPage implements OnInit {
      
         this.messages.push(new Modelmessage(this.username, this.namedestino,this.message, new Date()));
         this.chatService.sendMessage(this.message, this.namedestino);
-        //setTimeout(() => this.scrollToBottom(), 50);
+        setTimeout(() => this.scrollToBottom(), 50);
       }
+    }
+
+    async scrollToBottom() {   //para hacer autoscroll
+      await this.myContent.scrollToBottom(500);
     }
 
 
