@@ -82,6 +82,12 @@ export class AppComponent{
       url: '/home',
       icon: 'exit'
      },
+
+     {
+      title: 'Estadísticas',
+      url: '/chart',
+      icon: 'bar-chart'
+     },
 ];
 constructor(
     private platform: Platform,
