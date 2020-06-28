@@ -68,15 +68,9 @@ const routes: Routes = [
     loadChildren: () => import('./pages/newpartida/newpartida.module').then( m => m.NewpartidaPageModule)
   },
   {
-    path: 'partidas',
-    loadChildren: () => import('./pages/partidas/partidas.module').then( m => m.PartidasPageModule)
-  },
-  {
     path: 'torneo-enter',
     loadChildren: () => import('./pages/torneo-enter/torneo-enter/torneo-enter.module').then( m => m.TorneoEnterPageModule)
   }
-
-
 ];
 
 @NgModule({

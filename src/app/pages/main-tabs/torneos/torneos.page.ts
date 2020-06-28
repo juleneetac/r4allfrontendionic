@@ -9,6 +9,7 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { NavController } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-torneos',
@@ -27,36 +28,45 @@ export class TorneosPage implements OnInit {
     public navController: NavController
   ) { }
 
-  listaTorneos: Modeltorneo[];    //Lista de Torneos
+  usuarioLogueado: Modelusuario;    //Usuario logueado en la Aplicación
 
-  usuarioLogueado: Modelusuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
-
+  listaTorneos: Modeltorneo[];      //Lista de Torneos
+  lastListaTorneos: Modeltorneo[];  //Guarda el estado de la última búsqueda
+  
   visibleFilters: boolean;  //Indica si la lista de filtros está visible o no
-
-  listaTorneosFlags = [];         //Flags para filtrar la lista de Torneos
+  listaTorneosFlags = [];   //Flags para filtrar la lista de Torneos (indican si buscar por ese filtro o no)
+  
+  estadoValue;                    //Valor del Segment de estado del Torneo (activo, en curso, finalizado)
+  ubicacionValue;                 //Valor del Range de ubicación
   pistacubiertaValue: boolean;    //Valor del Toggle de pistacubierta
-  generoValue;                    //Valor del Segment de genero del Torneo (m/f)
-  modoValue;                      //Valor del Segment de modo del Torneo (i/d)
   tipopistaValue;                 //Valor del Select de tipopista del Torneo
-  rangoValue;                     //Valor del Range de ubicación
-
-  //Form para filtrar la lista de Torneos
-  listaTorneosForm = new FormGroup({
-    minParticipantesInput: new FormControl(''),
-    maxParticipantesInput: new FormControl('')
-  });
+  tipobolaValue;                  //Valor del Select de tipobola del Torneo
+  modoValue;                      //Valor del Segment de modo del Torneo (i/d)
+  generoValue;                    //Valor del Segment de genero del Torneo (m/f)
+  organizadorValue;               //Valor del SearchBar de organizador
+  inscripcionValue: any = {       //Valor del Range de inscripcion
+    upper:1000,
+    lower:0
+  };               
+  capacidadValue: any = {     //Valor del Range de numero de participantes 
+    upper:200,
+    lower:4
+  };             
 
   ngOnInit() {
     this.usuarioLogueado = JSON.parse(this.storage.getUser());
 
+    this.lastListaTorneos = [];
+
     this.listaTorneosFlags = [Boolean];
-    for (let i = 0; i < 5; i++){
+    for (let i = 0; i < 10; i++){
       //Por defecto, seleccionar todos como no marcados
       this.listaTorneosFlags[i] = false;
     }
 
     this.visibleFilters = false;
 
+    this.estadoValue = "a";
     this.pistacubiertaValue = false;
     this.generoValue = 'm';
     this.modoValue = 'i';
@@ -64,7 +74,42 @@ export class TorneosPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.getTorneos();
+    this.getAllTorneos();
+  }
+
+  public async getAllTorneos(event?:any){
+    //Reiniciar Filtros
+    for (let i = 0; i < 10; i++){
+      this.listaTorneosFlags[i] = false;
+    }
+
+    this.estadoValue = "a";
+    this.pistacubiertaValue = false;
+    this.generoValue = 'm';
+    this.modoValue = 'i';
+    this.inscripcionValue = {       //Valor del Range de inscripcion
+      upper:1000,
+      lower:0
+    };               
+    this.capacidadValue = {     //Valor del Range de numero de participantes 
+      upper:200,
+      lower:4
+    }; 
+    
+    this.torneosService.getAllTorneos()
+    .subscribe(trns => {
+      this.listaTorneos = trns as Modeltorneo[];
+      console.log(this.listaTorneos);
+      if(event !== undefined){
+        event.target.complete();
+      }
+
+      this.lastListaTorneos = this.listaTorneos;
+    },
+    (err) => {
+      console.log("Error", err);
+      this.handleError(err);
+    });
   }
 
   public async getTorneos(){
@@ -72,81 +117,128 @@ export class TorneosPage implements OnInit {
     let position;
     await this.mapsService.getCurrentPosition().then(pos => { position = pos as [number]; });
     
-    interface LooseObject {
-      [key: string]: any
-    }
-    let query:LooseObject = {};
-    let queryflags = [];
+    let query= {
+      'flags': this.listaTorneosFlags,
+      'punto' : { 'type': "Point", 'coordinates': position },
+      'radio': (this.ubicacionValue * 1000),
+      'pistacubierta': this.pistacubiertaValue,
+      'tipopista': this.tipopistaValue,
+      'tipobola': this.tipobolaValue,
+      'modo': this.modoValue,
+      'genero': this.generoValue,
+      'organizador': this.organizadorValue,
+      'inscripcion': [this.inscripcionValue.lower, this.inscripcionValue.upper],
+      'capacidad': [this.capacidadValue.lower, this.capacidadValue.upper],
+      'estado': this.estadoValue
+    };
 
-    if(this.listaTorneosFlags[0]){
-      queryflags[0] = this.listaTorneosFlags[0];
-      Object.assign(query, { 'punto': { 'type': "Point", 'coordinates': position }});
-      Object.assign(query, { 'radio': (this.rangoValue * 1000) });
-    }
-    if(this.listaTorneosFlags[1]){
-      queryflags[1] = this.listaTorneosFlags[1];
-      Object.assign(query, {'pistacubierta': this.pistacubiertaValue});
-    }
-    if(this.listaTorneosFlags[2]){
-      queryflags[2] = this.listaTorneosFlags[2];
-      Object.assign(query, {'tipopista': this.tipopistaValue });
-    }
-    if(this.listaTorneosFlags[3]){
-      queryflags[3] = this.listaTorneosFlags[3];
-      Object.assign(query, {'modo': this.modoValue });
-    }
+    console.log("query", query);
 
-    //NUM. PARTICIPANTES (FLAG 4)
-    if(this.listaTorneosFlags[4] || this.listaTorneosFlags[5]){
-      if(this.listaTorneosFlags[4] && this.listaTorneosFlags[5]){
-        queryflags[4] = 3;
-        Object.assign(query, {'participantes': [this.listaTorneosForm.get('minParticipantesInput').value, this.listaTorneosForm.get('maxParticipantesInput').value]});
-      }
-      else if(this.listaTorneosFlags[4]){
-        queryflags[4] = 1;
-        Object.assign(query, {'participantes': [this.listaTorneosForm.get('minParticipantesInput').value, 0]});
-      }
-      else{
-        queryflags[4] = 2;
-        Object.assign(query, {'participantes': [0,this.listaTorneosForm.get('maxParticipantesInput').value]});
-      }
-    }
-    else{
-      queryflags[4] = 0;
-    }
-
-    Object.assign(query, {'flags': queryflags});
-
-    
     this.torneosService.getTorneos(query)
     .subscribe(trns => {
       this.listaTorneos = trns as Modeltorneo[];
+      
+      if(this.listaTorneosFlags[9]){
+        //Si se busca por estado (Activo/En curso/Finalizado), crear una lista según los que se quieran mostrar
+        let listaEstado = [];
+        this.listaTorneos.forEach((torneo) => {
+          if((torneo.participantes.length == torneo.capacidad) && (this.estadoValue == "e")){
+            listaEstado.push(torneo);
+          }
+          if((torneo.participantes.length < torneo.capacidad) && (this.estadoValue == "a")){
+            listaEstado.push(torneo);
+          }
+          if((torneo.ganador !== undefined) && (this.estadoValue == "f")){
+            listaEstado.push(torneo);
+          }
+        });
+        console.log("Lista por estado", listaEstado);
+        this.listaTorneos = listaEstado;
+      }
+
       console.log(this.listaTorneos);
+
+      this.lastListaTorneos = this.listaTorneos;
     },
     (err) => {
-      console.log("err", err);
+      console.log("Error", err);
+      this.handleError(err);
     });
+
+    this.toggleVisibleFilters();
   }
 
   toggleVisibleFilters(){
     this.visibleFilters = !this.visibleFilters;
   }
 
-  pistacubiertaToggleChanged(){
-    this.pistacubiertaValue = !this.pistacubiertaValue;
+  resetFilters(){
+    this.getAllTorneos();
+    for (let i = 0; i < 10; i++){
+      this.listaTorneosFlags[i] = false;
+    }
+
+    this.estadoValue = "a";
+    this.pistacubiertaValue = false;
+    this.generoValue = 'm';
+    this.modoValue = 'i';
+    this.inscripcionValue = {       //Valor del Range de inscripcion
+      upper:1000,
+      lower:0
+    };               
+    this.capacidadValue = {     //Valor del Range de numero de participantes 
+      upper:200,
+      lower:4
+    }; 
+
+    this.toggleVisibleFilters();
   }
 
-  modoSegmentChanged(ev){
-    this.modoValue = ev.detail.value;
+  searchTorneoName(ev: any){
+    this.listaTorneos = this.lastListaTorneos;   //Reinicia la lista de Torneos con la última que se ha buscado
+
+    let val = ev.target.value.toLowerCase();
+
+    if(val && val.trim() != ''){
+      this.listaTorneos = this.listaTorneos.filter((torneo) => {
+        return (torneo.nombre.toLowerCase().indexOf(val) > -1);
+      })
+    }
   }
 
-  updateRangoValue(event){
-    this.rangoValue = event.detail.value;
+  estadoSegmentChanged(event){
+    this.estadoValue = event.detail.value;
   }
 
-  /* generoSegmentChanged(ev){
-    this.generoValue = ev.detail.value;
-  } */
+  updateUbicacionRangeValue(event){
+    this.ubicacionValue = event.detail.value;
+  }
+
+  pistacubiertaSegmentChanged(event){
+    if(event.detail.value == "t"){
+      this.pistacubiertaValue = true;
+    }
+    else{
+      this.pistacubiertaValue = false;
+    }
+    //this.pistacubiertaValue = !this.pistacubiertaValue;
+  }
+
+  modoSegmentChanged(event){
+    this.modoValue = event.detail.value;
+  }
+
+  generoSegmentChanged(event){
+    this.generoValue = event.detail.value;
+  }
+
+  searchTipoBola(event: any){
+    this.tipobolaValue = event.target.value;
+  }
+
+  searchOrganizador(event: any){
+    this.organizadorValue = event.target.value;
+  }
 
   async presentAlert(torneo: Modeltorneo){
     const alertActive = await this.alertController.create({
@@ -212,6 +304,16 @@ export class TorneosPage implements OnInit {
       await alertActive.present();
     else
       await alertFinished.present();
+  }
+
+  private async handleError(err: HttpErrorResponse) {
+    const toastERROR = await this.toastController.create({
+      message: `${err.status} | ${err.error}`,
+      duration: 4000,
+      position: 'bottom',
+      color: 'danger'
+    });
+    await toastERROR.present();
   }
 
 }

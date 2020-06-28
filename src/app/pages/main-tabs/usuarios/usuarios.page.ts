@@ -5,8 +5,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Ambiente } from 'src/app/services/ambiente';
 import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { StorageComponent } from 'src/app/storage/storage.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-usuarios',
@@ -14,45 +15,53 @@ import { StorageComponent } from 'src/app/storage/storage.component';
   styleUrls: ['./usuarios.page.scss'],
 })
 export class UsuariosPage implements OnInit {
-ambiente: Ambiente; 
+
+  ambiente: Ambiente; 
   path;
+
   constructor(
-    private usuariosService: UsuarioService,
+    private usuarioService: UsuarioService,
     private mapsService: MapsService,
     private router: Router,
     private storage: StorageComponent,
-    public alertController: AlertController
-  ) { 
+    public alertController: AlertController,
+    public toastController: ToastController
+  ) 
+  { 
     this.ambiente = new Ambiente();
-    this.path=this.ambiente.path;
-    }
+    this.path = this.ambiente.path;
+  }
 
-  listaUsuarios: Modelusuario[];  //Lista de Usuarios
+  usuarioLogueado: Modelusuario;      //Usuario logueado en la Aplicación
 
-  usuarioLogueado: Modelusuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
+  listaUsuarios: Modelusuario[];      //Lista de Usuarios
+  lastListaUsuarios: Modelusuario[];  //Guarda el estado de la última búsqueda
   
   visibleFilters: boolean;  //Indica si la lista de filtros está visible o no
+  listaUsuariosFlags = [];  //Flags para filtrar la lista de Usuarios (indican si buscar por ese filtro o no)
 
-  listaUsuariosFlags = [];  //Flags para filtrar la lista de Usuarios
-  generoValue;              //Valor del Segment de sexo del Usuario (m/f)
-  rangoValue;               //Valor del Range de ubicación
-
-  //Form para filtrar la lista de Usuarios
-  listaUsuariosForm = new FormGroup({
-    usernameInput: new FormControl(''),
-    maxEdadInput: new FormControl(''),
-    minEdadInput: new FormControl(''),
-    maxExpInput: new FormControl(''),
-    minExpInput: new FormControl(''),
-    maxValoracionInput: new FormControl(''),
-    minValoracionInput: new FormControl('')
-  });
+  ubicacionValue;     //Valor del Range de ubicacion
+  generoValue;        //Valor del Segment de sexo del Usuario (m/f)
+  edadValue: any = {  //Valor del Range de edad
+    upper:0,
+    lower:100
+  };        
+  expValue: any = {   //Valor del Range de exp
+    upper:0,
+    lower:1000
+  };         
+  valoracionValue: any = { //Valor del Range de valoracion
+    upper:0,
+    lower:1000
+  };  
 
   ngOnInit() {
     this.usuarioLogueado = JSON.parse(this.storage.getUser());
+
+    this.lastListaUsuarios = [];
     
     this.listaUsuariosFlags = [Boolean];
-    for (let i = 0; i < 8; i++){
+    for (let i = 0; i < 5; i++){
       //Por defecto, seleccionar todos como no marcados
       this.listaUsuariosFlags[i] = false;
     }
@@ -60,11 +69,51 @@ ambiente: Ambiente;
     this.visibleFilters = false;
 
     this.generoValue = 'm';
-
   }
 
   ionViewDidEnter(){
-    this.getUsuarios();
+    this.getAllUsuarios();
+  }
+
+  public async getAllUsuarios(event?:any){
+    //Reiniciar Filtros
+    for (let i = 0; i < 5; i++){
+      this.listaUsuariosFlags[i] = false;
+    }
+
+    this.generoValue = 'm';
+    this.ubicacionValue = 0;
+    this.edadValue = {
+      upper:0,
+      lower:100
+    };        
+    this.expValue = {   
+      upper:0,
+      lower:1000
+    };         
+    this.valoracionValue = { 
+      upper:0,
+      lower:1000
+    }
+
+    this.usuarioService.getAllUsuarios()
+    .subscribe(usrs => {
+      this.listaUsuarios = usrs as Modelusuario[];
+      console.log(this.listaUsuarios);
+      if(event !== undefined){
+        event.target.complete();
+      }
+
+      this.lastListaUsuarios = this.listaUsuarios;
+    },
+    (err) => {
+      console.log("Error", err);
+      this.handleError(err);
+    });
+  }
+
+  goPerfil() {
+    this.router.navigateByUrl("profile")
   }
 
   public async getUsuarios(){
@@ -72,105 +121,79 @@ ambiente: Ambiente;
     let position;
     await this.mapsService.getCurrentPosition().then(pos => { position = pos as [number]; });
 
-    interface LooseObject {
-      [key: string]: any
-    }
-    let query:LooseObject = {};
-    let queryflags = [];
+    let query = {
+      'flags': this.listaUsuariosFlags,
+      'punto': { 'type': "Point", 'coordinates': position },
+      'radio': (this.ubicacionValue * 1000),
+      'sexo': this.generoValue,
+      'edad': [this.edadValue.lower, this.edadValue.upper],
+      'exp': [this.expValue.lower, this.expValue.upper],
+      'valoracion': [this.valoracionValue.lower, this.valoracionValue.upper]
+    };
 
-    if(this.listaUsuariosFlags[0]){
-      queryflags[0] = this.listaUsuariosFlags[0];
-      Object.assign(query, {'username': this.listaUsuariosForm.get('usernameInput').value});
-    }
-    if(this.listaUsuariosFlags[1]){
-      queryflags[1] = this.listaUsuariosFlags[1];
-      Object.assign(query, { 'punto': { 'type': "Point", 'coordinates': position }});
-      Object.assign(query, { 'radio': (this.rangoValue * 1000) });
-    }
-    if(this.listaUsuariosFlags[2]){
-      queryflags[2] = this.listaUsuariosFlags[2];
-        Object.assign(query, {'sexo': this.generoValue});
-    }
+    console.log("query", query);
 
-    //EDAD (FLAG 3)
-    if(this.listaUsuariosFlags[3] || this.listaUsuariosFlags[4]){
-      if(this.listaUsuariosFlags[3] && this.listaUsuariosFlags[4]){
-        queryflags[3] = 3;
-        Object.assign(query, {'edad': [this.listaUsuariosForm.get('minEdadInput').value, this.listaUsuariosForm.get('maxEdadInput').value]});
-      }
-      else if(this.listaUsuariosFlags[3]){
-        queryflags[3] = 1;
-        Object.assign(query, {'edad': [this.listaUsuariosForm.get('minEdadInput').value, 0]});
-      }
-      else{
-        queryflags[3] = 2;
-        Object.assign(query, {'edad': [0,this.listaUsuariosForm.get('maxEdadInput').value]});
-      }
-    }
-    else{
-      queryflags[3] = 0;
-    }
-
-    //EXP (FLAG 4)
-    if(this.listaUsuariosFlags[5] || this.listaUsuariosFlags[6]){
-      if(this.listaUsuariosFlags[5] && this.listaUsuariosFlags[6]){
-        queryflags[4] = 3;
-        Object.assign(query, {'exp': [this.listaUsuariosForm.get('minExpInput').value, this.listaUsuariosForm.get('maxExpInput').value]});
-      }
-      else if(this.listaUsuariosFlags[5]){
-        queryflags[4] = 1;
-        Object.assign(query, {'exp': [this.listaUsuariosForm.get('minExpInput').value, 0]});
-      }
-      else{
-        queryflags[4] = 2;
-        Object.assign(query, {'exp': [0,this.listaUsuariosForm.get('maxExpInput').value]});
-      }
-    }
-    else{
-      queryflags[4] = 0;
-    }
-
-    //VALORACION (FLAG 5)
-    if(this.listaUsuariosFlags[7] || this.listaUsuariosFlags[8]){
-      if(this.listaUsuariosFlags[7] && this.listaUsuariosFlags[8]){
-        queryflags[5] = 3;
-        Object.assign(query, {'valoracion': [this.listaUsuariosForm.get('minValoracionInput').value, this.listaUsuariosForm.get('maxValoracionInput').value]});
-      }
-      else if(this.listaUsuariosFlags[7]){
-        queryflags[5] = 1;
-        Object.assign(query, {'valoracion': [this.listaUsuariosForm.get('minValoracionInput').value, 0]});
-      }
-      else{
-        queryflags[5] = 2;
-        Object.assign(query, {'valoracion': [0,this.listaUsuariosForm.get('maxValoracionInput').value]});
-      }
-    }
-    else{
-      queryflags[5] = 0;
-    }
-
-    Object.assign(query, {'flags': queryflags});
-
-    this.usuariosService.getUsuarios(query)
+    this.usuarioService.getUsuarios(query)
     .subscribe((usrs) => {
         this.listaUsuarios = usrs as Modelusuario[];
         console.log(this.listaUsuarios);
+
+        this.lastListaUsuarios = this.listaUsuarios;
       },
       (err) => {
-        console.log("err", err);
-      }); 
+        console.log("Error", err);
+        this.handleError(err);
+      });
+
+      this.toggleVisibleFilters();
   }
 
   toggleVisibleFilters(){
     this.visibleFilters = !this.visibleFilters;
   }
 
-  generoSegmentChanged(ev){
-    this.generoValue = ev.detail.value;
+  resetFilters(){
+    this.getAllUsuarios();
+    for (let i = 0; i < 5; i++){
+      this.listaUsuariosFlags[i] = false;
+    }
+
+    this.generoValue = 'm';
+    this.ubicacionValue = 0;
+    this.edadValue = {
+      upper:0,
+      lower:100
+    };        
+    this.expValue = {   
+      upper:0,
+      lower:1000
+    };         
+    this.valoracionValue = { 
+      upper:0,
+      lower:1000
+    }
+
+    this.toggleVisibleFilters();
   }
 
-  updateRangoValue(event){
-    this.rangoValue = event.detail.value;
+  searchUserName(ev: any){
+    this.listaUsuarios = this.lastListaUsuarios;   //Reinicia la lista de Usuarios con la última que se ha buscado
+
+    let val = ev.target.value.toLowerCase();
+
+    if(val && val.trim() != ''){
+      this.listaUsuarios = this.listaUsuarios.filter((usuario) => {
+        return (usuario.username.toLowerCase().indexOf(val) > -1);
+      })
+    }
+  }
+
+  generoSegmentChanged(event){
+    this.generoValue = event.detail.value;
+  }
+
+  updateUbicacionRangeValue(event){
+    this.ubicacionValue = event.detail.value;
   }
   
   async presentAlert(usuario: Modelusuario){
@@ -211,6 +234,16 @@ ambiente: Ambiente;
 
     await alert.present();
     
+  }
+
+  private async handleError(err: HttpErrorResponse) {
+    const toastERROR = await this.toastController.create({
+      message: `${err.status} | ${err.error}`,
+      duration: 4000,
+      position: 'bottom',
+      color: 'danger'
+    });
+    await toastERROR.present();
   }
 
 }

@@ -14,7 +14,7 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 
 //import crypto = require('crypto-browserify');
@@ -67,6 +67,7 @@ export class PerfilPage implements OnInit {
     private usuarioService: UsuarioService,
     private router: Router,
     public toastController: ToastController,
+    public alertController: AlertController,
     private mapsService: MapsService
   ) {
       this.editperfilForm = this.formBuilder.group({
@@ -88,11 +89,11 @@ export class PerfilPage implements OnInit {
     
         edad: new FormControl('', Validators.compose([
               Validators.required,
-              Validators.pattern(/^[0-9]+$/)])),
+              Validators.pattern(/^[0-9]+$/)]))
     
-        sexo: new FormControl('', Validators.compose([
+        /* sexo: new FormControl('', Validators.compose([
               Validators.required,
-              Validators.pattern(/^[mf]$/)]))
+              Validators.pattern(/^[mf]$/)])) */
     
 /*         ubicacion: new FormControl('', Validators.compose([
                 Validators.required,])),   */
@@ -129,11 +130,11 @@ export class PerfilPage implements OnInit {
       'edad': [
         { type: 'required', message: 'Age is required'},
         { type: 'pattern', message: 'Debe ser un numero'}
-      ],
-      'sexo': [
+      ]
+      /* 'sexo': [
         { type: 'required', message: 'Sexo is required'},
         { type: 'pattern', message: 'Pon " m " para masculino y " f " para femenino'}
-      ]
+      ] */
 /*       'ubicacion': [
         { type: 'required', message: 'Especifique ubicación'}
       ], */
@@ -149,6 +150,10 @@ export class PerfilPage implements OnInit {
       reader.onload = e => this.photoSelected = reader.result;
       reader.readAsDataURL(this.imageFile);
     }
+  }
+
+  generoSegmentChanged(event){
+    this.sexo = event.detail.value;
   }
 
   async toggleLocationSelected(){
@@ -251,7 +256,8 @@ export class PerfilPage implements OnInit {
           await toast.present();
         },
         (err) => {
-          console.log("err", err);
+          console.log("Error", err);
+            this.handleError(err);
         });
 
         if(this.imageFile != undefined){
@@ -269,38 +275,69 @@ export class PerfilPage implements OnInit {
             await toast.present();
           },
           (err) => {
-            console.log("err", err);
+            console.log("Error", err);
+            this.handleError(err);
           });
         }
       },
-      err => {
-        console.log(err);
+      (err) => {
+        console.log("Error", err);
         this.handleError(err);
       });
   }
 
-  //errores
-  private async handleError(err: HttpErrorResponse) {
-    if (err.status == 500) {
-      console.log('entra')
-      const toast = await this.toastController.create({
-        message: 'Error',
-        position: 'bottom',
-        duration: 2000,
-      });
-      await toast.present();
-    } 
-    else if  (err.status == 401) {
-      console.log('La contraseña antigua no coincide, vuelve a probar');
-      const toast = await this.toastController.create({
-        message: 'La contraseña antigua no coincide, vuelve a probar',
-        position: 'bottom',
-        duration: 2000,
-      });
-      await toast.present();
-      
-    }
+  async deleteUsuario(){
+    const alertDelete = await this.alertController.create({
+      animated: true,
+      backdropDismiss: true, 
+      keyboardClose: true,
+      translucent: true,
+      header: `Eliminar Tu Cuenta`,
+      message: `Deseas realmente eliminar tu cuenta?`,
+      buttons: [
+        {
+          text: 'Continuar',
+          handler: async () => {
+            const alertPassword = await this.alertController.create({
+              animated: true,
+              backdropDismiss: true, 
+              keyboardClose: true,
+              translucent: true,
+              header: `Eliminar Tu Cuenta`,
+              message: `Introduce tu contraseña para eliminar tu cuenta`,
+              buttons: [
+                {
+                  text: 'Cancelar',
+                  handler: () => {
+                    alertDelete.dismiss();
+                  }
+                }
+              ]
+            });
 
+            await alertPassword.present();
+          }
+        },
+        {
+          text: 'Cancelar',
+          handler: () => {
+            alertDelete.dismiss();
+          }
+        }
+      ]
+    });
+
+    await alertDelete.present();
+  }
+
+  private async handleError(err: HttpErrorResponse) {
+    const toastERROR = await this.toastController.create({
+      message: `${err.status} | ${err.error}`,
+        duration: 4000,
+        position: 'bottom',
+        color: 'danger'
+    });
+    await toastERROR.present();
   }
 }
         

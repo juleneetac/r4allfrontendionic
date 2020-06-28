@@ -8,8 +8,14 @@
       </ion-buttons>
 
       <ion-buttons slot="end">
-        <ion-button (click)="getUsuarios()" size="large">
-          <ion-icon slot="start" slot="icon-only" name="reload"></ion-icon>
+        <ion-button (click)="toggleVisibleFilters()" size="large">
+          <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="getAllUsuarios()" size="large">
+          <ion-icon slot="icon-only" name="reload"></ion-icon>
         </ion-button>
       </ion-buttons>
 
@@ -20,84 +26,121 @@
 
   <ion-content padding="true">
 
+    <ion-refresher slot="fixed" (ionRefresh)="getAllUsuarios($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
     <ion-card>
-      <form [formGroup]="listaUsuariosForm" (ngSubmit)="getUsuarios()">
-        <ion-card-header>
 
-          <!--ion-card-title class="ion-text-center">Usuarios</ion-card-title-->
-            
-          <ion-button color="dark" fill="outline" (click)="toggleVisibleFilters()">
-            <ion-icon slot="icon-only" name="menu"></ion-icon>
-          </ion-button>
-          <ion-button color="dark" fill="outline" type="submit">
-            <ion-icon slot="icon-only" name="search"></ion-icon>
-          </ion-button>
+      <ion-card-content *ngIf="visibleFilters">
 
-        </ion-card-header>
+        <!--ion-list-->
+          <!--ion-list-header><b>Filtrar por</b></ion-list-header-->
 
+        <ion-row><b>Filtrar por</b></ion-row>
 
-        <ion-card-content *ngIf="visibleFilters">
+        <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-sm="12">
 
-          <ion-list>
-            <ion-list-header>Filtrar por</ion-list-header>
-
-            <ion-item lines="none">
-              <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[0]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Nombre de Usuario</ion-label></ion-col>
-              <!--ion-col--><ion-input type="text" placeholder="Nombre" formControlName="usernameInput"></ion-input><!--/ion-col-->
-            </ion-item>
-
-            <ion-item lines="none">
-              <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[1]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Ubicación (km)</ion-label></ion-col>
-              <ion-range max="100" pin="true" [(ngModel)]="rangoValue" [ngModelOptions]="{standalone: true}" (ionChange)="updateRangoValue($event)">
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[1]"></ion-checkbox>
+                <ion-label>Sexo</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-segment value="m" (ionChange)="generoSegmentChanged($event)">
+                <ion-segment-button value="m">
+                  <ion-label>Masculino</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="f">
+                  <ion-label>Femenino</ion-label>
+                </ion-segment-button>
+              </ion-segment>
+            </ion-col>
+          </ion-row>
+        
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[0]"></ion-checkbox>
+                <ion-label>Ubicación [km]</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-range id="rangecenter" max="100" pin="true" [(ngModel)]="ubicacionValue" (ionChange)="updateUbicacionRangeValue($event)">
                 <ion-icon slot="start" size="small" name="pin"></ion-icon>
                 <ion-icon slot="end" name="pin"></ion-icon>
               </ion-range>
-            </ion-item>
+            </ion-col>
+          </ion-row>
 
-            <ion-item lines="none">
-              <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[2]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Sexo</ion-label></ion-col>
-              <!--ion-col-->
-                <ion-segment value="m" (ionChange)="generoSegmentChanged($event)">
-                  <ion-segment-button value="m">
-                    <ion-label>(M)asculino</ion-label>
-                  </ion-segment-button>
-                  <ion-segment-button value="f">
-                    <ion-label>(F)emenino</ion-label>
-                  </ion-segment-button>
-                </ion-segment>
-              <!--/ion-col-->
-            </ion-item>
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[2]"></ion-checkbox>
+                <ion-label>Edad</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-range id="rangecenter" min="0" max="100" dualKnobs="true" pin="true" [(ngModel)]="edadValue">
+                <ion-icon slot="start" size="small" name="person-remove"></ion-icon>
+                <ion-icon slot="end" name="person-add"></ion-icon>
+              </ion-range>
+            </ion-col>
+          </ion-row>
 
-            <ion-item lines="none">
-              <ion-col><ion-label>Edad</ion-label></ion-col>
-              <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[3]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="3"><ion-input type="number" placeholder="Min" min="0" formControlName="minEdadInput"></ion-input></ion-col>
-              <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[4]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="3"><ion-input type="number" placeholder="Max" min="0" formControlName="maxEdadInput"></ion-input></ion-col>
-            </ion-item>
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[3]"></ion-checkbox>
+                <ion-label>Experiencia</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-range id="rangecenter" step="10" min="0" max="1000" dualKnobs="true" pin="true" [(ngModel)]="expValue">
+                <ion-icon slot="start" size="small" name="barbell"></ion-icon>
+                <ion-icon slot="end" name="barbell"></ion-icon>
+              </ion-range>
+            </ion-col>
+          </ion-row>
 
-            <ion-item lines="none">
-              <ion-col><ion-label>Experiencia</ion-label></ion-col>
-              <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[5]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="3"><ion-input type="number" placeholder="Min" min="0" formControlName="minExpInput"></ion-input></ion-col>
-              <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[6]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="3"><ion-input type="number" placeholder="Max" min="0" formControlName="maxExpInput"></ion-input></ion-col>
-            </ion-item>
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaUsuariosFlags[4]"></ion-checkbox>
+                <ion-label>Valoracion</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-range id="rangecenter" step="5"  min="0" max="100" dualKnobs="true" pin="true" [(ngModel)]="valoracionValue">
+                <ion-icon slot="start" size="small" name="heart"></ion-icon>
+                <ion-icon slot="end" name="heart"></ion-icon>
+              </ion-range>
+            </ion-col>
+          </ion-row>
 
-            <ion-item lines="none">
-              <ion-col><ion-label>Valoración</ion-label></ion-col>
-              <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[7]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="3"><ion-input type="number" placeholder="Min" min="0" formControlName="minValoracionInput"></ion-input></ion-col>
-              <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaUsuariosFlags[8]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="3"><ion-input type="number" placeholder="Max" min="0" formControlName="maxValoracionInput"></ion-input></ion-col>
-            </ion-item>
-          </ion-list>
+        </ion-col>
+        
+        <ion-row>
+          <ion-col>
+            <ion-button color="success" expand="block" (click)="getUsuarios()" style="text-transform:none!important;">
+              <ion-icon name="search" slot="start"></ion-icon>
+              Aplicar Filtros
+            </ion-button>
+          </ion-col>
 
-        </ion-card-content>
-      </form>
+          <ion-col>
+            <ion-button color="danger" expand="block" (click)="resetFilters()" style="text-transform:none!important;">
+              <ion-icon name="close" slot="start"></ion-icon>
+              Restablecer Filtros
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        <!--/ion-list-->
+
+      </ion-card-content>
     </ion-card>
 
 
@@ -107,6 +150,8 @@
       </ion-card-header>
 
       <ion-card-content>
+        <ion-searchbar (ionInput)="searchUserName($event)" debounce="500" placeholder="Nombre de Usuario"></ion-searchbar>
+
         <ion-list>
           <!--ion-list-header>Lista de Usuarios</ion-list-header-->
             <ion-item *ngFor = "let usuario of listaUsuarios">
@@ -131,6 +176,9 @@
                 </ion-chip>
               </ion-label>
               <ion-button fill="clear" color="success" size="large" (click)= "presentAlert(usuario)" *ngIf="this.usuarioLogueado.username !== usuario.username">
+                <ion-icon name="add"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" color="success" size="large" (click)= "goPerfil()" *ngIf="this.usuarioLogueado.username == usuario.username">
                 <ion-icon name="add"></ion-icon>
               </ion-button>
             </ion-item>

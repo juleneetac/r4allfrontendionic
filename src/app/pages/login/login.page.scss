@@ -29,37 +29,46 @@ ion-input, select, textarea{
   -moz-border-radius: 50px;
   -webkit-border-radius: 50px;
   border-radius: 10px;
-  //margin-bottom: 10px;  
-  background-color: rgb(243, 238, 192);
+  margin-bottom: 15px;  
+  //background-color: rgb(243, 238, 192);
+  background-color: rgb(230, 230, 230);
   //margin-top: 17px;
   text-align: center;
-  margin-top: -10px;
+  //margin-top: -10px;
 }
 
-#face{
+/* #face{
   margin-top: 15px;
-}
+} */
 
 .loginface{
   background: #3b5998;
   color: white;
-  height: 43px;
-  width: 220px;
-  text-align: right;
+  //height: 43px;
+  //width: 220px;
+  //height: auto;
+  //width: auto;
+  text-align: center;
+  margin-top: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 15px;
 }
 
 #logo{
-  color: #3b5998;
-  size: 40px;
-  font-size: 50px;
-  /* background-color: white; */
-  /* border-color: #3b5998;
-  border-left: none;
-  border-style: 0; */
- /*  margin-left: -40px; */
-  display: flex;
-  z-index: 1;
-  border-width: 5px;
-  margin-top: -3px;
-  margin-left: -7px;
+  //color: #3b5998;
+  //size: 30px;
+  font-size: 25px;
+  display: inline-block;
+  vertical-align: middle;
+  //background-color: white;
+  //border-color: #3b5998;
+  //border-left: none;
+  //border-style: 0;
+  margin-left: 5px;
+  //display: flex;
+  //z-index: 1;
+  //border-width: 5px;
+  //margin-top: 5px;
+  //margin-left: -7px;
 }

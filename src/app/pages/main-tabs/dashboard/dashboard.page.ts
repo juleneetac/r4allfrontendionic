@@ -9,6 +9,7 @@ import { PartidaService } from 'src/app/services/servicePartida/partida.service'
 import { ToastController } from '@ionic/angular';
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,25 +45,30 @@ export class DashboardPage implements OnInit {
     this.ganador = undefined;
 
     this.listaTorneosActivos = [];
+    
   }
 
   ionViewDidEnter(){
     this.refreshDashboard()
   }
 
-  public refreshDashboard(){
-    this.getPartidas();
-    this.getTorneos();
+  public async refreshDashboard(event?:any){
+    await this.getPartidas(event);
+    await this.getTorneos(event);
   }
 
-  public getPartidas(){
+  public async getPartidas(event?:any){
     this.usuarioService.getPartidasde(this.usuarioLogueado._id)
     .subscribe((data) => {
-        this.listaPartidas = data.partidas;   //este data.partidas se refiere al apartado torneos que hay en el model de usuario
-        console.log('Partidas:', this.listaPartidas);
+      this.listaPartidas = data.partidas;
+      console.log('Partidas:', this.listaPartidas);
+      if(event !== undefined){
+        event.target.complete();
+      }
       },
       (err) => {
         console.log("err", err);
+        this.handleError(err);
       }
     );
   }
@@ -111,7 +117,7 @@ export class DashboardPage implements OnInit {
           });
           await toastOK.present();
         }
-        else{
+        /* else{
           const toastERROR = await this.toastController.create({
             message: `Error al acabar la Partida`,
             position: 'top',
@@ -120,25 +126,26 @@ export class DashboardPage implements OnInit {
           });
           console.log(partidamod);
           await toastERROR.present();
-        }
+        } */
         
-        this.getPartidas();   //para refrescar la pagina
+        this.refreshDashboard();   //para refrescar la pagina
 
       },
-      async err => {
-        console.log(err);
-        if (err.status == 500) {
-          console.log('Error')
-          const toast = await this.toastController.create({
-            message: 'Internal Error',
-            position: 'bottom',
-            duration: 2000,
-            color: 'dark'
-          });
-          await toast.present();
-        } 
+      async (err) => {
+        console.log("Error", err);
+        this.handleError(err);
       });
       
+  }
+
+  private async handleError(err: HttpErrorResponse) {
+    const toastERROR = await this.toastController.create({
+      message: `${err.status} | ${err.error}`,
+      duration: 4000,
+      position: 'bottom',
+      color: 'danger'
+    });
+    await toastERROR.present();
   }
 
 }

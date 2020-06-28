@@ -8,6 +8,8 @@ import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { Ambiente } from 'src/app/services/ambiente';
 import { Modelpartida } from 'src/app/models/modelPartida/modelpartida';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-mapas',
@@ -21,7 +23,8 @@ export class MapasPage implements OnInit {
     private torneoService: TorneoService, 
     private mapsService: MapsService,
     private storage: StorageComponent,
-    private ambiente: Ambiente
+    private ambiente: Ambiente,
+    public toastController: ToastController
   ) 
   {  }
 
@@ -133,7 +136,8 @@ export class MapasPage implements OnInit {
       });
     },
     (err) => {
-      console.log("err", err);
+      console.log("Error", err);
+      this.handleError(err);
     });
   }
 
@@ -153,7 +157,8 @@ export class MapasPage implements OnInit {
       });
     },
     (err) => {
-      console.log("err", err);
+      console.log("Error", err);
+      this.handleError(err);
     });
   }
 
@@ -180,8 +185,19 @@ export class MapasPage implements OnInit {
       });
     },
     (err) => {
-      console.log("err", err);
+      console.log("Error", err);
+      this.handleError(err);
     });
   }
+
+  private async handleError(err: HttpErrorResponse) {
+    const toastERROR = await this.toastController.create({
+      message: `${err.status} | ${err.error}`,
+      duration: 4000,
+      position: 'bottom',
+      color: 'danger'
+    });
+    await toastERROR.present();
+}
 
 }

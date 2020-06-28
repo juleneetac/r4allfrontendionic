@@ -19,6 +19,11 @@
   </ion-header>
 
   <ion-content>
+
+    <ion-refresher slot="fixed" (ionRefresh)="refreshDashboard($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    
     <ion-card>
       <ion-card-header>
         <ion-card-title class="ion-text-center">
