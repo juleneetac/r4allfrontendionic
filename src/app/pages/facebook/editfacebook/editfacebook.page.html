@@ -8,7 +8,7 @@
   <pre *ngIf="auth.userProfile$ | async as profile">
 
     <ion-card>
-      <form [formGroup]="editfacebookForm" (ngSubmit)="updatefacebookPerfil($event2)">
+      <form [formGroup]="editfacebookForm" (ngSubmit)="updatefacebookPerfil()">
       <ion-grid>
         <ion-row class="ion-justify-content-center">
           <ion-col class="ion-align-self-center" size-lg="11" size-xs="12">

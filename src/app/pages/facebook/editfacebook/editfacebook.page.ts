@@ -156,9 +156,8 @@ export class EditfacebookPage implements OnInit {
   this.router.navigateByUrl("profile")
  }
 
-updatefacebookPerfil (event2){//  FALTA LO DE LA FOTO
+updatefacebookPerfil (){//  FALTA LO DE LA FOTO
   event.preventDefault()
-  console.log(event2)
   this.user = JSON.parse(this.storage.getUser());
 
     //Primero actualizamos el Usuario y luego le actualizamos la Foto si es necesario:

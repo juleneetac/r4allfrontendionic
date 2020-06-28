@@ -18,6 +18,7 @@ import { Ambiente } from './services/ambiente';
 export class AppComponent{
 
   usuarioLogueado: Modelusuario;
+  selectedIndex;
 
   public appPages = [
     {

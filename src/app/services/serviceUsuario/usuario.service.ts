@@ -5,6 +5,7 @@ import { Ambiente } from '../ambiente';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Modelregister } from 'src/app/models/modelRegister/modelregister';
+import { platform } from 'os';
 
 
 @Injectable({
