@@ -7,6 +7,8 @@ import { Modelpartida } from 'src/app/models/modelPartida/modelpartida';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 import { PartidaService } from 'src/app/services/servicePartida/partida.service';
 import { ToastController } from '@ionic/angular';
+import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
+import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -21,6 +23,7 @@ export class DashboardPage implements OnInit {
     private storage: StorageComponent,
     private usuarioService: UsuarioService,
     private partidaService: PartidaService,
+    private torneoService: TorneoService,
     public toastController: ToastController,
     private router: Router
   ) {
@@ -33,6 +36,7 @@ export class DashboardPage implements OnInit {
   listaPartidas: Modelpartida[];  //Lista de Partidas
   ganador;                        //Determinará el ganador de la partida
 
+  listaTorneosActivos: Modeltorneo[]; //Tus Torneos Activos
 
   async ngOnInit() {
     this.usuarioLogueado = JSON.parse(this.storage.getUser());
@@ -40,6 +44,8 @@ export class DashboardPage implements OnInit {
     this.listaPartidas = [];
     this.ganador = undefined;
 
+    this.listaTorneosActivos = [];
+    
   }
 
   ionViewDidEnter(){
@@ -48,12 +54,13 @@ export class DashboardPage implements OnInit {
 
   public async refreshDashboard(event?:any){
     await this.getPartidas(event);
+    await this.getTorneos(event);
   }
 
   public async getPartidas(event?:any){
     this.usuarioService.getPartidasde(this.usuarioLogueado._id)
     .subscribe((data) => {
-      this.listaPartidas = data.partidas;   //este data.partidas se refiere al apartado torneos que hay en el model de usuario
+      this.listaPartidas = data.partidas;
       console.log('Partidas:', this.listaPartidas);
       if(event !== undefined){
         event.target.complete();
@@ -63,7 +70,33 @@ export class DashboardPage implements OnInit {
         console.log("err", err);
         this.handleError(err);
       }
-    )
+    );
+  }
+
+  public getTorneos(){
+    this.usuarioService.getTorneosde(this.usuarioLogueado._id)
+    .subscribe((data) => {
+      let torneosactivos = [];
+      data.torneos.forEach(torneo => {
+        if(torneo.ganador === undefined){
+          //Representamos solamente los Torneos que aún estén activos
+
+          this.torneoService.getParticipantesde(torneo._id)
+          .subscribe((populatedTorneo) => {
+            //Torneo con los Participantes (y parejas, en caso de Dobles) populados
+            torneosactivos.push(populatedTorneo);
+          },
+          (err) => {
+            console.log(`No se ha podido cargar el Torneo ${torneo.nombre} `, err);
+          });
+        }
+      });
+      this.listaTorneosActivos = torneosactivos;
+      console.log('Torneos activos:', this.listaTorneosActivos);
+    },
+    (err) => {
+      console.log("err", err);
+    });
   }
 
   public setGanador(i){

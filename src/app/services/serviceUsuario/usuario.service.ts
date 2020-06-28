@@ -55,6 +55,11 @@ export class UsuarioService {
     return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getpartbyuser/${id}`);
   }
 
+  getTorneosde(id: string): Observable<Modelusuario>{ //Devuelve el Usuario con sus Torneos 'populados'
+    const path = `${this.ambiente.urlUsuario}/gettornbyuser/${id}`;
+    return this.http.get<Modelusuario>(path); 
+  }
+
   updateImagenUsuario(id:string, photo:File): Observable<Modelusuario>{
     //Para poder enviar la nueva Imagen de perfil (rutaimagen), en caso de haber sido modificada
     const fdImagen = new FormData();

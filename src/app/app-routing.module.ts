@@ -66,6 +66,10 @@ const routes: Routes = [
   {
     path: 'newpartida/:invitado',
     loadChildren: () => import('./pages/newpartida/newpartida.module').then( m => m.NewpartidaPageModule)
+  },
+  {
+    path: 'torneo-enter',
+    loadChildren: () => import('./pages/torneo-enter/torneo-enter/torneo-enter.module').then( m => m.TorneoEnterPageModule)
   }
 ];
 

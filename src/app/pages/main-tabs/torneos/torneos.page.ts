@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -6,6 +7,8 @@ import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { StorageComponent } from 'src/app/storage/storage.component';
+import { NavController } from '@ionic/angular';
+import { NavigationExtras } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -16,11 +19,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class TorneosPage implements OnInit {
 
   constructor(
+    private router: Router,
     private torneosService: TorneoService,
     private mapsService: MapsService,
     private storage: StorageComponent,
     public alertController: AlertController,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public navController: NavController
   ) { }
 
   usuarioLogueado: Modelusuario;    //Usuario logueado en la Aplicación
@@ -248,13 +253,13 @@ export class TorneosPage implements OnInit {
         {
           text: 'Entrar',
           handler: async () => {
-            /* let navExtras: NavigationExtras = {
+            let navExtras: NavigationExtras = {
               state: {
                 torneo: torneo
               }
             }
-            this.router.navigate(['torneo-enter'], navExtras); */
-          }
+            this.router.navigate(['torneo-enter'], navExtras);
+          } 
         },
         {
           text: 'Sitio Web',
