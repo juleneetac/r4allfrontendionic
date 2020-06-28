@@ -19,6 +19,11 @@
   </ion-header>
 
   <ion-content>
+
+    <ion-refresher slot="fixed" (ionRefresh)="refreshDashboard($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    
     <ion-card>
       <ion-card-header>
         <ion-card-title class="ion-text-center">
@@ -61,11 +66,7 @@
           <ion-row>
             <ion-col>
               <ion-card>
-                <ion-card-header>
-                  <ion-card-title>
-                    Tus Partidos Activos
-                  </ion-card-title>
-                </ion-card-header>
+                <ion-card-header><ion-card-title>Tus Partidos Activos</ion-card-title></ion-card-header>
                 <ion-card-content>
                   <ion-list>
                       <ion-card *ngFor = "let partida of listaPartidas; let i = index">
@@ -117,11 +118,7 @@
           <ion-row>
             <ion-col>
               <ion-card>
-                <ion-card-header>
-                  <ion-card-title>
-                    Tus Torneos Activos
-                  </ion-card-title>
-                </ion-card-header>
+                <ion-card-header><ion-card-title>Tus Torneos Activos</ion-card-title></ion-card-header>
               </ion-card>
             </ion-col>
           </ion-row>

@@ -24,7 +24,7 @@ export class Ambiente{
     this.urlUsuario = this.path +'usr';  //deben ser las mismas rutas creadas
     this.urlTorneo = this.path + 'trn';  //en el backend
     this.urlPartida =  this.path +'prd';
-    this.urlParticipantest =  this.path +'prantes';
+    //this.urlParticipantest =  this.path +'prantes';
     this.urlMensaje =  this.path +'msg';
     this.urlChat = this.path + 'cht';
     }

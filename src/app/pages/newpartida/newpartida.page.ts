@@ -156,16 +156,14 @@ export class NewpartidaPage implements OnInit {
     }
   }
 
-  private async handleError(err: HttpErrorResponse) {
-    if (err.status == 500) {
-      console.log('entra')
-      const toast = await this.toastController.create({
-        message: 'Error',
-        position: 'bottom',
-        duration: 2000,
-      });
-      await toast.present();
-    } 
+    private async handleError(err: HttpErrorResponse) {
+    const toastERROR = await this.toastController.create({
+      message: `${err.status} | ${err.error}`,
+      duration: 4000,
+      position: 'bottom',
+      color: 'danger'
+    });
+    await toastERROR.present();
   }
 
   modoSegmentChanged(ev){

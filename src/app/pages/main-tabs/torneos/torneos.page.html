@@ -7,6 +7,18 @@
         <ion-menu-button auto-hide="false"></ion-menu-button>
       </ion-buttons>
 
+      <ion-buttons slot="end">
+        <ion-button (click)="toggleVisibleFilters()" size="large">
+          <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="getAllTorneos()" size="large">
+          <ion-icon slot="start" slot="icon-only" name="reload"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
       <ion-title class="ion-text-center">Torneos</ion-title>
     </ion-toolbar>
 
@@ -14,102 +26,211 @@
 
   <ion-content padding="true">
 
+    <ion-refresher slot="fixed" (ionRefresh)="getAllTorneos($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
     <ion-card>
-      <form [formGroup]="listaTorneosForm" (ngSubmit)="getTorneos()">
-        <ion-card-header>
 
-          <!--ion-card-title class="ion-text-center">Torneos</ion-card-title-->
+      <ion-card-content *ngIf="visibleFilters">
 
-          <ion-button color="dark" fill="outline" (click)="toggleVisibleFilters()">
-            <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
-          </ion-button>
-          <ion-button color="dark" fill="outline" type="submit">
-            <ion-icon slot="icon-only" name="search"></ion-icon>
-          </ion-button>
-          
-        </ion-card-header>
+        <!--ion-list-->
+          <!--ion-list-header>Filtrar por</ion-list-header-->
 
+        <ion-row><b>Filtrar por</b></ion-row>
 
-        <ion-card-content *ngIf="visibleFilters">
+        <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-sm="12">
 
-          <ion-list>
-            <ion-list-header>Filtrar por</ion-list-header>
-            <!--ion-item lines="none">
-              <ion-checkbox color="primary" slot="start" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col>
-                  <ion-label>Nombre del Torneo:</ion-label>
-              </ion-col>
-              <ion-col>
-                <ion-input type="text" placeholder="Nombre del Torneo" formControlName="nameTorneoInput"></ion-input>
-              </ion-col>
-            </ion-item-->
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[9]"></ion-checkbox>
+                <ion-label>Estado del Torneo</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-segment value="a" (ionChange)="estadoSegmentChanged($event)">
+                <ion-segment-button value="a">
+                  <ion-label color="success">Abierto</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="e" >
+                  <ion-label color="tertiary">En curso</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="f">
+                  <ion-label color="danger">Finalizado</ion-label>
+                </ion-segment-button>
+              </ion-segment>
+            </ion-col>
+          </ion-row>
 
-            <ion-item lines="none">
-              <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[0]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Ubicación (km)</ion-label></ion-col>
-              <ion-range max="100" pin="true" [(ngModel)]="rangoValue" [ngModelOptions]="{standalone: true}" (ionChange)="updateRangoValue($event)">
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[1]"></ion-checkbox>
+                <ion-label>Pista Indoor/Outdoor</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-segment value="f" (ionChange)="pistacubiertaSegmentChanged($event)">
+                <ion-segment-button value="t">
+                  <ion-label>Indoor</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="f">
+                  <ion-label>Outdoor</ion-label>
+                </ion-segment-button>
+              </ion-segment>
+
+              <!--ion-toggle name="pistacubierta" color="tertiary" (ionChange)="pistacubiertaToggleChanged()"></ion-toggle-->
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[2]"></ion-checkbox>
+                <ion-label>Tipo de Pista</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-select [(ngModel)]="tipopistaValue" placeholder="Seleccionar">
+                <ion-select-option value="TierraBatida">Tierra Batida</ion-select-option>
+                <ion-select-option value="Hierba">Hierba</ion-select-option>
+                <ion-select-option value="Greenset">Greenset</ion-select-option>
+                <ion-select-option value="Detourf">Detourf</ion-select-option>
+                <ion-select-option value="Plexicushion">Plexicushion</ion-select-option>
+                <ion-select-option value="Rapida">Rápida</ion-select-option>
+              </ion-select>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[3]"></ion-checkbox>
+                <ion-label>Tipo de Pelota</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-searchbar (ionInput)="searchTipoBola($event)" debounce="500" placeholder="Tipo de Pelota (Wilson, Head, Penn...)"></ion-searchbar>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[6]"></ion-checkbox>
+                <ion-label>Organizador</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-searchbar (ionInput)="searchOrganizador($event)" debounce="500" placeholder="Organizador (Club, Federación...)"></ion-searchbar>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[4]"></ion-checkbox>
+                <ion-label>Modo</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-segment value="i" (ionChange)="modoSegmentChanged($event)">
+                <ion-segment-button value="i">
+                  <ion-label>Individuales</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="d">
+                  <ion-label>Dobles</ion-label>
+                </ion-segment-button>
+              </ion-segment>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[5]"></ion-checkbox>
+                <ion-label>Género del Torneo</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-segment value="m" (ionChange)="generoSegmentChanged($event)">
+                <ion-segment-button value="m">
+                  <ion-label>Masculino</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="f">
+                  <ion-label>Femenino</ion-label>
+                </ion-segment-button>
+              </ion-segment>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[0]"></ion-checkbox>
+                <ion-label>Ubicación [km]</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-range id="rangecenter" max="100" pin="true" [(ngModel)]="ubicacionValue" (ionChange)="updateUbicacionRangeValue($event)">
                 <ion-icon slot="start" size="small" name="pin"></ion-icon>
                 <ion-icon slot="end" name="pin"></ion-icon>
               </ion-range>
-            </ion-item>
+            </ion-col>
+          </ion-row>
 
-            <!--ion-item lines="none">
-              <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[0]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col>
-                  <ion-label>Organizador</ion-label>
-              </ion-col>
-              <ion-col>
-                <ion-input type="text" placeholder="ID del Organizador"></ion-input>
-              </ion-col>
-            </ion-item-->
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[7]"></ion-checkbox>
+                <ion-label>Inscripción [€]</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-range id="rangecenter" min="0" max="1000" step="5" dualKnobs="true" pin="true" [(ngModel)]="inscripcionValue">
+                <ion-icon slot="start" size="small" name="cash"></ion-icon>
+                <ion-icon slot="end" name="cash"></ion-icon>
+              </ion-range>
+            </ion-col>
+          </ion-row>
 
-            <ion-item lines="none">
-              <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[1]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Pista Cubierta</ion-label></ion-col>
-              <!--ion-col--><ion-toggle name="pistacubierta" color="tertiary" (ionChange)="pistacubiertaToggleChanged()"></ion-toggle><!--/ion-col-->
-            </ion-item>
+          <ion-row>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12">
+              <ion-item lines="none">
+                <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[8]"></ion-checkbox>
+                <ion-label>Capacidad del Torneo</ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="8" size-sm="12">
+              <ion-range id="rangecenter" min="4" max="200" step="2" dualKnobs="true" pin="true" [(ngModel)]="capacidadValue">
+                <ion-icon slot="start" size="small" name="person"></ion-icon>
+                <ion-icon slot="end" name="people"></ion-icon>
+              </ion-range>
+            </ion-col>
+          </ion-row>
 
-            <ion-item lines="none">
-              <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[2]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Tipo de Pista</ion-label></ion-col>
-              <!--ion-col-->
-                <ion-select [(ngModel)]="tipopistaValue" placeholder="Seleccionar" [ngModelOptions]="{standalone: true}" >
-                  <ion-select-option value="TierraBatida">Tierra Batida</ion-select-option>
-                  <ion-select-option value="Hierba">Hierba</ion-select-option>
-                  <ion-select-option value="Greenset">Greenset</ion-select-option>
-                  <ion-select-option value="Detourf">Detourf</ion-select-option>
-                  <ion-select-option value="Plexicushion">Plexicushion</ion-select-option>
-                  <ion-select-option value="Rapida">Rápida</ion-select-option>
-                </ion-select>
-              <!--/ion-col-->
-            </ion-item>
+        </ion-col>
 
-            <ion-item lines="none">
-              <ion-checkbox color="primary" slot="start" [(ngModel)]="listaTorneosFlags[3]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-              <ion-col><ion-label>Modo</ion-label></ion-col>
-              <!--ion-col-->
-                <ion-segment value="i" (ionChange)="modoSegmentChanged($event)">
-                  <ion-segment-button value="i">
-                    <ion-label>(I)ndividuales</ion-label>
-                  </ion-segment-button>
-                  <ion-segment-button value="d">
-                    <ion-label>(D)obles</ion-label>
-                  </ion-segment-button>
-                </ion-segment>
-              <!--/ion-col-->
-            </ion-item>
+        <ion-row>
+          <ion-col>
+            <ion-button color="success" expand="block" (click)="getTorneos()" style="text-transform:none!important;">
+              <ion-icon name="search" slot="start"></ion-icon>
+              Aplicar Filtros
+            </ion-button>
+          </ion-col>
 
-            <ion-item lines="none">
-              <ion-col><ion-label>Nº Participantes</ion-label></ion-col>
-              <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaTorneosFlags[4]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="3"><ion-input type="number" placeholder="Min" min="0" formControlName="minParticipantesInput"></ion-input></ion-col>
-              <ion-col size="1"><ion-checkbox color="primary" [(ngModel)]="listaTorneosFlags[5]" [ngModelOptions]="{standalone: true}"></ion-checkbox></ion-col>
-              <ion-col size="3"><ion-input type="number" placeholder="Max" min="0" formControlName="maxParticipantesInput"></ion-input></ion-col>
-            </ion-item>
-          </ion-list>
+          <ion-col>
+            <ion-button color="danger" expand="block" (click)="resetFilters()" style="text-transform:none!important;">
+              <ion-icon name="close" slot="start"></ion-icon>
+              Restablecer Filtros
+            </ion-button>
+          </ion-col>
+        </ion-row>
 
-        </ion-card-content>
-      </form>
+        <!--/ion-list-->
+
+      </ion-card-content>
     </ion-card>
               
 
@@ -119,15 +240,16 @@
       </ion-card-header>
 
       <ion-card-content>
+        <ion-searchbar (ionInput)="searchTorneoName($event)" debounce="500" placeholder="Nombre del Torneo"></ion-searchbar>
+
         <ion-list>
           <!--ion-list-header>Lista de Torneos</ion-list-header-->
             <ion-item *ngFor = "let torneo of listaTorneos">
               <ion-label> 
-                {{torneo.nombre}}
-                <h1><ion-badge color="secondary">Organizado por {{torneo.organizador}}</ion-badge></h1>
-                <ion-badge *ngIf="torneo.ganador==undefined" color="success">Abierto</ion-badge><ion-badge *ngIf="torneo.ganador!==undefined" color="danger">Finalizado</ion-badge>
-                <ion-label>Precio de entrada: {{torneo.inscripcion}} €</ion-label>
-                <ion-label>Premio: {{torneo.premio}}</ion-label>
+                <ion-row>
+                  <ion-col size="auto"><b>{{torneo.nombre}}</b></ion-col><ion-col size="auto"><ion-badge *ngIf="torneo.ganador==undefined && torneo.participantes.length < torneo.capacidad" color="success">Abierto</ion-badge><ion-badge *ngIf="torneo.ganador==undefined && torneo.participantes.length == torneo.capacidad" color="tertiary">En Curso</ion-badge><ion-badge *ngIf="torneo.ganador!==undefined" color="danger">Finalizado</ion-badge></ion-col>
+                </ion-row>
+                <h1><ion-badge color="secondary">Organizado por {{torneo.organizador}} </ion-badge></h1>
                 <ion-chip outline color="secondary">
                   <ion-label *ngIf="torneo.modo == 'i'">Individuales</ion-label>
                   <ion-label *ngIf="torneo.modo == 'd'">Dobles</ion-label>
@@ -137,8 +259,8 @@
                   <ion-label *ngIf="torneo.genero == 'f'">Femenino</ion-label>
                 </ion-chip>
                 <ion-chip outline color="primary">
-                  <ion-label *ngIf="torneo.pistacubierta == true">Pista Cubierta</ion-label>
-                  <ion-label *ngIf="torneo.pistacubierta == false">Pista Descubierta</ion-label>
+                  <ion-label *ngIf="torneo.pistacubierta == true">Pista Indoor</ion-label>
+                  <ion-label *ngIf="torneo.pistacubierta == false">Pista Outdoor</ion-label>
                 </ion-chip>
                 <ion-chip outline color="success">
                   <ion-label>{{torneo.tipopista}}</ion-label>
@@ -147,10 +269,12 @@
                   <ion-label>Bola: {{torneo.tipobola}}</ion-label>
                 </ion-chip>
                 <ion-chip outline color="danger">
-                  <ion-label>{{torneo.participantes.length}} Participantes</ion-label>
+                  <ion-label>{{torneo.participantes.length}}/{{torneo.capacidad}} Participante/s</ion-label>
                 </ion-chip>
+                <ion-label>Precio de entrada: {{torneo.inscripcion}} €</ion-label>
+                <ion-label>Premio: {{torneo.premio}}</ion-label>
                 <br />
-                <b>{{torneo.descripcion}}</b>
+                {{torneo.descripcion}}
                 <p>{{torneo.ubicacion}}</p>
               </ion-label>
               <ion-button fill="clear" color="success" size="large" (click)= "presentAlert(torneo)">

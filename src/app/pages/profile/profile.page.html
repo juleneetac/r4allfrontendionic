@@ -7,7 +7,13 @@
       </ion-buttons>
 
       <ion-buttons slot="end">
-        <ion-button (click)="auth.logout()" color="danger" size="large">
+        <ion-button (click)="goPerfil()" size="large">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="auth.logout()" size="large">
           <ion-icon slot="icon-only" name="power-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -27,6 +33,7 @@
         <ion-card>
           <ion-card-header>
             <ion-card-title>{{ localperfil.username }}</ion-card-title>
+            <ion-card-subtitle>{{ localperfil.mail }}</ion-card-subtitle>
           </ion-card-header>
       
           <ion-card-content>
@@ -34,7 +41,7 @@
               <ion-col size="5" size-xs="12" size-sm="6" size-md="4" size-sm="2">
                 <ion-item lines="none">
                   <ion-avatar>
-                      <ion-img [src]="path + localperfil.rutaimagen"></ion-img>
+                    <ion-img [src]="path + localperfil.rutaimagen"></ion-img>
                   </ion-avatar>
                 </ion-item>
               </ion-col>
@@ -46,31 +53,51 @@
                     id: {{localperfil._id}}
                   </label>
                 </ion-item> -->
+
+                <!--ion-item lines="none">
+                  <ion-badge color="primary">Correo: </ion-badge>
+                </ion-item--> 
+
                 <ion-item lines="none">
-                  <label>
-                    Correo: {{localperfil.mail}}
-                  </label>
+                  <ion-badge color="secondary">Edad:  {{localperfil.edad}}</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-badge color="warning" *ngIf="localperfil.sexo == 'm'">Hombre</ion-badge>
+                  <ion-badge color="warning" *ngIf="localperfil.sexo == 'f'">Mujer</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-badge color="danger">Experiencia: {{localperfil.exp}}</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-badge color="success">Valoracion: {{localperfil.valoracion}}</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">       
+                  <ion-badge color="light">Ubicación: {{localperfil.ubicacion}}</ion-badge>
                 </ion-item> 
 
+              </ion-col>
+
+              <ion-col size="6" size-xs="12" size-sm="6" size-md="4" size-sm="2">
+                <br>
+                
                 <ion-item lines="none">
-                  <label>
-                    Edad: {{localperfil.edad}}
-                  </label>
+                  <ion-badge color="primary">Amigos:  {{localperfil.amigos.length}}</ion-badge>
                 </ion-item>
 
                 <ion-item lines="none">
-                  <label>
-                    Sexo: {{localperfil.sexo}}
-                  </label>
+                  <ion-badge color="dark">Partidos Jugados:  {{localperfil.partidas.length}}</ion-badge>
                 </ion-item>
 
                 <ion-item lines="none">
-                  <label>
-                    Ubicación: {{localperfil.ubicacion}}
-                  </label>
-                </ion-item>  
+                  <ion-badge color="dark">Torneos Jugados:  {{localperfil.torneos.length}}</ion-badge>
+                </ion-item>
 
               </ion-col>
+
             </ion-row>
 
                     <!--div id="mapid"></div-->

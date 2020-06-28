@@ -27,7 +27,7 @@
           </div> -->
           <ion-list>
             <div class="formGroup">
-              <ion-item>
+              <ion-item lines="none">
                 <!-- <ion-label class="text">Username: </ion-label> -->
                 <ion-input  formControlName="username" type="text" name="username" placeholder="Username" [(ngModel)]="username"></ion-input>
                 <div *ngIf="registerForm.controls['username'].valid">
@@ -47,7 +47,7 @@
             </div>
 
             <div class="formGroup">
-              <ion-item>
+              <ion-item lines="none">
                 <!-- <ion-label class="text">Mail: </ion-label> -->
                 <ion-input  formControlName="mail" type="text" name="mail" placeholder="Mail" [(ngModel)]="mail"></ion-input>
                 <div *ngIf="registerForm.controls['mail'].valid">
@@ -66,7 +66,7 @@
             </div>
 
             <div class="formGroup">
-              <ion-item>
+              <ion-item lines="none">
                 <!-- <ion-label class="text">Contraseña</ion-label> -->
                 <ion-input  formControlName="pass" type="password" name="pass" placeholder="Password" [(ngModel)]="pass"></ion-input>
                 <div *ngIf="registerForm.controls['pass'].valid">
@@ -85,7 +85,7 @@
             </div>
 
             <div class="formGroup">
-              <ion-item>
+              <ion-item lines="none">
                 <!-- <ion-label class="text">Confirmar Contraseña: </ion-label> -->
                 <ion-input formControlName="confirmpass" type="password" name="confirmpass" placeholder="Repeat password" [(ngModel)]="confirmpass"></ion-input>
                 <div *ngIf="registerForm.controls['confirmpass'].valid && !registerForm.hasError('passwordNotMatch')">
@@ -107,7 +107,7 @@
             </div>
 
             <div class="formGroup">
-              <ion-item>
+              <ion-item lines="none">
                 <!-- <ion-label class="text">Edad: </ion-label> -->
                 <ion-input formControlName="edad" type="text" name="edad" placeholder="Edad" [(ngModel)]="edad"></ion-input>
                 <div *ngIf="registerForm.controls['edad'].valid">
@@ -126,7 +126,7 @@
             </div>
 
             <div class="formGroup">
-              <ion-item>
+              <ion-item lines="none">
                 <!-- <ion-label class="text">Sexo: </ion-label> -->
                 <ion-input formControlName="sexo" type="text" name="sexo" placeholder="Sexo: m / f" [(ngModel)]="sexo"></ion-input>
                 <div *ngIf="registerForm.controls['sexo'].valid">
