@@ -5,11 +5,12 @@ import { MainPage } from './main.page';
 import { UsuariosPageModule } from '../main-tabs/usuarios/usuarios.module';
 import { TorneosPageModule } from '../main-tabs/torneos/torneos.module';
 import { MapasPageModule } from '../main-tabs/mapas/mapas.module';
-
+import { AuthGuard } from 'src/app/services/serviceGuard/auth.guard';
 const routes: Routes = [
   {
     path: '',
     component: MainPage,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
@@ -33,6 +34,7 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ]
+    
   },
   {
     path: '',

@@ -2,9 +2,9 @@ export class Modelmessage {
     author: string;
     destination: string;
     mensaje: string;
-    date: Date;
+    date: string;
 
-    constructor(author: string, destination: string, mensaje: string, date: Date) {
+    constructor(author: string, destination: string, mensaje: string, date: string) {
         this.author = author;
         this.destination = destination;
         this.mensaje = mensaje;
