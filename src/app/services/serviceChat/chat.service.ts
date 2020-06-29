@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { Socket, SocketIoConfig, SocketIoModule } from 'ng-socket-io';
 import { Modelmessage } from 'src/app/models/modelMessage/modelmessage';
+import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 
 
 @Injectable({
@@ -60,10 +61,10 @@ export class ChatService {
   public forceGetList() {
     this.socket.emit('giveMeUserList');
   }
+ 
 
    //para enviar un mensaje al backend con socket
    public sendMessage(mensaje, destination) {
-    console.log(this.socket)
     console.log(mensaje, destination);
     this.socket.emit('message', { mensaje, destination});
     let body = {author: this.username, destination, mensaje};
@@ -72,7 +73,6 @@ export class ChatService {
 
   public getMessages = () => {
     //this.socket = JSON.parse(this.storage.getSocket()); // probamos a guardar el socket en localstorage
-    console.log(this.socket)
       return Observable.create((observer) => {
           this.socket.on('message', (data) => {
             console.log('nos llega este mensaje: '+ data)
@@ -81,8 +81,12 @@ export class ChatService {
       });
   }
 
-  public getMessagesAlmacenados() {
-    return this.http.get<Modelmessage[]>(this.ambiente.urlMensaje + `/getmsg/${this.username}`);
+  public getMessagesAlmacenados(destino) {
+    return this.http.get<Modelmessage[]>(this.ambiente.urlMensaje + `/getmsg/${destino}`);
+  }
+  public unirseSala(nombresala){
+    console.log("llega a unisres sala")
+    this.socket.emit('joinSala',{nombresala})
   }
 
   public disconnectSocket() {  //para desconectar el socket, lo usamos en logout en el appcomponent

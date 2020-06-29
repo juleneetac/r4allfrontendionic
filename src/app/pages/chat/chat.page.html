@@ -34,9 +34,34 @@
         </ion-item>
 
       </ion-list>
+      
     </ion-card-content>
   </ion-card>
+  <ion-card>
+    
+    <ion-card-content>
+  <ion-list>
+    <ion-list-header>
+      Torneos:
+    </ion-list-header>
 
+    <ion-item *ngFor="let torneoItem of listaTorneos">
+      <ion-label><strong>{{ torneoItem.nombre }}</strong></ion-label>
+        <!-- <h3 *ngIf="filterLast(userItem[0]) !== undefined">
+          <span *ngIf="filterLast(userItem[0]).author === user.name">
+            <b>You: </b>
+          </span>
+          {{filterLast(userItem[0]).text}}
+        </h3> -->
+
+      <ion-button color="dark" fill="clear" size ="large" (click)="goRoomTorneo(torneoItem)">
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+  </ion-list>
+</ion-card-content>
+</ion-card>
   <!--ion-list>
     <ion-list-header>
       Global Chat
