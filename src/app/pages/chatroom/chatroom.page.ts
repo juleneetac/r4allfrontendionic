@@ -16,7 +16,7 @@ import { Socket } from 'ng-socket-io';
 import { element } from 'protractor';
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { async } from '@angular/core/testing';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-chatroom',
   templateUrl: './chatroom.page.html',
@@ -67,6 +67,7 @@ export class ChatroomPage implements OnInit {
   }
 
   async ngOnInit() {
+   
     this.usuariosSevice.getTorneosde(this.user._id).subscribe(
       async res =>{
         this.torneos = await res.torneos
@@ -80,6 +81,7 @@ export class ChatroomPage implements OnInit {
 
     await this.chatService.getMessagesAlmacenados(this.namedestino).toPromise().then((data) => {  //coger los mensajes de la colecions mensajes
       // tslint:disable-next-line:max-line-length
+      console.log("lega 3esto: "+ data)
       this.torneos.forEach(element => { //Esto es para mirar si es un torneo o no, chapuza pero mejor idea que he tenido
         if (element._id===this.namedestino){
        this.torneocheck=true
@@ -97,13 +99,14 @@ export class ChatroomPage implements OnInit {
         console.log("se ha unido a la sala " + this.namedestino)
     }
     this.chatService.getMessages().subscribe((data: {message, username2}) => {
+      let date = moment().calendar();
         if (data.username2 === this.namedestino) {
-          this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, new Date()));
+          this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, date));
           setTimeout(() => 50);
         }
         if(this.torneocheck && data.username2 !== this.username){
           console.log("ha entrado ?")
-          this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, new Date()));
+          this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, date));
           setTimeout(() => 50);
         }
         
@@ -114,9 +117,10 @@ export class ChatroomPage implements OnInit {
 
   sendMessage(text: string) {
     this.message = text;
+    let date = moment().calendar();
     if (this.message.replace(/\s/g, '').length) {
      
-        this.messages.push(new Modelmessage(this.username, this.namedestino,this.message, new Date()));
+        this.messages.push(new Modelmessage(this.username, this.namedestino,this.message, date));
         this.chatService.sendMessage(this.message, this.namedestino);
         //setTimeout(() => this.scrollToBottom(), 50);
       }

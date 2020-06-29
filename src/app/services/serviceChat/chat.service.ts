@@ -61,17 +61,7 @@ export class ChatService {
   public forceGetList() {
     this.socket.emit('giveMeUserList');
   }
- /*  public forceGetListTorneos(torneos : Modeltorneo[]) { COMPLETAMENTE INUTIL, BORRAR SI LO VES 
-   // let user= JSON.parse(this.storage.getUser())
-    //console.log("user torneos :" + user.torneos);
-    let nombres:String[]=[];
-    torneos.forEach((element,i=0) => {
-      nombres[i]= element.nombre
-      i++
-    });
-    console.log("nombres de torneos: " + nombres)
-    this.socket.emit('giveMeTorneoList',nombres)
-  } */
+ 
 
    //para enviar un mensaje al backend con socket
    public sendMessage(mensaje, destination) {
