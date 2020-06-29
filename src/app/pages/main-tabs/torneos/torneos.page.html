@@ -250,7 +250,7 @@
                   <ion-col size="auto"><b>{{torneo.nombre}}</b></ion-col><ion-col size="auto"><ion-badge *ngIf="torneo.ganador==undefined && torneo.participantes.length < torneo.capacidad" color="success">Abierto</ion-badge><ion-badge *ngIf="torneo.ganador==undefined && torneo.participantes.length == torneo.capacidad" color="tertiary">En Curso</ion-badge><ion-badge *ngIf="torneo.ganador!==undefined" color="danger">Finalizado</ion-badge></ion-col>
                 </ion-row>
                 <h1><ion-badge color="secondary">Organizado por {{torneo.organizador}} </ion-badge></h1> 
-                <h1><ion-badge color="tertiary"><ion-label>{{torneo.participantes.length}}/{{torneo.capacidad}} Participante/s</ion-label></ion-badge></h1>
+                <h1><ion-badge color="dark" outline><ion-label>{{torneo.participantes.length}}/{{torneo.capacidad}} Participante/s</ion-label></ion-badge></h1>
                 <!--h1 *ngIf="torneo.ganador !== undefined && torneo.modo == 'i'"><ion-badge color="warning">Ganador: {{torneo.ganador.nombre}}</ion-badge></h1>
                 <h1 *ngIf="torneo.ganador !== undefined && torneo.modo == 'd'"><ion-badge color="warning">Ganadores: {{torneo.ganador.nombre}} | {{torneo.ganador2.nombre}}</ion-badge></h1-->
                 
