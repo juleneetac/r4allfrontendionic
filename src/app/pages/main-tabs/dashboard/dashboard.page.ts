@@ -81,7 +81,7 @@ export class DashboardPage implements OnInit {
       this.listaPartidasActivas = [];
       data.partidas.forEach(partida => {
         if(partida.ganador === undefined){
-          //Representamos solamente los Torneos que aún estén activos
+          //Representamos solamente los Partidos que aún estén activos
           this.listaPartidasActivas.push(partida);
         }
       });
@@ -140,6 +140,7 @@ export class DashboardPage implements OnInit {
     },
     (err) => {
       console.log("err", err);
+      this.handleError(err);
     });
   }
 

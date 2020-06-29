@@ -16,6 +16,8 @@ import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Router } from '@angular/router';
 import { ToastController, AlertController } from '@ionic/angular';
 import { MapsService } from 'src/app/services/serviceMaps/maps.service';
+import { AuthService } from 'src/app/services/serviceAuth/auth.service';
+import { ChatService } from 'src/app/services/serviceChat/chat.service';
 
 //import crypto = require('crypto-browserify');
 
@@ -68,7 +70,9 @@ export class PerfilPage implements OnInit {
     private router: Router,
     public toastController: ToastController,
     public alertController: AlertController,
-    private mapsService: MapsService
+    private mapsService: MapsService,
+    public auth: AuthService,
+    public chatService: ChatService,
   ) {
       this.editperfilForm = this.formBuilder.group({
     
@@ -191,11 +195,11 @@ export class PerfilPage implements OnInit {
   }
 
   goProfile() {
-    this.router.navigateByUrl("profile")
+    this.router.navigateByUrl("profile");
   }
 
   goEditFacebook() {
-    this.router.navigateByUrl("editfacebook")
+    this.router.navigateByUrl("editfacebook");
   }
 
   updatePerfil (event2){//, experiencia: HTMLInputElement){
@@ -308,6 +312,12 @@ export class PerfilPage implements OnInit {
                     color: 'primary'
                 });
                 await toastDelete.present();
+
+                await this.storage.clearStorage();
+                await this.auth.logout();
+                await this.chatService.disconnectSocket();
+                await this.router.navigateByUrl("home");
+
               },
               (err) => {
                 console.log("Error", err);

@@ -2,24 +2,47 @@ ion-avatar{
     width: 200px;
     height: 200px;
     margin-top: 0px;
+    display: flex;
+    margin:0 auto; 
+    vertical-align: middle;
+    margin-top: 32px;
+
+    //-ms-transform: translateY(-50%);
+    //transform: translateY(-50%);
 }
- ion-card-header{
+#header-blue{
     text-align: center;
     background-color:#1E8FD5;
 }
+#header-red{
+    text-align: center;
+    background-color: #ff2800;
+}
+#header-yellow{
+    text-align: center;
+    background-color: #ffe440;
+}
+#partidas-title{
+    color: #28210e;
+}
+/* ion-card-header{
+    text-align: center;
+    background-color:#1E8FD5;
+} */
 ion-card-title{
     color: white;
 }
 ion-card-subtitle{
     color: white;
 }
-ion-avatar{
+/* ion-avatar{
     display: flex;
     margin:0 auto; 
     vertical-align: middle;
     margin-top: 32px;
-   
-}
+    //-ms-transform: translateY(-50%);
+    //transform: translateY(-50%);
+} */
 ion-card-content{
     background-color: white;
 
@@ -37,12 +60,43 @@ ion-item{
     align-items: center;  
 }
 #mapid3{
-
-    height: 50%;
+    height: 40%;
     //width: 97%;
     display: flex;
     /* left: 50%; */
     margin-left: 17px;
     margin-right: 17px;
-    
+    margin-bottom: 14px;
+}
+#medal{
+    color:#7d4e19;
+    background-color: #FFD700;
+    background: #FFD700;
+}
+#premio{
+    color:#197d43;
+    background-color: #00ff88;
+    background: #2bff00;
+}
+/* #victorias{
+    color:#2d7d19;
+    background-color: #00ff4c;
+    background: #00ff6a;
+}
+#derrotas{
+    color:#7d1919;
+    background-color: #ff3300;
+    background: #ff4800;
+}
+#puntos{
+    color:#19557d;
+    background-color: #0051ff;
+    background: #0099ff;
+} */
+#listaganadores{
+    margin-left: 20%; 
+}
+#scroll{
+    height: 120px;
+    overflow-y: scroll;
 }

@@ -38,9 +38,9 @@ export class AppComponent{
     },
 
     {
-      title: 'Go to Admin',
+      title: 'Admin Torneos',
       url: '/admin',
-      icon: 'flash-off'
+      icon: 'tennisball'
     },
 
     // {

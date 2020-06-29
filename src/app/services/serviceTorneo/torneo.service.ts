@@ -38,6 +38,11 @@ export class TorneoService {
     return this.http.get<Modeltorneo>(path)
   }
 
+  getGanadores(idTorneo: string): Observable<Participante[]> {
+    const path = `${this.environment.urlTorneo}/getganadores/${idTorneo}`;
+    return this.http.get<Participante[]>(path);
+  }
+
   addTorneo(newTorneo: Modeltorneo): Observable<Modeltorneo> {
     const path = `${this.environment.urlTorneo}/addtrn`;
     return this.http.post<Modeltorneo>(path, newTorneo);

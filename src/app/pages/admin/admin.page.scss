@@ -1,0 +1,49 @@
+#mapid10{
+    height: 45%;
+    //width: 98%;
+    display: flex;
+    /* left: 50%; */
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+ion-card-title{
+    display: center;
+    align-self: center;
+    align-content: center;
+    text-align: center;
+    font-size: 20px;
+    margin-top: 0px;  
+    color: white;
+}
+ion-card-header{
+    text-align: center;
+    background-color:#1E8FD5;
+    margin-bottom: 30px;
+}
+ion-input{
+    //-moz-border-radius: 50px;
+    //-webkit-border-radius: 50px;
+    border-radius: 10px;
+    //margin-bottom: 10px;  
+    background-color: rgb(230, 230, 230);
+    //margin-top: 17px;
+    text-align: center;
+    margin-top: -10px;
+    height: 40px;
+}
+#textarea{
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 10px;
+    //margin-bottom: 10px;  
+    background-color: rgb(230, 230, 230);
+    //margin-top: 17px;
+    /* text-align: center;
+    margin-top: -10px; */
+}
+#boton{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}

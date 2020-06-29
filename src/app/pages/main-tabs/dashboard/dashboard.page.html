@@ -105,12 +105,12 @@
                             <ion-list-header>
                               <b>Participantes:</b>
                             </ion-list-header>
-                              <div id="scroll">
-                                <ion-item>{{partida.organizador}}</ion-item>
-                                <ion-item *ngFor="let invitado of partida.invitados" lines="none">
-                                  <ion-label>{{invitado}}</ion-label>
-                                </ion-item>
-                              </div>
+                            <div id="scroll">
+                              <ion-item>{{partida.organizador}}</ion-item>
+                              <ion-item *ngFor="let invitado of partida.invitados" lines="none">
+                                <ion-label>{{invitado}}</ion-label>
+                              </ion-item>
+                            </div>
                             
                           </ion-list>
 
@@ -178,24 +178,6 @@
                             <div id="scroll">
                               <ion-item *ngFor="let participante of torneo.participantes">
 
-                                <!--ion-row>
-                                  <ion-col size="auto"><ion-chip>{{participante.nombre}}</ion-chip></ion-col>
-                                  <ion-col *ngIf="torneo.modo == 'd'" size="auto"><ion-chip>{{participante.pareja.nombre}}</ion-chip></ion-col>
-                                  <ion-col size="auto">Ranking: {{participante.ranking}}</ion-col>
-                                </ion-row>
-                                <ion-row>
-                                  <ion-col size="auto">Puntos: </ion-col>
-                                  <ion-col size="auto"><ion-badge color="tertiary">{{participante.puntos}}</ion-badge></ion-col>
-                                </ion-row>
-                                <ion-row>
-                                  <ion-col size="auto">Victorias: </ion-col>
-                                  <ion-col size="auto"><ion-badge color="success">{{participante.victorias}}</ion-badge></ion-col>
-                                </ion-row>
-                                <ion-row>
-                                  <ion-col size="auto">Derrotas: </ion-col>
-                                  <ion-col size="auto"><ion-badge color="danger">{{participante.victorias}}</ion-badge></ion-col>
-                                </ion-row-->
-
                                 <ion-grid>
                                   <ion-row>
                                     <ion-col *ngIf="torneo.modo == 'i'" size="12" size-xs="12" size-sm="12" size-md="4" size-sm="12"><ion-chip>{{participante.nombre}}</ion-chip></ion-col>
@@ -215,23 +197,6 @@
                                     <ion-col size="12" size-xs="6" size-sm="12" size-md="1" size-sm="12"><ion-badge color="danger">{{participante.victorias}}</ion-badge></ion-col>
                                   </ion-row>     
                                 </ion-grid>
-
-                                <!--tr>
-                                  <th>Participante</th>
-                                  <th *ngIf="torneo.modo == 'd'">Pareja</th>
-                                  <th>Ranking</th>
-                                  <th>Puntos</th>
-                                  <th>Victorias</th>
-                                  <th>Derrotas</th>
-                                </tr>
-                                <tr *ngFor="let participante of torneo.participantes">
-                                  <th><ion-chip>{{participante.nombre}}</ion-chip></th>
-                                  <th *ngIf="torneo.modo == 'd'"><ion-chip>{{participante.pareja.nombre}}</ion-chip></th>
-                                  <th>{{participante.ranking}}</th>
-                                  <th><ion-badge color="tertiary">{{participante.puntos}}</ion-badge></th>
-                                  <th><ion-badge color="success">{{participante.victorias}}</ion-badge></th>
-                                  <th><ion-badge color="danger">{{participante.victorias}}</ion-badge></th>
-                                </tr-->
 
                               </ion-item>
                             </div>
