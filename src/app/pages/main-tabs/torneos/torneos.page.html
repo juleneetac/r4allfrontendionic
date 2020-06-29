@@ -249,36 +249,68 @@
                 <ion-row>
                   <ion-col size="auto"><b>{{torneo.nombre}}</b></ion-col><ion-col size="auto"><ion-badge *ngIf="torneo.ganador==undefined && torneo.participantes.length < torneo.capacidad" color="success">Abierto</ion-badge><ion-badge *ngIf="torneo.ganador==undefined && torneo.participantes.length == torneo.capacidad" color="tertiary">En Curso</ion-badge><ion-badge *ngIf="torneo.ganador!==undefined" color="danger">Finalizado</ion-badge></ion-col>
                 </ion-row>
-                <h1><ion-badge color="secondary">Organizado por {{torneo.organizador}} </ion-badge></h1>
-                <ion-chip outline color="secondary">
-                  <ion-label *ngIf="torneo.modo == 'i'">Individuales</ion-label>
-                  <ion-label *ngIf="torneo.modo == 'd'">Dobles</ion-label>
+                <h1><ion-badge color="secondary">Organizado por {{torneo.organizador}} </ion-badge></h1> 
+                <h1><ion-badge color="tertiary"><ion-label>{{torneo.participantes.length}}/{{torneo.capacidad}} Participante/s</ion-label></ion-badge></h1>
+                <!--h1 *ngIf="torneo.ganador !== undefined && torneo.modo == 'i'"><ion-badge color="warning">Ganador: {{torneo.ganador.nombre}}</ion-badge></h1>
+                <h1 *ngIf="torneo.ganador !== undefined && torneo.modo == 'd'"><ion-badge color="warning">Ganadores: {{torneo.ganador.nombre}} | {{torneo.ganador2.nombre}}</ion-badge></h1-->
+                
+                <!--ion-chip outline color="danger">
+                </ion-chip-->
+
+                <ion-chip *ngIf="torneo.ganador !== undefined && torneo.modo == 'i'" outline id="medal">
+                  <ion-icon name="trophy"></ion-icon>  
+                  <ion-label><b>Ganador: {{torneo.ganador.nombre}}</b></ion-label>
                 </ion-chip>
-                <ion-chip outline color="tertiary">
-                  <ion-label *ngIf="torneo.genero == 'm'">Masculino</ion-label>
-                  <ion-label *ngIf="torneo.genero == 'f'">Femenino</ion-label>
+
+                <ion-chip *ngIf="torneo.ganador !== undefined && torneo.modo == 'd'" outline id="medal">
+                  <ion-icon name="trophy"></ion-icon>  
+                  <ion-label><b>Ganadores: {{torneo.ganador.nombre}} | {{torneo.ganador2.nombre}}</b></ion-label>
                 </ion-chip>
-                <ion-chip outline color="primary">
-                  <ion-label *ngIf="torneo.pistacubierta == true">Pista Indoor</ion-label>
-                  <ion-label *ngIf="torneo.pistacubierta == false">Pista Outdoor</ion-label>
-                </ion-chip>
-                <ion-chip outline color="success">
-                  <ion-label>{{torneo.tipopista}}</ion-label>
-                </ion-chip>
-                <ion-chip outline color="warning">
-                  <ion-label>Bola: {{torneo.tipobola}}</ion-label>
-                </ion-chip>
-                <ion-chip outline color="danger">
-                  <ion-label>{{torneo.participantes.length}}/{{torneo.capacidad}} Participante/s</ion-label>
-                </ion-chip>
-                <ion-label>Precio de entrada: {{torneo.inscripcion}} €</ion-label>
-                <ion-label>Premio: {{torneo.premio}}</ion-label>
-                <br />
-                {{torneo.descripcion}}
-                <p>{{torneo.ubicacion}}</p>
+
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="12" size-xs="12" size-sm="12" size-md="auto" size-sm="12">
+                      <ion-label *ngIf="torneo.genero == 'm'">Masculino |</ion-label>
+                      <ion-label *ngIf="torneo.genero == 'f'">Femenino |</ion-label>
+                    </ion-col>
+                    <ion-col size="12" size-xs="12" size-sm="12" size-md="auto" size-sm="12">
+                      <ion-label *ngIf="torneo.modo == 'i'">Individuales |</ion-label>
+                      <ion-label *ngIf="torneo.modo == 'd'">Dobles |</ion-label>
+                    </ion-col>
+                    <ion-col size="12" size-xs="12" size-sm="12" size-md="auto" size-sm="12">
+                      <ion-label *ngIf="torneo.pistacubierta == true">Pista: Indoor, {{torneo.tipopista}} |</ion-label>
+                      <ion-label *ngIf="torneo.pistacubierta == false">Pista: Outdoor, {{torneo.tipopista}} |</ion-label>
+                    </ion-col>
+                    <ion-col size="12" size-xs="12" size-sm="12" size-md="auto" size-sm="12">
+                      <ion-label>Pelota: {{torneo.tipobola}} |</ion-label>
+                    </ion-col>
+                    <ion-col size="12" size-xs="12" size-sm="12" size-md="auto" size-sm="12">
+                      <ion-label>Inscripción: {{torneo.inscripcion}} € |</ion-label>
+                    </ion-col>
+                    <ion-col size="12" size-xs="12" size-sm="12" size-md="auto" size-sm="12">
+                      <ion-label>Premio: {{torneo.premio}}</ion-label>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+
+                <!--ion-chip outline color="secondary">
+                </ion-chip-->
+
+                <!--ion-chip outline color="tertiary">
+                </ion-chip-->
+     
+                <!--ion-chip outline color="primary">
+                </ion-chip-->
+
+                <!--ion-chip outline color="success">
+                </ion-chip-->
+
+                <!--ion-chip outline color="warning">
+                </ion-chip-->
+
               </ion-label>
-              <ion-button fill="clear" color="success" size="large" (click)= "presentAlert(torneo)">
-                <ion-icon name="add"></ion-icon>
+              <ion-button fill="clear" color="dark" size="large" (click)= "goTorneo(torneo)">
+                <ion-icon slot="icon-only" name="enter-outline"></ion-icon>
               </ion-button>
               <!--ion-button href="{{torneo.sitioweb}}" target="_blank" size="large" fill="clear" color="dark">
                 <ion-icon name="link"></ion-icon>

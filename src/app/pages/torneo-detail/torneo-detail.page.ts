@@ -11,15 +11,15 @@ import { ToastController } from '@ionic/angular';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-torneo-enter',
-  templateUrl: './torneo-enter.page.html',
-  styleUrls: ['./torneo-enter.page.scss'],
+  selector: 'app-torneo-detail',
+  templateUrl: './torneo-detail.page.html',
+  styleUrls: ['./torneo-detail.page.scss'],
 })
-export class TorneoEnterPage implements OnInit {
+export class TorneoDetailPage implements OnInit {
 
   usuarioLogueado: Modelusuario;          //Usuario logueado en la Aplicación (ha de venir del Login)
-  selectedTorneo: any;                    //Torneo en el que se va a inscribir el Usuario
-  listaParticipantes: Participante[];    //Lista de Participantes del Torneo
+  selectedTorneo: any;                    //Torneo de esta página de Torneo
+  listaParticipantes: Participante[];     //Lista de Participantes del Torneo
 
   listaParejas: Modelusuario[];           //Lista de posibles Parejas (Usuarios que no sean Participantes ni seas tú mismo)
   pareja;                                 //Pareja del Participante (en caso de Dobles)
@@ -132,6 +132,10 @@ export class TorneoEnterPage implements OnInit {
 
   goMain(){
     this.router.navigateByUrl("main/torneos");
+  }
+
+  openLink(){
+    window.open(`${this.selectedTorneo.sitioweb}`, "_blank");
   }
 
   public async inscribirse(){

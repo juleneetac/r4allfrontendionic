@@ -298,24 +298,21 @@ export class PerfilPage implements OnInit {
         {
           text: 'Continuar',
           handler: async () => {
-            const alertPassword = await this.alertController.create({
-              animated: true,
-              backdropDismiss: true, 
-              keyboardClose: true,
-              translucent: true,
-              header: `Eliminar Tu Cuenta`,
-              message: `Introduce tu contraseña para eliminar tu cuenta`,
-              buttons: [
-                {
-                  text: 'Cancelar',
-                  handler: () => {
-                    alertDelete.dismiss();
-                  }
-                }
-              ]
-            });
-
-            await alertPassword.present();
+            this.usuarioService.deleteUsuario(this.user._id)
+              .subscribe(async (data) => {
+                console.log(data);
+                const toastDelete = await this.toastController.create({
+                  message: `${data}`,
+                    duration: 3000,
+                    position: 'bottom',
+                    color: 'primary'
+                });
+                await toastDelete.present();
+              },
+              (err) => {
+                console.log("Error", err);
+                this.handleError(err);
+              });
           }
         },
         {

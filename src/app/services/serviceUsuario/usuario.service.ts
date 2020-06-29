@@ -50,9 +50,21 @@ export class UsuarioService {
   updateUsuario(id: string, usuariomodificado:any): Observable<Modelusuario> {
     return this.http.put<Modelusuario>(`${this.ambiente.urlUsuario}/update/${id}`, usuariomodificado);
   }
+
+  getAmigosde(id: string): Observable<Modelusuario>{  //no es un array porque es solo una asignatura lo que le paso
+    return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getamigbyuser/${id}`);
+  }
   
   getPartidasde(id: string): Observable<Modelusuario>{  //no es un array porque es solo una asignatura lo que le paso
     return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getpartbyuser/${id}`);
+  }
+
+  addAmigo(idUsuario:string, idAmigo:string) {
+    let req = {
+      _idUsuario: idUsuario,
+      _idAmigo: idAmigo
+    }
+    return this.http.post(`${this.ambiente.urlUsuario}/addamigo/`, req);
   }
 
   getTorneosde(id: string): Observable<Modelusuario>{ //Devuelve el Usuario con sus Torneos 'populados'
@@ -74,6 +86,10 @@ export class UsuarioService {
 
   registrarfacebook(register: Modelregister): Observable<HttpResponse<Modelusuario>>{ 
     return this.http.post<Modelusuario>(this.ambiente.urlUsuario + '/registerfacebook', register, {observe:'response'});  //REVISAR !!!! DEVUELVE UN MODELUSUARIO + SU TOKEN !!!
+  }
+
+  deleteUsuario(idUsuario: string){
+    return this.http.delete(this.ambiente.urlUsuario + `/deleteuser/${idUsuario}`);
   }
 
 }

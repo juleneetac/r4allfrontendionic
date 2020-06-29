@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { TorneoService } from 'src/app/services/serviceTorneo/torneo.service';
-import { FormGroup, FormControl } from '@angular/forms';
 import { MapsService } from 'src/app/services/serviceMaps/maps.service';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
@@ -24,8 +23,7 @@ export class TorneosPage implements OnInit {
     private mapsService: MapsService,
     private storage: StorageComponent,
     public alertController: AlertController,
-    public toastController: ToastController,
-    public navController: NavController
+    public toastController: ToastController
   ) { }
 
   usuarioLogueado: Modelusuario;    //Usuario logueado en la Aplicación
@@ -142,10 +140,10 @@ export class TorneosPage implements OnInit {
         //Si se busca por estado (Activo/En curso/Finalizado), crear una lista según los que se quieran mostrar
         let listaEstado = [];
         this.listaTorneos.forEach((torneo) => {
-          if((torneo.participantes.length == torneo.capacidad) && (this.estadoValue == "e")){
+          if((torneo.participantes.length == torneo.capacidad) && (torneo.ganador==undefined) && (this.estadoValue == "e")){
             listaEstado.push(torneo);
           }
-          if((torneo.participantes.length < torneo.capacidad) && (this.estadoValue == "a")){
+          if((torneo.participantes.length < torneo.capacidad) && (torneo.ganador==undefined) && (this.estadoValue == "a")){
             listaEstado.push(torneo);
           }
           if((torneo.ganador !== undefined) && (this.estadoValue == "f")){
@@ -240,7 +238,16 @@ export class TorneosPage implements OnInit {
     this.organizadorValue = event.target.value;
   }
 
-  async presentAlert(torneo: Modeltorneo){
+  goTorneo(torneo: Modeltorneo){
+    let navExtras: NavigationExtras = {
+      state: {
+        torneo: torneo
+      }
+    }
+    this.router.navigate([`torneo-detail/${torneo.nombre}`], navExtras);
+  }
+
+  /* async presentAlert(torneo: Modeltorneo){
     const alertActive = await this.alertController.create({
       animated: true,
       backdropDismiss: true, 
@@ -304,7 +311,7 @@ export class TorneosPage implements OnInit {
       await alertActive.present();
     else
       await alertFinished.present();
-  }
+  } */
 
   private async handleError(err: HttpErrorResponse) {
     const toastERROR = await this.toastController.create({

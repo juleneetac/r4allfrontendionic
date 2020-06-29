@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { TorneoEnterPage } from './torneo-enter.page';
+import { TorneoDetailPage } from './torneo-detail.page';
 
-describe('TorneoEnterPage', () => {
-  let component: TorneoEnterPage;
-  let fixture: ComponentFixture<TorneoEnterPage>;
+describe('TorneoDetailPage', () => {
+  let component: TorneoDetailPage;
+  let fixture: ComponentFixture<TorneoDetailPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TorneoEnterPage ],
+      declarations: [ TorneoDetailPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TorneoEnterPage);
+    fixture = TestBed.createComponent(TorneoDetailPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Ambiente } from 'src/app/services/ambiente';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { Modelpartida } from 'src/app/models/modelPartida/modelpartida';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
 import { PartidaService } from 'src/app/services/servicePartida/partida.service';
@@ -28,20 +28,22 @@ export class DashboardPage implements OnInit {
     private router: Router
   ) {
     this.ambiente = new Ambiente();
-    this.path=this.ambiente.path;
+    this.path = this.ambiente.path;
   }
 
   usuarioLogueado: Modelusuario;  //Usuario logueado en la Aplicación (ha de venir del Login)
 
-  listaPartidas: Modelpartida[];  //Lista de Partidas
-  ganador;                        //Determinará el ganador de la partida
+  listaAmigos: Modelusuario[];
+
+  listaPartidasActivas: Modelpartida[];  //Lista de Partidas
+  ganador;                               //Determinará el ganador de la partida
 
   listaTorneosActivos: Modeltorneo[]; //Tus Torneos Activos
 
   async ngOnInit() {
     this.usuarioLogueado = JSON.parse(this.storage.getUser());
 
-    this.listaPartidas = [];
+    this.listaPartidasActivas = [];
     this.ganador = undefined;
 
     this.listaTorneosActivos = [];
@@ -53,15 +55,37 @@ export class DashboardPage implements OnInit {
   }
 
   public async refreshDashboard(event?:any){
+    await this.getAmigos(event);
     await this.getPartidas(event);
     await this.getTorneos(event);
+  }
+
+  public async getAmigos(event?:any){
+    this.usuarioService.getAmigosde(this.usuarioLogueado._id)
+    .subscribe((data) => {
+      this.listaAmigos = data.amigos;
+      console.log('Tus Amigos:', this.listaAmigos);
+      if(event !== undefined){
+        event.target.complete();
+      }
+    },
+    (err) => {
+      console.log("err", err);
+      this.handleError(err);
+    });
   }
 
   public async getPartidas(event?:any){
     this.usuarioService.getPartidasde(this.usuarioLogueado._id)
     .subscribe((data) => {
-      this.listaPartidas = data.partidas;
-      console.log('Partidas:', this.listaPartidas);
+      this.listaPartidasActivas = [];
+      data.partidas.forEach(partida => {
+        if(partida.ganador === undefined){
+          //Representamos solamente los Torneos que aún estén activos
+          this.listaPartidasActivas.push(partida);
+        }
+      });
+      console.log('Partidos activos:', this.listaPartidasActivas);
       if(event !== undefined){
         event.target.complete();
       }
@@ -73,26 +97,46 @@ export class DashboardPage implements OnInit {
     );
   }
 
-  public getTorneos(){
+  goUsuario(usuario: Modelusuario){
+    let navExtras: NavigationExtras = {
+      state: {
+        usuario: usuario
+      }
+    }
+    this.router.navigate([`usuario-detail/${usuario.username}`], navExtras);
+  }
+
+  goTorneo(torneo: Modeltorneo){
+    let navExtras: NavigationExtras = {
+      state: {
+        torneo: torneo
+      }
+    }
+    this.router.navigate([`torneo-detail/${torneo.nombre}`], navExtras);
+  }
+
+  public getTorneos(event?:any){
     this.usuarioService.getTorneosde(this.usuarioLogueado._id)
     .subscribe((data) => {
-      let torneosactivos = [];
+      this.listaTorneosActivos = [];
       data.torneos.forEach(torneo => {
         if(torneo.ganador === undefined){
           //Representamos solamente los Torneos que aún estén activos
-
           this.torneoService.getParticipantesde(torneo._id)
           .subscribe((populatedTorneo) => {
             //Torneo con los Participantes (y parejas, en caso de Dobles) populados
-            torneosactivos.push(populatedTorneo);
+            this.listaTorneosActivos.push(populatedTorneo);
           },
           (err) => {
             console.log(`No se ha podido cargar el Torneo ${torneo.nombre} `, err);
           });
         }
       });
-      this.listaTorneosActivos = torneosactivos;
+      //this.listaTorneosActivos = torneosactivos;
       console.log('Torneos activos:', this.listaTorneosActivos);
+      if(event !== undefined){
+        event.target.complete();
+      }
     },
     (err) => {
       console.log("err", err);
@@ -103,7 +147,7 @@ export class DashboardPage implements OnInit {
     let setganador = {
       ganador: this.ganador, 
     }
-    this.partidaService.updateGanador(this.listaPartidas[i]._id, setganador).subscribe(
+    this.partidaService.updateGanador(this.listaPartidasActivas[i]._id, setganador).subscribe(
       async res => {
         let partidamod = res as Modelpartida;
         console.log(partidamod);

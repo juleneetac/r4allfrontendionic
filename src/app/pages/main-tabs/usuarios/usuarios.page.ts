@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { UsuarioService } from 'src/app/services/serviceUsuario/usuario.service';
-import { FormGroup, FormControl } from '@angular/forms';
 import { Ambiente } from 'src/app/services/ambiente';
 import { MapsService } from 'src/app/services/serviceMaps/maps.service';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -195,8 +194,17 @@ export class UsuariosPage implements OnInit {
   updateUbicacionRangeValue(event){
     this.ubicacionValue = event.detail.value;
   }
+
+  goUsuario(usuario: Modelusuario){
+    let navExtras: NavigationExtras = {
+      state: {
+        usuario: usuario
+      }
+    }
+    this.router.navigate([`usuario-detail/${usuario.username}`], navExtras);
+  }
   
-  async presentAlert(usuario: Modelusuario){
+  /* async presentAlert(usuario: Modelusuario){
     const alert = await this.alertController.create({
       animated: true,
       backdropDismiss: true, 
@@ -234,7 +242,7 @@ export class UsuariosPage implements OnInit {
 
     await alert.present();
     
-  }
+  } */
 
   private async handleError(err: HttpErrorResponse) {
     const toastERROR = await this.toastController.create({

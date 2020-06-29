@@ -56,7 +56,7 @@ export class AppComponent{
     {
       title: 'Main',
       url: '/main',
-      icon: 'tablet-landscape'
+      icon: 'browsers'
      },
 
     {

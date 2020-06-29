@@ -1,0 +1,44 @@
+ion-avatar{
+    width: 200px;
+    height: 200px;
+    margin-top: 0px;
+}
+ ion-card-header{
+    text-align: center;
+}
+ion-avatar{
+    display: flex;
+    margin:0 auto; 
+    vertical-align: middle;
+    margin-top: 32px;
+   
+}
+ion-card-content{
+    background-color: white;
+
+} 
+ion-item{
+    size: 20px;
+}
+
+.ion-row{
+    display: flex;
+    flex-wrap: wrap;
+}
+.ion-avatar{
+    display: flex;
+    align-items: center;  
+}
+#mapid5{
+    height: 40%;
+    //width: 98%;
+    display: flex;
+    /* left: 50%; */
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+#boton{
+    margin-left: 8px;
+    margin-right: 8px;
+}

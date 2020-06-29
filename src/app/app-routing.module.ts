@@ -68,9 +68,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/newpartida/newpartida.module').then( m => m.NewpartidaPageModule)
   },
   {
-    path: 'torneo-enter',
-    loadChildren: () => import('./pages/torneo-enter/torneo-enter/torneo-enter.module').then( m => m.TorneoEnterPageModule)
+    path: 'usuario-detail/:username',
+    loadChildren: () => import('./pages/usuario-detail/usuario-detail.module').then( m => m.UsuarioDetailPageModule)
+  },
+  {
+    path: 'torneo-detail/:nombretorneo',
+    loadChildren: () => import('./pages/torneo-detail/torneo-detail.module').then( m => m.TorneoDetailPageModule)
   }
+
+
 ];
 
 @NgModule({

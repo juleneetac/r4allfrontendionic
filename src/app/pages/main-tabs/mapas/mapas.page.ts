@@ -10,6 +10,7 @@ import { Ambiente } from 'src/app/services/ambiente';
 import { Modelpartida } from 'src/app/models/modelPartida/modelpartida';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-mapas',
@@ -24,7 +25,8 @@ export class MapasPage implements OnInit {
     private mapsService: MapsService,
     private storage: StorageComponent,
     private ambiente: Ambiente,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private router: Router,
   ) 
   {  }
 
@@ -101,10 +103,15 @@ export class MapasPage implements OnInit {
   } */
 
   async ionViewDidEnter(){
-    await this.loadPosition();
+    
+    //Reiniciar el mapa
+    this.mymap.removeLayer(this.baseLayer); 
+    this.mymap.addLayer(this.baseLayer);
+
     await this.loadUsuarios();
     await this.loadTorneos();
     await this.loadPartidas();
+    await this.loadPosition();
   }
   
   async loadPosition(){
@@ -126,9 +133,11 @@ export class MapasPage implements OnInit {
       this.listaUsuarios = usrs as Modelusuario[];
       this.listaUsuarios.forEach((usuario) => {
         try{
+          if(usuario._id != this.usuarioLogueado._id){
             L.marker([usuario.punto.coordinates[1], usuario.punto.coordinates[0]])
             .bindPopup("<ion-chip color=\"primary\"><ion-avatar><img src=\""+ this.ambiente.path + usuario.rutaimagen + "\"/></ion-avatar><ion-label>"+ usuario.username +"</ion-label></ion-chip>", {minWidth: 150, closeOnClick: true, autoClose: true})
             .addTo(this.mymap);
+          }
         }
         catch(err){
           console.log("No se ha podido cargar ubicación del Usuario ", usuario.username);
@@ -160,6 +169,16 @@ export class MapasPage implements OnInit {
       console.log("Error", err);
       this.handleError(err);
     });
+  }
+
+  goTorneo(torneo: Modeltorneo){
+    console.log("llega")
+    let navExtras: NavigationExtras = {
+      state: {
+        torneo: torneo
+      }
+    }
+    this.router.navigate([`torneo-detail/${torneo.nombre}`], navExtras);
   }
 
   loadPartidas(){

@@ -191,7 +191,7 @@
                 </ion-button>
               </ion-col>
               <ion-col>
-                <ion-button expand="block" color="danger" (click)="deleteUsuario()">
+                <ion-button expand="block" color="danger" (click)="deleteUsuario()" [disabled]="editperfilForm.invalid">
                   <ion-icon name="trash" slot="start"></ion-icon>
                   Eliminar Cuenta
                 </ion-button>
