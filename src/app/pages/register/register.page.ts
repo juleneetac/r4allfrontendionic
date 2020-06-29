@@ -74,11 +74,11 @@ constructor(
 
     edad: new FormControl('', Validators.compose([
           Validators.required,
-          Validators.pattern(/^[0-9]+$/)])),
+          Validators.pattern(/^[0-9]+$/)]))
 
-    sexo: new FormControl('', Validators.compose([
+/*     sexo: new FormControl('', Validators.compose([
            Validators.required,
-          Validators.pattern(/^[mf]$/)])),  
+          Validators.pattern(/^[mf]$/)])),   */
 
 /*     ubicacion: new FormControl('', Validators.compose([
             Validators.required,])),   */
@@ -119,11 +119,11 @@ async ngOnInit() {
     'edad': [
       { type: 'required', message: 'Age is required'},
       { type: 'pattern', message: 'Debe ser un numero'}
-    ],
-    'sexo': [
+    ]
+/*     'sexo': [
       { type: 'required', message: 'Sexo is required'},
       { type: 'pattern', message: 'Pon " m " para masculino y " f " para femenino'}
-    ]
+    ] */
     
 /*     ,
     'ubicacion': [
@@ -155,7 +155,10 @@ async ngOnInit() {
       }
     });
   });
+}
 
+generoSegmentChanged(event){
+  this.sexo = event.detail.value;
 }
 
  //rutas

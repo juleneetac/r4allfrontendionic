@@ -1,4 +1,5 @@
 import { Modelusuario } from '../modelUsusario/modelusuario';
+import { Participante } from '../modelParticipante/participante';
 
 export class Modeltorneo {
     _id: string;
@@ -13,11 +14,13 @@ export class Modeltorneo {
     ubicacion: string;      //Nombre de la ubicación (Por ejemplo, Real Club de Tenis)
     punto: {                //Punto de la ubicación
         type: { type: string },           //"Point"
-        coordinates: { type: [number] }   //[latitud,longitud]
+        coordinates: { type: number[] }   //[latitud,longitud]
     };
     inscripcion: number;    //Precio de inscripcion
     premio: string;  
-    ganador: Modelusuario;  //Si es null, el Torneo está activo aún
+    ganador: Participante;  //Si es null, el Torneo está activo aún
+    ganador2: Participante; //Pareja del ganador (en caso del Torneo dobles)
     organizador: string;    //Por ejemplo, Club de Tenis, Federacion, Usuario...
-    participantes: [Modelusuario];
+    participantes: Participante[];
+    capacidad: number;      //Numero maximo de participantes
 }

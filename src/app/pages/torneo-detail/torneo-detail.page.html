@@ -1,0 +1,113 @@
+<ion-header translucent>
+  <ion-toolbar color="primary">
+   <ion-buttons slot="start">
+     <ion-back-button defaultHref="/main/torneos"></ion-back-button>
+   </ion-buttons>
+
+   <ion-buttons slot="end">
+    <ion-button (click)="openLink()" size="large">
+      <ion-icon slot="icon-only" name="link"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+   <ion-title class="ion-text-center">{{this.selectedTorneo.nombre}}</ion-title>
+ </ion-toolbar>
+</ion-header>
+
+<ion-content padding="true">
+
+  <ion-card>
+    
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">{{selectedTorneo.descripcion}}</ion-card-title> 
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-col><ion-badge color="secondary">Organizado por {{selectedTorneo.organizador}}</ion-badge></ion-col><ion-col size="auto"><ion-badge *ngIf="selectedTorneo.ganador==undefined && selectedTorneo.participantes.length < selectedTorneo.capacidad" color="success">Abierto</ion-badge><ion-badge *ngIf="selectedTorneo.ganador==undefined && selectedTorneo.participantes.length == selectedTorneo.capacidad" color="tertiary">En Curso</ion-badge><ion-badge *ngIf="selectedTorneo.ganador!==undefined" color="danger">Finalizado</ion-badge></ion-col>
+        <!-- h1 *ngIf="selectedTorneo.ganador !== undefined && selectedTorneo.modo == 'i'"><ion-badge color="warning">Ganador: {{selectedTorneo.ganador.nombre}}</ion-badge></h1>
+        <h1 *ngIf="selectedTorneo.ganador !== undefined && selectedTorneo.modo == 'd'"><ion-badge color="warning">Ganadores: {{selectedTorneo.ganador.nombre}} | {{selectedTorneo.ganador2.nombre}}</ion-badge></h1 -->
+        <ion-item lines="none">
+          <ion-label>
+            <ion-label lines="none">Inscripción: {{selectedTorneo.inscripcion}} €</ion-label>
+            <ion-label lines="none">Premio: {{selectedTorneo.premio}}</ion-label>
+          </ion-label> 
+        </ion-item>
+
+        <ion-chip *ngIf="selectedTorneo.ganador !== undefined && selectedTorneo.modo == 'i'" outline id="medal">
+          <ion-icon name="trophy"></ion-icon>  
+          <ion-label><b>Ganador: {{selectedTorneo.ganador.nombre}}</b></ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="selectedTorneo.ganador !== undefined && selectedTorneo.modo == 'd'" outline id="medal">
+          <ion-icon name="trophy"></ion-icon>  
+          <ion-label><b>Ganadores: {{selectedTorneo.ganador.nombre}} | {{selectedTorneo.ganador2.nombre}}</b></ion-label>
+        </ion-chip>
+        <ion-chip outline color="secondary">
+          <ion-label *ngIf="selectedTorneo.modo == 'i'">Individuales</ion-label>
+          <ion-label *ngIf="selectedTorneo.modo == 'd'">Dobles</ion-label>
+        </ion-chip>
+        <ion-chip outline color="tertiary">
+          <ion-label *ngIf="selectedTorneo.genero == 'm'">Masculino</ion-label>
+          <ion-label *ngIf="selectedTorneo.genero == 'f'">Femenino</ion-label>
+        </ion-chip>
+        <ion-chip outline color="primary">
+          <ion-label *ngIf="selectedTorneo.pistacubierta == true">Pista Cubierta</ion-label>
+          <ion-label *ngIf="selectedTorneo.pistacubierta == false">Pista Descubierta</ion-label>
+        </ion-chip>
+        <ion-chip outline color="success">
+          <ion-label>{{selectedTorneo.tipopista}}</ion-label>
+        </ion-chip>
+        <ion-chip outline color="warning">
+          <ion-label>Bola: {{selectedTorneo.tipobola}}</ion-label>
+        </ion-chip>
+
+        <ion-list>
+          <ion-list-header><strong>{{this.selectedTorneo.participantes.length}}/{{this.selectedTorneo.capacidad}} Participantes:</strong></ion-list-header>
+
+          <div id="scroll">
+            <ion-item *ngFor="let participante of this.listaParticipantes">
+              <ion-col><ion-chip>{{participante.nombre}}</ion-chip></ion-col>
+              <ion-col>Ranking: {{participante.ranking}}</ion-col>
+              <ion-col *ngIf="this.selectedTorneo.modo == 'd'">Pareja: {{participante.pareja.nombre}}</ion-col>
+              <!--ion-col>
+                Victorias: <ion-badge color="success"></ion-badge> {{participante.victorias}}
+              </ion-col>
+              <ion-col>
+                Derrotas: <ion-badge color="success"></ion-badge> {{participante.victorias}}
+              </ion-col-->
+            </ion-item>
+          </div>
+        </ion-list>
+
+      </ion-card-content>
+
+  </ion-card>
+
+  <div id="mapid4" class="mapa"></div>
+
+  <div id="boton" *ngIf="this.selectedTorneo.ganador === undefined && this.selectedTorneo.modo =='i'">
+    <ion-button size="large" expand="block" color="success" (click)="inscribirse()">
+      <ion-icon name="tennisball-outline" slot="start"></ion-icon>
+      Apuntarse al Torneo
+    </ion-button>
+  </div>
+
+  <div *ngIf="this.selectedTorneo.ganador === undefined && this.selectedTorneo.modo =='d'">
+    <ion-row id="boton">
+      <ion-col>
+        <ion-button size="large" expand="block" color="light">
+          <ion-icon name="list-outline" slot="start"></ion-icon>
+          <ion-select [(ngModel)]="this.pareja" placeholder="Elegir Pareja del Torneo">
+            <ion-select-option *ngFor="let usuario of this.listaParejas" [value]=usuario checked="false">{{usuario.username}}</ion-select-option>
+          </ion-select>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button size="large" expand="block" color="success" (click)="inscribirse()">
+          <ion-icon name="tennisball-outline" slot="start"></ion-icon>
+          Apuntarse al Torneo
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>
