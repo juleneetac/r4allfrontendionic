@@ -5,7 +5,11 @@ import { Ambiente } from '../ambiente';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Modelregister } from 'src/app/models/modelRegister/modelregister';
+
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
+
+import { platform } from 'os';
+
 
 
 @Injectable({

@@ -21,7 +21,7 @@ ambiente: Ambiente;
     private mapsService: MapsService,
     private router: Router,
     private storage: StorageComponent,
-    public alertController: AlertController
+    public alertController: AlertController,
   ) { 
     this.ambiente = new Ambiente();
     this.path=this.ambiente.path;

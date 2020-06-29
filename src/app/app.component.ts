@@ -18,6 +18,7 @@ import { Ambiente } from './services/ambiente';
 export class AppComponent{
 
   usuarioLogueado: Modelusuario;
+  selectedIndex;
 
   public appPages = [
     {
@@ -81,6 +82,12 @@ export class AppComponent{
       title: 'Log out',
       url: '/home',
       icon: 'exit'
+     },
+
+     {
+      title: 'Estadísticas',
+      url: '/chart',
+      icon: 'bar-chart'
      },
 ];
 constructor(

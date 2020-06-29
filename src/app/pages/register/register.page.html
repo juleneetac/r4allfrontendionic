@@ -31,15 +31,15 @@
                 <!-- <ion-label class="text">Username: </ion-label> -->
                 <ion-input  formControlName="username" type="text" name="username" placeholder="Username" [(ngModel)]="username"></ion-input>
                 <div *ngIf="registerForm.controls['username'].valid">
-                  <a class="success">&#9989;</a>
+                  <ion-chip color="success">&#9989;</ion-chip>
                 </div>
               </ion-item>
               <div class="validation-errors">
                 <ng-container *ngFor="let validation of validation_messages.username" >
                   <div *ngIf="registerForm.get('username').hasError(validation.type) && (registerForm.get('username').dirty || registerForm.get('username').touched)">
-                    <div class="danger">
+                    <ion-label class="danger">
                       {{ validation.message }}
-                    </div>
+                    </ion-label>
                   </div>
                 </ng-container>
                 
@@ -51,15 +51,15 @@
                 <!-- <ion-label class="text">Mail: </ion-label> -->
                 <ion-input  formControlName="mail" type="text" name="mail" placeholder="Mail" [(ngModel)]="mail"></ion-input>
                 <div *ngIf="registerForm.controls['mail'].valid">
-                  <a class="success">&#9989;</a>
+                  <ion-chip color="success">&#9989;</ion-chip>
                 </div>
               </ion-item>
               <div class="validation-errors">
                 <ng-container *ngFor="let validation of validation_messages.mail" >
                   <div *ngIf="registerForm.get('mail').hasError(validation.type) && (registerForm.get('mail').dirty || registerForm.get('mail').touched)">
-                    <div class="danger">
+                    <ion-label class="danger">
                       {{ validation.message }}
-                    </div>
+                    </ion-label>
                   </div>
                 </ng-container>
               </div>
@@ -70,15 +70,15 @@
                 <!-- <ion-label class="text">Contraseña</ion-label> -->
                 <ion-input  formControlName="pass" type="password" name="pass" placeholder="Password" [(ngModel)]="pass"></ion-input>
                 <div *ngIf="registerForm.controls['pass'].valid">
-                  <a class="success">&#9989;</a>
+                  <ion-chip color="success">&#9989;</ion-chip>
                 </div>
               </ion-item>
               <div class="validation-errors">
                 <ng-container *ngFor="let validation of validation_messages.pass" >
                   <div *ngIf="registerForm.get('pass').hasError(validation.type) && (registerForm.get('pass').dirty || registerForm.get('pass').touched)">
-                    <div class="danger">
+                    <ion-label class="danger">
                       {{ validation.message }}
-                    </div>
+                    </ion-label>
                   </div>
                 </ng-container>
               </div>
@@ -89,15 +89,15 @@
                 <!-- <ion-label class="text">Confirmar Contraseña: </ion-label> -->
                 <ion-input formControlName="confirmpass" type="password" name="confirmpass" placeholder="Repeat password" [(ngModel)]="confirmpass"></ion-input>
                 <div *ngIf="registerForm.controls['confirmpass'].valid && !registerForm.hasError('passwordNotMatch')">
-                  <a color="success">&#9989;</a>
+                  <ion-chip color="success">&#9989;</ion-chip>
                 </div>
               </ion-item>
               <div class="validation-errors">
                 <ng-container *ngFor="let validation of validation_messages.confirmpass" >
                   <div *ngIf="registerForm.get('confirmpass').hasError(validation.type) && (registerForm.get('confirmpass').dirty || registerForm.get('confirmpass').touched)">
-                    <div class="danger">
+                    <ion-label class="danger">
                       {{ validation.message }}
-                    </div>
+                    </ion-label>
                   </div>
                 </ng-container>
                 <div class="error-message" *ngIf="!registerForm.get('confirmpass').errors && registerForm.hasError('passwordNotMatch') && (registerForm.get('confirmpass').dirty || registerForm.get('confirmpass').touched)">
@@ -111,15 +111,15 @@
                 <!-- <ion-label class="text">Edad: </ion-label> -->
                 <ion-input formControlName="edad" type="text" name="edad" placeholder="Edad" [(ngModel)]="edad"></ion-input>
                 <div *ngIf="registerForm.controls['edad'].valid">
-                  <a class="success">&#9989;</a>
+                  <ion-chip color="success">&#9989;</ion-chip>
                 </div>
               </ion-item>
               <div class="validation-errors">
                 <ng-container *ngFor="let validation of validation_messages.edad" >
                   <div *ngIf="registerForm.get('edad').hasError(validation.type) && (registerForm.get('edad').dirty || registerForm.get('edad').touched)">
-                    <div class="danger">
+                    <ion-label class="danger">
                       {{ validation.message }}
-                    </div>
+                    </ion-label>
                   </div>
                 </ng-container>
               </div>
@@ -130,15 +130,15 @@
                 <!-- <ion-label class="text">Sexo: </ion-label> -->
                 <ion-input formControlName="sexo" type="text" name="sexo" placeholder="Sexo: m / f" [(ngModel)]="sexo"></ion-input>
                 <div *ngIf="registerForm.controls['sexo'].valid">
-                  <a class="success">&#9989;</a>
+                  <ion-chip color="success">&#9989;</ion-chip>
                 </div>
               </ion-item>
               <div class="validation-errors">
                 <ng-container *ngFor="let validation of validation_messages.sexo" >
                   <div *ngIf="registerForm.get('sexo').hasError(validation.type) && (registerForm.get('sexo').dirty || registerForm.get('sexo').touched)">
-                    <div class="danger">
+                    <ion-label class="danger">
                       {{ validation.message }}
-                    </div>
+                    </ion-label>
                   </div>
                 </ng-container>
               </div>

@@ -70,7 +70,12 @@ const routes: Routes = [
   {
     path: 'partidas',
     loadChildren: () => import('./pages/partidas/partidas.module').then( m => m.PartidasPageModule)
+  },
+  {
+    path: 'chart',
+    loadChildren: () => import('./pages/chart/chart.module').then( m => m.ChartPageModule)
   }
+
 
 ];
 

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy, ToastController } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, ToastController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -28,17 +28,30 @@ import { ChatService } from './services/serviceChat/chat.service';
 //import {MatListModule} from "@angular/material/list";
 // import { MainPage } from './pages/main/main.page';
 
+
 //import * as io from 'socket.io-client' ;  //sockets
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';  // tema sockets
 import { Ambiente } from './services/ambiente';
-const config: SocketIoConfig = { url: new Ambiente().path, options: {}};
+import { platform } from 'os';
+import { environment } from 'src/environments/environment';
+
+const config: SocketIoConfig = { url: environment.apiUri, options: {}};
+
+
+//import { GoogleChartsModule } from 'angular-google-charts';  //para los graficos
+//import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+//import { ChartsModule } from 'ng2-charts';
+
+
+
+
 
  
 
 @NgModule({
   declarations: [
     AppComponent,
-    StorageComponent
+    StorageComponent,
     // UsuariosComponent,
     // TorneosComponent,
     // LoginComponent,
@@ -55,8 +68,10 @@ const config: SocketIoConfig = { url: new Ambiente().path, options: {}};
     //MatListModule,
     ReactiveFormsModule,
     HomePageModule,
-    SocketIoModule.forRoot(config)
-    
+    SocketIoModule.forRoot(config),
+    //GoogleChartsModule.forRoot({ version: 'chart-version' }),
+   // Ng2GoogleChartsModule,
+   //ChartsModule, 
   ],
   providers: [
     StatusBar,
@@ -79,6 +94,7 @@ const config: SocketIoConfig = { url: new Ambiente().path, options: {}};
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  
 
 }
 
