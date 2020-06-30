@@ -6,6 +6,7 @@ import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms'
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -23,7 +24,6 @@ export class AdminPage implements OnInit {
   nombre: any;
   ubicacion: any;
   punto: any;
-  nombreclub: any;
   organizador: any;
   inscripcion: number;
   premio: any;
@@ -39,7 +39,8 @@ export class AdminPage implements OnInit {
   constructor(
     private mapsService: MapsService,
     private torneosService: TorneoService,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -128,21 +129,22 @@ export class AdminPage implements OnInit {
       'organizador': this.organizador,
       'inscripcion': this.inscripcion,
       'premio': this.premio,
-      'tipobola': this.premio,
+      'tipobola': this.tipobola,
       'tipopista': this.tipopista,
       'punto': this.punto,
       'genero': this.genero,
       'modo': this.modo,
       'pistacubierta': this.pistacubierta,
       'descripcion': this.descripcion,
-      'sitioweb': this.sitioweb
+      'sitioweb': this.sitioweb,
+      'capacidad': this.capacidad
     }
 
     let newTorneo = torneo as Modeltorneo;
 
     console.log(newTorneo);
 
-    if((this.nombre!=undefined) && (this.organizador!=undefined) && (this.inscripcion!=undefined) && (this.premio!=undefined) && (this.tipobola!=undefined) && (this.punto!=undefined) && (this.tipopista!=undefined) && (this.sitioweb!=undefined) && (this.descripcion!=undefined))
+    if((this.nombre!=undefined) && (this.organizador!=undefined) && (this.capacidad!=undefined) && (this.inscripcion!=undefined) && (this.premio!=undefined) && (this.tipobola!=undefined) && (this.punto!=undefined) && (this.tipopista!=undefined) && (this.sitioweb!=undefined) && (this.descripcion!=undefined))
     {
       /* this.torneosService.addTorneo(this.nombre, this.nombreclub, this.organizador, this.inscripcion, this.premio, this.bola, this.punto, this.superficie, this.genero, this.court, this.modo, this.web, this.descripcion)
       .subscribe(
@@ -158,12 +160,13 @@ export class AdminPage implements OnInit {
       .subscribe(async (res) => {
         console.log(res);
         const toastOK = await this.toastController.create({
-          message: `${res}`,
+          message: `Torneo ${res.nombre} creado correctamente`,
           duration: 3000,
           position: 'bottom',
           color: 'success'
         });
         toastOK.present();
+        this.router.navigateByUrl("home");
       },
       (err) => {
         console.log(err);

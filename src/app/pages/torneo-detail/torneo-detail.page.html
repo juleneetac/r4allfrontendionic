@@ -84,14 +84,14 @@
 
   <div id="mapid4" class="mapa"></div>
 
-  <div id="boton" *ngIf="this.selectedTorneo.ganador === undefined && this.selectedTorneo.modo =='i'">
+  <div id="boton" *ngIf="this.selectedTorneo.ganador === undefined && this.selectedTorneo.participantes.length < this.selectedTorneo.capacidad && this.selectedTorneo.modo =='i'">
     <ion-button size="large" expand="block" color="success" (click)="inscribirse()">
       <ion-icon name="tennisball-outline" slot="start"></ion-icon>
       Apuntarse al Torneo
     </ion-button>
   </div>
 
-  <div *ngIf="this.selectedTorneo.ganador === undefined && this.selectedTorneo.modo =='d'">
+  <div *ngIf="this.selectedTorneo.ganador === undefined && this.selectedTorneo.participantes.length < this.selectedTorneo.capacidad && this.selectedTorneo.modo =='d'">
     <ion-row id="boton">
       <ion-col>
         <ion-button size="large" expand="block" color="light">
