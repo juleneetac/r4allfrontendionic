@@ -54,6 +54,11 @@
             </ion-col>
           </ion-item>
 
+          <ion-item lines="none">
+            <ion-col><ion-label>Ubicación: </ion-label></ion-col>
+            <ion-col>Seleccionar en el mapa</ion-col>
+          </ion-item>
+
         </ion-list>
 
       </ion-card-content>
@@ -63,7 +68,10 @@
   <div id="mapid2" class="mapa"></div>
 
   <div id="boton">
-    <ion-button size="large" expand="block" color="success" (click)="addPartida($event)">Crear / Invitar</ion-button>
+    <ion-button size="large" expand="block" color="success" (click)="addPartida($event)">
+      <ion-icon name="tennisball-outline" slot="start"></ion-icon>
+      Crear / Invitar
+    </ion-button>
     <!--ion-button size="large" color="success" type="submit">Invitar a los jugadores</ion-button-->
   </div>
 

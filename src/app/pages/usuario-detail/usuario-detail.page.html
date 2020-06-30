@@ -1,0 +1,108 @@
+<ion-app>
+
+  <ion-header translucent>
+    <ion-toolbar color="primary">
+     <ion-buttons slot="start">
+       <ion-back-button defaultHref="/main/usuarios"></ion-back-button>
+     </ion-buttons>
+
+      <ion-title class="ion-text-center">{{selectedUsuario.username}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>{{ selectedUsuario.mail }}</ion-card-subtitle>
+          </ion-card-header>
+      
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="5" size-xs="12" size-sm="6" size-md="4" size-sm="2">
+                <ion-item lines="none">
+                  <ion-avatar>
+                    <ion-img [src]="path + selectedUsuario.rutaimagen"></ion-img>
+                  </ion-avatar>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size="6" size-xs="12" size-sm="6" size-md="4" size-sm="2">
+                <br>
+
+                <ion-item lines="none">
+                  <ion-badge color="secondary">Edad:  {{selectedUsuario.edad}}</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-badge color="warning" *ngIf="selectedUsuario.sexo == 'm'">Hombre</ion-badge>
+                  <ion-badge color="warning" *ngIf="selectedUsuario.sexo == 'f'">Mujer</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-badge color="danger">Experiencia: {{selectedUsuario.exp}}</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-badge color="success">Valoracion: {{selectedUsuario.valoracion}}</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">       
+                  <ion-badge color="light">Ubicación: {{selectedUsuario.ubicacion}}</ion-badge>
+                </ion-item> 
+
+              </ion-col>
+
+              <ion-col size="6" size-xs="12" size-sm="6" size-md="4" size-sm="2">
+                <br>
+                
+                <ion-item lines="none">
+                  <ion-badge color="primary">Amigos:  {{selectedUsuario.amigos.length}}</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-badge color="dark">Partidos Jugados:  {{selectedUsuario.partidas.length}}</ion-badge>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-badge color="dark">Torneos Jugados:  {{selectedUsuario.torneos.length}}</ion-badge>
+                </ion-item>
+
+              </ion-col>
+
+            </ion-row>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <div id="mapid5" class="mapa"></div>
+
+    <div>
+      <ion-row id="boton">
+        <ion-col>
+          <ion-button size="large" expand="block" color="success" (click)="invitarPartido()">
+            <ion-icon name="tennisball-outline" slot="start"></ion-icon>
+            Invitar a un Partido
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="large" expand="block" color="secondary" (click)="addAmigo()">
+            <ion-icon name="person-add-outline" slot="start"></ion-icon>
+            Añadir a Amigos
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="large" expand="block" color="light" (click)="goChat()">
+            <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+            Abrir chat
+          </ion-button>
+        </ion-col>
+        
+      </ion-row>
+    </div>
+
+  </ion-content>
+</ion-app>

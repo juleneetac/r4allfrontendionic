@@ -5,7 +5,7 @@ export class Modelpartida {
     ganador: string;
     organizador: string;
     invitados: string[];
-    punto: {            //Punto de la ubicación
+    punto: {                //Punto de la ubicación
         type: string,           
         coordinates: number[] //[longitud,latitud]
     };

@@ -32,7 +32,7 @@
                   <ion-input class= "inp"type="text" name="username" placeholder="Username" [(ngModel)]="username"></ion-input>
                 </ion-item>
               
-              <ion-item class="ion-padding-top" lines="none">
+              <ion-item lines="none">
                 <!-- <ion-label class= "text">Contraseña:  </ion-label> -->
                 <ion-input type="password" name="password" placeholder="Password" [(ngModel)]="password"></ion-input>
               </ion-item>
@@ -45,20 +45,20 @@
             
           </ion-col>
 
-          <br>
-          <br>
-          
           <ion-row>
-            <button class="btn loginface" id="boton" type="button" (click)="auth.login()">Inicia sesión con Facebook</button><ion-icon name="logo-facebook" id="logo" (click)="auth.login()"></ion-icon>
+            <button class="btn loginface" (click)="auth.login()">
+              Inicia sesión con Facebook
+              <ion-icon name="logo-facebook" id="logo"></ion-icon>
+            </button>
           </ion-row>
-          
-<!-- 
-          <div>
-             <ion-label class="facebooklabel" (click)="auth.login()" id="face">
+          <!--class="btn loginface" id="boton" type="button" // id="logo"-->
+
+          <!-- div>
+             <ion-label >
               <ion-icon name="logo-facebook"></ion-icon>
                Click here to sign in with Facebook
               </ion-label>
-          </div> -->
+          </div -->
 
           
         </ion-row>

@@ -17,10 +17,10 @@ export class Modelusuario {
     edad: number;
     exp: number;
     valoracion: number;
-    partidas: [Modelpartida];
-    torneos: [Modeltorneo]; 
+    partidas: Modelpartida[];
+    torneos: Modeltorneo[]; 
     chats: [];    // cambiar a Modelchat
-    amigos: [Modelusuario]; 
+    amigos: Modelusuario[]; 
     jwt: string;  //para el json web token
     socket: SocketIOClient.Socket; 
 

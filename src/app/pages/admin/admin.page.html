@@ -1,15 +1,129 @@
 <ion-header translucent>
 
-  <ion-toolbar>
+  <ion-toolbar color="success">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
 
-    <ion-title class="ion-text-center">Administrador</ion-title>
+    <ion-title class="ion-text-center">Administrador de Torneos</ion-title>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content>
+  <ion-card  id="card">
+    <ion-card-header>
+      <ion-card-title>Registra un torneo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+<!--       <form (submit)="createcopia(nombre)">
+ -->    <div class="form-group">
+            <ion-input type="text" class="form-control" placeholder="Nombre del torneo" required [(ngModel)]="nombre"></ion-input>
+            <br>
+            <ion-input type="text" class="form-control" placeholder="Organizador" required [(ngModel)]="organizador"></ion-input>
+            <br>
+            <ion-input type="number" min="0" class="form-control" placeholder="Inscripción" required [(ngModel)]="inscripcion"></ion-input>
+            <br>
+            <ion-input type="text" class="form-control" placeholder="Premio" required [(ngModel)]="premio"></ion-input>
+            <br>
+            <ion-input type="text" class="form-control" placeholder="Tipo de bola" required [(ngModel)]="tipobola"></ion-input>
+            <br>
+            <ion-input type="number" min="0" class="form-control" placeholder="Capacidad" required [(ngModel)]="capacidad"></ion-input>
+            <br>
+            <ion-input type="url" class="form-control" placeholder="Sitio web" required [(ngModel)]="sitioweb"></ion-input>
+            <br>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-sm="12">
+              <ion-row>
+                <ion-col size="12" size-xs="12" size-sm="12" size-md="3" size-sm="12">
+                  <ion-item lines="none">
+                      <ion-label>Modo</ion-label>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12" size-xs="12" size-sm="12" size-md="9" size-sm="12">
+                  <ion-segment value="i" (ionChange)="modoSegmentChanged($event)">
+                    <ion-segment-button value="i">
+                      <ion-label>(I)ndividuales</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="d">
+                      <ion-label>(D)obles</ion-label>
+                    </ion-segment-button>
+                  </ion-segment>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-sm="12">
+              <ion-row>
+                <ion-col size="12" size-xs="12" size-sm="12" size-md="3" size-sm="12">
+                  <ion-item lines="none">
+                      <ion-label>Género</ion-label>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12" size-xs="12" size-sm="12" size-md="9" size-sm="12">
+                <ion-segment value="m" (ionChange)="generoSegmentChanged($event)">
+                    <ion-segment-button value="m">
+                    <ion-label>(M)asculino</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button value="f">
+                    <ion-label>(F)emenino</ion-label>
+                  </ion-segment-button>
+                </ion-segment>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-sm="12">
+              <ion-row>
+                <ion-col size="12" size-xs="12" size-sm="12" size-md="3" size-sm="12">
+                  <ion-item lines="none">
+                     <ion-label>Tipo de pista</ion-label>                                  <!-- es si cubierta o no -->
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12" size-xs="12" size-sm="12" size-md="9" size-sm="12">
+                <ion-segment value="f" (ionChange)="pistacubiertaSegmentChanged($event)">
+                  <ion-segment-button value="t">
+                    <ion-label>Indoor</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button value="f">
+                    <ion-label>Outdoor</ion-label>
+                  </ion-segment-button>
+                </ion-segment>
+                </ion-col>
+              </ion-row>
+            </ion-col> 
+            <br>
+            <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-sm="12">
+              <ion-row>
+                <ion-col size="12" size-xs="12" size-sm="12" size-md="3" size-sm="12">
+                  <ion-item lines="none">
+                     <ion-label>Superficie de la pista</ion-label>                          <!-- es el tipopista -->                          
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size="12" size-xs="12" size-sm="12" size-md="9" size-sm="12">
+                    <ion-select class="custom-options" [(ngModel)]="tipopista">
+                      <ion-select-option value="TierraBatida">Tierra Batida</ion-select-option>
+                      <ion-select-option value="Hierba">Hierba</ion-select-option>
+                      <ion-select-option value="Greenset">Greenset</ion-select-option>
+                      <ion-select-option value="Detourf">Detourf</ion-select-option>
+                      <ion-select-option value="Plexicushion">Plexicushion</ion-select-option>
+                      <ion-select-option value="Rapida">Rápida</ion-select-option>
+                    </ion-select>
+                  </ion-col>
+                </ion-row>
+              </ion-col>           
+            <!-- <br>
+            <button class="btn btn-primary btn-block">Crear torneo</button>-->           
+        </div>
+    <!-- </form>  -->
+    <ion-label position="floating">Descripción del evento</ion-label>
+            <ion-textarea required rows="5" [(ngModel)]="descripcion" id="textarea"></ion-textarea>
+    </ion-card-content>
+    </ion-card>
 
+    <div id="mapid10" class="mapa"></div>       <!-- punto -->
+    <div>
+      <ion-row id="boton">
+        <ion-col>
+          <ion-button expand="block" size="large" (click)="addTorneo()">Crear torneo</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
 </ion-content>

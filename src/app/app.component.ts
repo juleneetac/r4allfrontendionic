@@ -39,9 +39,9 @@ export class AppComponent{
     },
 
     {
-      title: 'Go to Admin',
+      title: 'Admin Torneos',
       url: '/admin',
-      icon: 'flash-off'
+      icon: 'tennisball'
     },
 
     // {
@@ -57,7 +57,7 @@ export class AppComponent{
     {
       title: 'Main',
       url: '/main',
-      icon: 'tablet-landscape'
+      icon: 'browsers'
      },
 
     {

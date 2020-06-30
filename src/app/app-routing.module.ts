@@ -68,12 +68,21 @@ const routes: Routes = [
     loadChildren: () => import('./pages/newpartida/newpartida.module').then( m => m.NewpartidaPageModule)
   },
   {
+<<<<<<< HEAD
     path: 'partidas',
     loadChildren: () => import('./pages/partidas/partidas.module').then( m => m.PartidasPageModule)
   },
   {
     path: 'chart',
     loadChildren: () => import('./pages/chart/chart.module').then( m => m.ChartPageModule)
+=======
+    path: 'usuario-detail/:username',
+    loadChildren: () => import('./pages/usuario-detail/usuario-detail.module').then( m => m.UsuarioDetailPageModule)
+  },
+  {
+    path: 'torneo-detail/:nombretorneo',
+    loadChildren: () => import('./pages/torneo-detail/torneo-detail.module').then( m => m.TorneoDetailPageModule)
+>>>>>>> develop
   }
 
 
