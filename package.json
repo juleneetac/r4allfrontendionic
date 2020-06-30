@@ -33,10 +33,7 @@
     "@types/socket.io-client": "^1.4.32",
     "angular-google-charts": "^1.1.4",
     "bootswatch": "^4.4.1",
-<<<<<<< HEAD
     "chart.js": "^2.9.3",
-=======
->>>>>>> develop
     "cordova-android": "8.1.0",
     "core-js": "^2.5.4",
     "crypto": "^1.0.1",

@@ -63,9 +63,9 @@ export class UsuarioService {
   getPartidasde(id: string): Observable<Modelusuario>{  //no es un array porque es solo una asignatura lo que le paso
     return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getpartbyuser/${id}`);
   }
-  getTorneosde(id: string): Observable<Modelusuario>{  //no es un array porque es solo una asignatura lo que le paso
-    return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/gettornbyuser/${id}`);
-  }
+  // getTorneosde(id: string): Observable<Modelusuario>{  //no es un array porque es solo una asignatura lo que le paso
+  //   return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/gettornbyuser/${id}`);
+  // }
 
   addAmigo(idUsuario:string, idAmigo:string) {
     let req = {

@@ -24,13 +24,9 @@ export class UsuariosPage implements OnInit {
     private router: Router,
     private storage: StorageComponent,
     public alertController: AlertController,
-<<<<<<< HEAD
-  ) { 
-=======
     public toastController: ToastController
   ) 
   { 
->>>>>>> develop
     this.ambiente = new Ambiente();
     this.path = this.ambiente.path;
   }

@@ -3,11 +3,7 @@ import { AuthService } from 'src/app/services/serviceAuth/auth.service';
 import { StorageComponent } from 'src/app/storage/storage.component';
 import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Ambiente } from 'src/app/services/ambiente';
-<<<<<<< HEAD
-
-=======
 import { Router, NavigationExtras } from '@angular/router';
->>>>>>> develop
 import * as L from 'leaflet';
 import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 import { Modelpartida } from 'src/app/models/modelPartida/modelpartida';
@@ -36,12 +32,8 @@ export class ProfilePage implements OnInit {
     private torneoService: TorneoService,
     public auth: AuthService,  //se puede quitar creo
     private storage: StorageComponent,
-<<<<<<< HEAD
-
-=======
     private router: Router,
     public toastController: ToastController
->>>>>>> develop
   ) { 
       this.ambiente = new Ambiente();
       this.path=this.ambiente.path; 

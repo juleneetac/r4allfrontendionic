@@ -38,11 +38,7 @@ export class AppComponent{
       icon: 'finger-print'
     },
 
-    {
-      title: 'Admin Torneos',
-      url: '/admin',
-      icon: 'tennisball'
-    },
+    
 
     // {
     //   title: 'Log out',
@@ -78,17 +74,23 @@ export class AppComponent{
       icon: 'settings'
      },
 
-     {
-      title: 'Log out',
-      url: '/home',
-      icon: 'exit'
-     },
-
+     
      {
       title: 'Estadísticas',
       url: '/chart',
       icon: 'bar-chart'
      },
+     {
+      title: 'Admin Torneos',
+      url: '/admin',
+      icon: 'tennisball'
+    },
+    {
+      title: 'Log out',
+      url: '/home',
+      icon: 'exit'
+     },
+
 ];
 constructor(
     private platform: Platform,
@@ -112,7 +114,7 @@ constructor(
 
   checkButton(index :number){
     console.log()
-    if (index==4){
+    if (index==6){
       console.log(index)
       this.logout();
     }
