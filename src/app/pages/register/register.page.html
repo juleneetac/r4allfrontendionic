@@ -126,7 +126,7 @@
             </div>
 
             <div>
-              <ion-segment value="m" (ionChange)="generoSegmentChanged($event)">
+              <ion-segment formControlName="sexo" value="m" (ionChange)="generoSegmentChanged($event)" [(ngModel)]="sexo">
                 <ion-segment-button value="m">
                   <ion-label>Hombre</ion-label>
                 </ion-segment-button>

@@ -93,11 +93,9 @@ export class PerfilPage implements OnInit {
     
         edad: new FormControl('', Validators.compose([
               Validators.required,
-              Validators.pattern(/^[0-9]+$/)]))
+              Validators.pattern(/^[0-9]+$/)])),
     
-        /* sexo: new FormControl('', Validators.compose([
-              Validators.required,
-              Validators.pattern(/^[mf]$/)])) */
+        sexo: new FormControl('') 
     
 /*         ubicacion: new FormControl('', Validators.compose([
                 Validators.required,])),   */

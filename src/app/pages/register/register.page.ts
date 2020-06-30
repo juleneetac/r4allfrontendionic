@@ -74,11 +74,9 @@ constructor(
 
     edad: new FormControl('', Validators.compose([
           Validators.required,
-          Validators.pattern(/^[0-9]+$/)]))
+          Validators.pattern(/^[0-9]+$/)])),
 
-/*     sexo: new FormControl('', Validators.compose([
-           Validators.required,
-          Validators.pattern(/^[mf]$/)])),   */
+    sexo: new FormControl('')
 
 /*     ubicacion: new FormControl('', Validators.compose([
             Validators.required,])),   */
@@ -207,6 +205,7 @@ registerUser(event){
 
       //presentacion del toast
       await toast.present();
+      console.log(this.sexo)
     },
     async err => {
       console.log(err);

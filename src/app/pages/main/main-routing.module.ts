@@ -18,15 +18,15 @@ const routes: Routes = [
       },
       {
         path: 'usuarios',
-        loadChildren: () => import('../main-tabs/usuarios/usuarios.module').then(m => UsuariosPageModule)
+        loadChildren: () => import('../main-tabs/usuarios/usuarios.module').then(m => m.UsuariosPageModule)
       },
       {
         path: 'torneos',
-        loadChildren: () => import('../main-tabs/torneos/torneos.module').then(m => TorneosPageModule)
+        loadChildren: () => import('../main-tabs/torneos/torneos.module').then(m => m.TorneosPageModule)
       },
       {
         path:'mapas',
-        loadChildren: () => import('../main-tabs/mapas/mapas.module').then(m => MapasPageModule)
+        loadChildren: () => import('../main-tabs/mapas/mapas.module').then(m => m.MapasPageModule)
       },
       {
         path: '',
