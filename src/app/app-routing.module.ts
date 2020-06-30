@@ -68,6 +68,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/newpartida/newpartida.module').then( m => m.NewpartidaPageModule)
   },
   {
+    path: 'chart',
+    loadChildren: () => import('./pages/chart/chart.module').then( m => m.ChartPageModule)
+  },
+  {
+
     path: 'usuario-detail/:username',
     loadChildren: () => import('./pages/usuario-detail/usuario-detail.module').then( m => m.UsuarioDetailPageModule)
   },

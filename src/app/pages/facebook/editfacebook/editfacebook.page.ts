@@ -27,12 +27,8 @@ export class EditfacebookPage implements OnInit {
   user;
   validation_messages: any;  //para los validators
   editfacebookForm: FormGroup;  //para los validators
-  // usernombre = this.user.username;
-  // mail: string = this.user.mail;
-  edad: number = 33;// = this.user.edad;
-  ubicacion: string = "Barcelona";// = this.user.ubicacion;
-  // sexo: string = this.user.sexo;
-  // punto = this.user.punto;
+  edad: number;// = this.user.edad;
+  ubicacion: string;// = this.user.ubicacion;
   imageFile: File;
   photoSelected: string | ArrayBuffer
   profile;
@@ -62,6 +58,10 @@ export class EditfacebookPage implements OnInit {
       edad: new FormControl('', Validators.compose([
             Validators.required,
             Validators.pattern(/^[0-9]+$/)])),
+
+      sexo: new FormControl('', Validators.compose([
+            Validators.required,
+            Validators.pattern(/^[mf]$/)])),  
   
       ubicacion: new FormControl('', Validators.compose([
               Validators.required,])),  
@@ -78,12 +78,16 @@ export class EditfacebookPage implements OnInit {
     )
    }
 
-  async ngOnInit() {
+  ngOnInit() {
 
     this.validation_messages = {
       'edad': [
         { type: 'required', message: 'Age is required'},
         { type: 'pattern', message: 'Debe ser un numero'}
+      ],
+      'sexo': [
+        { type: 'required', message: 'Sexo is required'},
+        { type: 'pattern', message: 'Pon " m " para masculino y " f " para femenino'}
       ],
       'ubicacion': [
         { type: 'required', message: 'Especifique ubicación'}
@@ -92,14 +96,16 @@ export class EditfacebookPage implements OnInit {
 
     
 
-    if (this.profile.gender == "male")
-    {
-      this.sexo = "m"
-    }
-    else{
-      this.sexo = "f"
-    }
-    console.log(this.sexo)
+    // if (this.profile.gender == "male")
+    // {
+    //   this.sexo = "m"
+    //   console.log(this.profile.gender);
+    // }
+    // else{
+    //   this.sexo = "f"
+    // }
+    // console.log(this.profile.gender);
+    // console.log(this.sexo)
     
     console.log("TU ERES ESTE " + this.profile.given_name)
 
@@ -110,7 +116,7 @@ export class EditfacebookPage implements OnInit {
     }
 
   //Registrar ubicación del usuario cuando se registra
-  await this.mapsService.getCurrentPosition()
+  this.mapsService.getCurrentPosition()
   .then(pos => {
     let position = pos;
     this.punto = {
@@ -150,16 +156,16 @@ export class EditfacebookPage implements OnInit {
   this.router.navigateByUrl("profile")
  }
 
-updatefacebookPerfil (event2){//  FALTA LO DE LA FOTO
+updatefacebookPerfil (){//  FALTA LO DE LA FOTO
   event.preventDefault()
-  console.log(event2)
   this.user = JSON.parse(this.storage.getUser());
 
     //Primero actualizamos el Usuario y luego le actualizamos la Foto si es necesario:
     let userfacemodified = {
       ubicacion: this.ubicacion,  
-      punto: this.punto2,          //EN TEORIA DEBERIA SER EL punto y no punto2
+      punto: this.punto,          //EN TEORIA DEBERIA SER EL punto y no punto2
       edad: this.edad,
+      sexo: this.sexo,
     }
 
     this.usuarioService.updatefacebookUsuario(this.user._id, userfacemodified).subscribe( //NO COGE EL ID
@@ -203,7 +209,10 @@ updatefacebookPerfil (event2){//  FALTA LO DE LA FOTO
 
   registerUser(){   //SE REGISTRA CON FACEBOOM NADA MAS ENTRAR
     console.log("LLEGAS ¿?")
-    let credencialr: Modelregister = new Modelregister(this.profile.given_name, this.profile.email, '', 0, this.sexo, '', this.punto2)
+    //send socket username
+    this.chatService.connectSocket(this.profile.given_name)
+
+    let credencialr: Modelregister = new Modelregister(this.profile.given_name, this.profile.email, '', 0, '', '', this.punto2)
     this.usuarioService.registrarfacebook(credencialr).subscribe(
       async res =>{
         console.log(res);  
@@ -241,9 +250,6 @@ updatefacebookPerfil (event2){//  FALTA LO DE LA FOTO
           //presentacion del toast
           await toast.present();
         }
-  
-        //send socket username
-        this.chatService.connectSocket(this.profile.given_name)
       },
       async err => {
         console.log(err);

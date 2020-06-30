@@ -6,6 +6,11 @@ import { Modelusuario } from 'src/app/models/modelUsusario/modelusuario';
 import { Modellogin } from 'src/app/models/modelLogin/modellogin';
 import { Modelregister } from 'src/app/models/modelRegister/modelregister';
 
+import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
+
+import { platform } from 'os';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +63,9 @@ export class UsuarioService {
   getPartidasde(id: string): Observable<Modelusuario>{  //no es un array porque es solo una asignatura lo que le paso
     return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/getpartbyuser/${id}`);
   }
+  // getTorneosde(id: string): Observable<Modelusuario>{  //no es un array porque es solo una asignatura lo que le paso
+  //   return this.http.get<Modelusuario>(`${this.ambiente.urlUsuario}/gettornbyuser/${id}`);
+  // }
 
   addAmigo(idUsuario:string, idAmigo:string) {
     let req = {

@@ -25,7 +25,7 @@ export class DashboardPage implements OnInit {
     private partidaService: PartidaService,
     private torneoService: TorneoService,
     public toastController: ToastController,
-    private router: Router
+    private router: Router,
   ) {
     this.ambiente = new Ambiente();
     this.path = this.ambiente.path;

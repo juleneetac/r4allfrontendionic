@@ -9,6 +9,7 @@ import { ChatService } from 'src/app/services/serviceChat/chat.service';
 import { Ambiente } from 'src/app/services/ambiente';
 import { NavController } from '@ionic/angular';
 import { Socket } from 'ng-socket-io';
+import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class ChatPage {
   //private socket;
   user = JSON.parse(this.storage.getUser());
   username = this.user.username;
-
+  listaTorneos: Modeltorneo[];
   constructor(
     private usuarioSevice: UsuarioService,
     private storage: StorageComponent,
@@ -64,6 +65,15 @@ export class ChatPage {
   });
   this.chatService.forceGetList();
 
+  this.usuarioSevice.getTorneosde(this.user._id).subscribe(
+    async res =>{
+       this.listaTorneos = await res.torneos;  
+    console.log(this.listaTorneos)    
+  },
+  err => {
+    console.log("error : "+err);
+    
+  });
   }
 
   goRoom(username: string) {
@@ -71,6 +81,14 @@ export class ChatPage {
     this.router.navigateByUrl('/chatroom/' + `${username}`);   //con router
     //this.storedMessages.filter((item) => item.author === name).forEach((msg) => msg.read = true);
   }
+  goRoomTorneo(torneo: Modeltorneo) {
+    //this.navCtrl.navigateForward('/chatroom/' + `${username}`);  //con navigate
+    let id = torneo._id
+    this.router.navigateByUrl('/chatroom/' + `${id}`);   //con router
+    //this.storedMessages.filter((item) => item.author === name).forEach((msg) => msg.read = true);
+  }
+
+
 
 
 

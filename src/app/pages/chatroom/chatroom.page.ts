@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
 //import {Observable} from "rxjs";
 //import { Observable } from 'rxjs/Observable';
 import { NavController, NavParams, ToastController } from '@ionic/angular';
@@ -14,12 +14,23 @@ import { Modelmessage } from 'src/app/models/modelMessage/modelmessage';
 import { ChatService } from 'src/app/services/serviceChat/chat.service';
 import { Socket } from 'ng-socket-io';
 
+import { element } from 'protractor';
+import { Modeltorneo } from 'src/app/models/modelTorneo/modeltorneo';
+import { async } from '@angular/core/testing';
+import * as moment from 'moment';
+
+import {IonContent} from '@ionic/angular';
+
+
 @Component({
   selector: 'app-chatroom',
   templateUrl: './chatroom.page.html',
   styleUrls: ['./chatroom.page.scss'],
 })
 export class ChatroomPage implements OnInit {
+
+    //@ts-ignore
+    @ViewChild(IonContent) myContent: IonContent;
   
   // message = '';
   user = JSON.parse(this.storage.getUser());
@@ -28,9 +39,10 @@ export class ChatroomPage implements OnInit {
   usuario: Modelusuario; 
   message: string;
   messages = [];
+  torneos:Modeltorneo[];
   namedestino: string;
   //messages: SchemaM[];
-
+  torneocheck:boolean=false;
   constructor(
     private usuariosSevice: UsuarioService,
     private chatService: ChatService,
@@ -42,7 +54,7 @@ export class ChatroomPage implements OnInit {
   ) { 
 
     this.namedestino = this.route.snapshot.paramMap.get('username');
-    //setTimeout(() => this.scrollToBottom(), 500);
+    setTimeout(() => this.scrollToBottom(), 500);  //para que se bajen solos los mensajes
 
     console.log(socket);
     this.chatService.setSocket(socket); //para pasar el socket en las diferentes paginas
@@ -63,18 +75,50 @@ export class ChatroomPage implements OnInit {
   }
 
   async ngOnInit() {
+   
+    this.usuariosSevice.getTorneosde(this.user._id).subscribe(
+      async res =>{
+        this.torneos = await res.torneos
+        console.log("torneos: " + this.torneos)
+      },
+       err=>{
+        console.log("error")
+      }
+    )
 
-    await this.chatService.getMessagesAlmacenados().toPromise().then((data) => {  //coger los mensajes de la colecions mensajes
+
+    await this.chatService.getMessagesAlmacenados(this.namedestino).toPromise().then((data) => {  //coger los mensajes de la colecions mensajes
       // tslint:disable-next-line:max-line-length
-      console.log(data);
-      this.messages =  data.filter((item) => (item.author === this.namedestino || item.destination === this.namedestino));
-    });
-     
-    this.chatService.getMessages().subscribe((data: {message, username2}) => {
-        if (data.username2 === this.namedestino) {
-          this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, new Date()));
-          setTimeout(() => 50);
+      console.log("lega 3esto: "+ data)
+      this.torneos.forEach(element => { //Esto es para mirar si es un torneo o no, chapuza pero mejor idea que he tenido
+        if (element._id===this.namedestino){
+       this.torneocheck=true
+        return
         }
+      });
+      if(!this.torneocheck)
+      this.messages =  data.filter((item) => (item.author === this.username || item.destination === this.username));
+      else
+      this.messages=data 
+    });
+    console.log("es torneo ?"+this.torneocheck)
+    if(this.torneocheck){ //para unirse a la sala de torneo
+        this.chatService.unirseSala(this.namedestino);
+        console.log("se ha unido a la sala " + this.namedestino)
+    }
+    this.chatService.getMessages().subscribe((data: {message, username2}) => {
+      let date = moment().calendar();
+        if (data.username2 === this.namedestino) {
+          this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, date));
+          setTimeout(() => this.scrollToBottom(), 50);
+        }
+        if(this.torneocheck && data.username2 !== this.username){
+          console.log("ha entrado ?")
+          this.messages.push(new Modelmessage(data.username2, this.namedestino, data.message, date));
+          setTimeout(() =>  this.scrollToBottom(),50);
+
+        }
+        
       
     });
   }
@@ -82,13 +126,19 @@ export class ChatroomPage implements OnInit {
 
   sendMessage(text: string) {
     this.message = text;
+    let date = moment().calendar();
     if (this.message.replace(/\s/g, '').length) {
      
-        this.messages.push(new Modelmessage(this.username, this.namedestino,this.message, new Date()));
+        this.messages.push(new Modelmessage(this.username, this.namedestino,this.message, date));
         this.chatService.sendMessage(this.message, this.namedestino);
-        //setTimeout(() => this.scrollToBottom(), 50);
+        setTimeout(() => this.scrollToBottom(), 50);
       }
     }
+
+    async scrollToBottom() {   //para hacer autoscroll
+      await this.myContent.scrollToBottom(500);
+    }
+
 
 
   // ionViewWillLeave() {

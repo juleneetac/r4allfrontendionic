@@ -28,7 +28,7 @@
     <ion-col size="12">
       <ion-card id="card">
         <ion-card-content>
-          <form [formGroup]="editperfilForm" (ngSubmit)="updatePerfil($event2)">
+          <form [formGroup]="editperfilForm" (ngSubmit)="updatePerfil()">
             <ion-row>
               <ion-col size="4" size-xs="12" size-sm="6" size-md="4" size-sm="2">
                 <input type = "file" class=d-none (change)="onPhotoSelected($event)" required #photoInput>
@@ -48,15 +48,15 @@
                         <ion-label><b>Contraseña actual:</b></ion-label>
                         <ion-input  formControlName="pass1" type="password" name="pass1" placeholder="Your active password" [(ngModel)]="pass1"></ion-input>
                         <div *ngIf="editperfilForm.controls['pass1'].valid">
-                          <a class="success">&#9989;</a>
+                          <ion-chip color="success">&#9989;</ion-chip>
                         </div>
                       </ion-item>
                       <div class="validation-errors">
                         <ng-container *ngFor="let validation of validation_messages.pass1" >
                           <div *ngIf="editperfilForm.get('pass1').hasError(validation.type) && (editperfilForm.get('pass1').dirty || editperfilForm.get('pass1').touched)">
-                            <div class="danger">
+                            <ion-label class="danger">
                               {{ validation.message }}
-                            </div>
+                            </ion-label>
                           </div>
                         </ng-container>
                       </div>
@@ -107,19 +107,20 @@
                         <ion-label><b>Correo:</b></ion-label>
                         <ion-input  formControlName="mail" type="text" name="mail" placeholder="Mail" value={{mail}} [(ngModel)]="mail"></ion-input>
                         <div *ngIf="editperfilForm.controls['mail'].valid">
-                          <a class="success">&#9989;</a>
+                          <ion-chip color="success">&#9989;</ion-chip>
                         </div>
                       </ion-item>
                       <div class="validation-errors">
                         <ng-container *ngFor="let validation of validation_messages.mail" >
                           <div *ngIf="editperfilForm.get('mail').hasError(validation.type) && (editperfilForm.get('mail').dirty || editperfilForm.get('mail').touched)">
-                            <div class="danger">
+                            <ion-label class="danger">
                               {{ validation.message }}
-                            </div>
+                            </ion-label>
                           </div>
                         </ng-container>
                       </div>
                     </div>
+
 
                     <div>
                       <ion-segment value="m" (ionChange)="generoSegmentChanged($event)">
@@ -131,39 +132,21 @@
                         </ion-segment-button>
                       </ion-segment>
                     </div>
-        
-                    <!--div class="formGroup">
-                      <ion-item lines="none">
-                        <ion-input  formControlName="sexo" type="text" name="sexo" placeholder="Sexo" value={{user.sexo}} [(ngModel)]="sexo" ></ion-input>
-                        <div *ngIf="editperfilForm.controls['sexo'].valid">
-                          <a class="success">&#9989;</a>
-                        </div>
-                      </ion-item>
-                      <div class="validation-errors">
-                        <ng-container *ngFor="let validation of validation_messages.sexo" >
-                          <div *ngIf="editperfilForm.get('sexo').hasError(validation.type) && (editperfilForm.get('sexo').dirty || editperfilForm.get('sexo').touched)">
-                            <div class="danger">
-                              {{ validation.message }}
-                            </div>
-                          </div>
-                        </ng-container>
-                      </div>
-                    </div-->
-        
+                         
                     <div class="formGroup">
                       <ion-item lines="none">
                         <ion-label><b>Edad:</b></ion-label>
                         <ion-input  formControlName="edad" type="number" min="0" name="edad" placeholder="Edad" value={{user.edad}} [(ngModel)]="edad"></ion-input>
                         <div *ngIf="editperfilForm.controls['edad'].valid">
-                          <a class="success">&#9989;</a>
+                          <ion-chip color="success">&#9989;</ion-chip>
                         </div>
                       </ion-item>
                       <div class="validation-errors">
                         <ng-container *ngFor="let validation of validation_messages.edad" >
                           <div *ngIf="editperfilForm.get('edad').hasError(validation.type) && (editperfilForm.get('edad').dirty || editperfilForm.get('edad').touched)">
-                            <div class="danger">
+                            <ion-label class="danger">
                               {{ validation.message }}
-                            </div>
+                            </ion-label>
                           </div>
                         </ng-container>
                       </div>

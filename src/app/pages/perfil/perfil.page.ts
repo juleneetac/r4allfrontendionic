@@ -202,9 +202,8 @@ export class PerfilPage implements OnInit {
     this.router.navigateByUrl("editfacebook");
   }
 
-  updatePerfil (event2){//, experiencia: HTMLInputElement){
+  updatePerfil (){//, experiencia: HTMLInputElement){
     event.preventDefault()
-    console.log(event2)
 
     console.log(this.usernombre)
     console.log(this.pass1);
